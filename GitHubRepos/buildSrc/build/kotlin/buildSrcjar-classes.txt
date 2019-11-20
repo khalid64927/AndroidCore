@@ -1,1 +1,0 @@
-/Users/admin/Documents/B/Interviews/GitHub/Test/AndroidCore/GitHubRepos/buildSrc/build/classes/kotlin/main/com/dependencies/Dependencies.class:/Users/admin/Documents/B/Interviews/GitHub/Test/AndroidCore/GitHubRepos/buildSrc/build/classes/kotlin/main/com/dependencies/Versions.class
