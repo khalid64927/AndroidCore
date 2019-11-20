@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.khalid.hamid.githubrepos.network.Status" />
+        <import type="com.khalid.hamid.githubrepos.network.Resource" />
+
+        <variable
+            name="resource"
+            type="Resource" />
+
+        <variable
+            name="repos"
+            type="com.khalid.hamid.githubrepos.vo.Repositories" />
+
+        <variable
+            name="callback"
+            type="com.khalid.hamid.githubrepos.utilities.RetryListener" />
+
+        <variable
+            name="forceRefresh"
+            type="com.khalid.hamid.githubrepos.utilities.ForceRefresh" />
+    </data>
+
+    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="5dp"
+        android:minHeight="?actionBarSize">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trending"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_repo">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+     android:id="@+id/error_content"
+    app:visibleGone="@{resource.status == Status.ERROR}"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButton"
+        style="@style/OutlineStyle"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="RETRY"
+        android:onClick="@{() -> callback.fetchFromRepote()}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/materialButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/nointernet_connection" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Something went wrong.."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/alien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="An alien is probably blocking your signal."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    app:visibleGone="@{(resource.status != Status.ERROR &amp;&amp; resource.status != Status.SUCCESS)}"
+    android:layout_height="match_parent">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        shimmer:duration="800">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+            <include layout="@layout/item_place_holder" />
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:id="@+id/content_success"
+    app:visibleGone="@{resource.status == Status.SUCCESS}"
+    android:layout_height="match_parent">
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/swipeRefresh"
+        app:refreshing="@{(resource.status == null)}"
+        app:onRefreshListener="@{() -> forceRefresh.refresh()}"
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/repo_list"
+            android:layout_width="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_main"
+
+            android:scrollbars="vertical">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--commented this since binding is unable to get included views,
+        seems like include tag is not supported by data binding ): ! -->
+
+
+        <!--<include layout="@layout/container_error" android:id="@+id/content_error"
+            app:resource="@{resource}"
+            app:callback="@{() -> callback.fetchFromRepote()}"/>
+
+        <include layout="@layout/container_loading" android:id="@+id/content_loading"
+            app:resource="@{resource}"/>
+
+        <include layout="@layout/container_main" android:id="@+id/content_success"
+            app:repos="@{repos}"
+            app:resource="@{resource}"/>-->
+
+    </FrameLayout>
+
+
+</LinearLayout>
+
+</layout>
