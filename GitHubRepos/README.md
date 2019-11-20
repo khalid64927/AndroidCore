@@ -1,5 +1,3 @@
-GoJek Coding Challenge
-
 #@Author : [Mohammed Khalid Hamid]
 
 *The project is in Kotlin
