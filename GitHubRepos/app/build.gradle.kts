@@ -9,6 +9,15 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen")
     id("androidx.navigation.safeargs")
     id("jacoco")
+    id("com.diffplug.gradle.spotless") version ("3.25.0")
+}
+
+spotless {
+    kotlin {
+        target ("**/*.kt")
+        ktlint("0.35.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+            licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
+    }
 }
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
