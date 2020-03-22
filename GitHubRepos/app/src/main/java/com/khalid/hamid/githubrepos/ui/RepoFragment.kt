@@ -59,7 +59,7 @@ open class RepoFragment : Fragment(), Injectable {
         repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoViewModel::class.java)
         val repoLD = repoViewModel._items
 
-        var decorator = SimpleDividerItemDecoration(app)
+        val decorator = SimpleDividerItemDecoration(app)
 
         val adapter = RepoAdapter(dataBindingComponent, executors) { repositories ->
             //
