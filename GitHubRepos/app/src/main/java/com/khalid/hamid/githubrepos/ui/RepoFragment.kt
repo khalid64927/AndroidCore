@@ -19,35 +19,29 @@ package com.khalid.hamid.githubrepos.ui
 import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
+import com.khalid.hamid.githubrepos.core.ViewModelFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
 import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
-import com.khalid.hamid.githubrepos.utilities.*
+import com.khalid.hamid.githubrepos.utilities.AppExecutors
+import com.khalid.hamid.githubrepos.utilities.ForceRefresh
+import com.khalid.hamid.githubrepos.utilities.RetryListener
+import com.khalid.hamid.githubrepos.utilities.autoCleared
 import timber.log.Timber
 import javax.inject.Inject
 
 @OpenForTesting
-open class RepoFragment : Fragment(), Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var repoViewModel: RepoViewModel
+open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(), Injectable {
 
     @Inject
     lateinit var executors: AppExecutors
 
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    var binding by autoCleared<FragmentRepoBinding>()
     private var adapterD by autoCleared<RepoAdapter>()
     private lateinit var repoDataBinding: FragmentRepoBinding
 
@@ -56,8 +50,8 @@ open class RepoFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoViewModel::class.java)
-        val repoLD = repoViewModel._items
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoViewModel::class.java)
+        val repoLD = viewModel._items
 
         val decorator = SimpleDividerItemDecoration(app)
 
@@ -71,13 +65,13 @@ open class RepoFragment : Fragment(), Injectable {
 
         binding.callback = object : RetryListener {
             override fun fetchFromRepote() {
-                repoViewModel.getRepoList()
+                viewModel.getRepoList()
             }
         }
 
         binding.forceRefresh = object : ForceRefresh {
             override fun refresh() {
-                repoViewModel.forcedRefresh()
+                viewModel.forcedRefresh()
             }
         }
 
@@ -96,7 +90,11 @@ open class RepoFragment : Fragment(), Injectable {
 
             adapterD.submitList(repositories.data)
         })
-        repoViewModel.getRepoList()
+        viewModel.getRepoList()
+    }
+
+    override fun getViewBindings(container: ViewGroup?): FragmentRepoBinding {
+        return DataBindingUtil.inflate<FragmentRepoBinding>(layoutInflater, R.layout.fragment_repo, container, false)
     }
 
     override fun onCreateView(
@@ -104,11 +102,9 @@ open class RepoFragment : Fragment(), Injectable {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         Timber.d("onCreateView")
         setHasOptionsMenu(true)
-        val repoDataBinding = DataBindingUtil.inflate<FragmentRepoBinding>(inflater, R.layout.fragment_repo, container, false)
-        binding = repoDataBinding
-
         return binding.root
     }
 

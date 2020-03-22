@@ -25,12 +25,18 @@ import androidx.databinding.DataBindingComponent
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.khalid.hamid.githubrepos.utilities.FragmentDataBindingComponent
+import com.khalid.hamid.githubrepos.utilities.autoCleared
+import javax.inject.Inject
 
 abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
     lateinit var viewModel: VM
-    lateinit var binding: VB
-    private lateinit var dataBindingCompatActivity: DataBindingComponent
+    var binding: VB by autoCleared<VB>()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @CallSuper
     override fun onCreateView(
@@ -38,9 +44,14 @@ abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragmen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = getViewBindings()
-        dataBindingCompatActivity = FragmentDataBindingComponent(this)
+        binding = getViewBindings(container)
         return binding.root
     }
-    abstract fun getViewBindings(): VB
+    abstract fun getViewBindings(container: ViewGroup?): VB
+
+    @CallSuper
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModel::class.java)
+    }
 }
