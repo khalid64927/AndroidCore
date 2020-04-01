@@ -20,6 +20,7 @@ object Versions {
 }
 
 object Dependencies {
+    val submodules = listOf("submodule1", "submodule2", "submodule3")
     const val ANNOTATIONS = "androidx.annotation:annotation:1.0.0"
     const val V7 = "androidx.appcompat:appcompat:1.0.0"
     const val DESIGN = "com.google.android.material:material:1.0.0"

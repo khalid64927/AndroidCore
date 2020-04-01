@@ -27,14 +27,14 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     /**
      * Determines if a Project is the 'library' module
      */
-    val Project.isLibrary get() = name == "library"
+    val Project.isLibrary get() = name == "app"
     val Project.configDir get() = "$rootDir/quality"
     override fun apply(target: Project) {
-
+        target.configureAndroid()
     }
 
     fun Project.configureAndroid() {
-        if (name == "app" || name == "proguard-tests") {
+        if (name == "app") {
             apply(plugin = "com.android.application")
         } else {
             apply(plugin = "com.android.library")
@@ -106,7 +106,6 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             }
 
             dependencies {
-
 
 
             }
