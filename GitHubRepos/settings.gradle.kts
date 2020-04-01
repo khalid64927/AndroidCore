@@ -1,2 +1,2 @@
 rootProject.name=("GitHubRepos")
-include (":app")
+include (":app","library")

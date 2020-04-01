@@ -23,30 +23,34 @@ import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
 
-open class KhalidAndroidPlugin : Plugin<Project> {
+open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     /**
      * Determines if a Project is the 'library' module
      */
     val Project.isLibrary get() = name == "app"
     val Project.configDir get() = "$rootDir/quality"
     override fun apply(target: Project) {
+       // target.configurePlugins()
         target.configureAndroid()
+        target.configureQuality()
     }
 
     fun Project.configureAndroid() {
         if (name == "app") {
             apply(plugin = "com.android.application")
+            apply(plugin = "io.fabric")
         } else {
             apply(plugin = "com.android.library")
         }
+        apply(plugin = "kotlin-android")
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
         apply(plugin = "androidx.navigation.safeargs")
         apply(plugin = "jacoco")
-        apply(plugin = "com.diffplug.gradle.spotless")
+       // apply(plugin = "com.diffplug.gradle.spotless")
         apply(plugin = "kotlin-kapt")
         apply(plugin = "kotlin-android-extensions")
-        apply(plugin = "kotlin-android")
-        apply(plugin = "io.fabric")
+
+
 
         configure<BaseExtension>{
 
@@ -80,7 +84,11 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
-                    proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+                    if(name == "app"){
+                        proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+                    }else{
+                        consumerProguardFile("proguard-android.txt")
+                    }
                 }
             }
 
@@ -106,8 +114,8 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             }
 
             dependencies {
-
-
+                unitTest()
+                UITest()
             }
         }
     }
@@ -125,5 +133,10 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             exclude("**/gen/**")
             classpath = files()
         }
+    }
+
+    internal fun Project.configurePlugins() {
+        plugins.apply("com.android.library")
+        plugins.apply("org.gradle.maven-publish") // or anything else, that you would like to load
     }
 }
