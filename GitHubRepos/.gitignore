@@ -12,3 +12,4 @@
 .externalNativeBuild
 .cxx
 .DG_Store
+/buildSrc/build/
