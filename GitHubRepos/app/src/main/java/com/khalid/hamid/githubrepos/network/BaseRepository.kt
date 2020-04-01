@@ -17,8 +17,8 @@
 package com.khalid.hamid.githubrepos.network
 
 import com.khalid.hamid.githubrepos.vo.Repositories
-import timber.log.Timber
 import javax.inject.Singleton
+import timber.log.Timber
 
 @Singleton
 class BaseRepository(private val baseDataSource: BaseDataSource) : BaseDataSource {

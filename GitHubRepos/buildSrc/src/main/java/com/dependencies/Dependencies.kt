@@ -1,6 +1,8 @@
 package com.dependencies
 
 object Versions {
+    const val VERSION_NAME = "1.0.1"
+    const val VERSION_CODE = 1011
     const val RETROFIT = "2.6.0"
     const val OKHTTP_INTERCEPTOR = "3.8.1"
     const val RXJAVA = "2.1.0"

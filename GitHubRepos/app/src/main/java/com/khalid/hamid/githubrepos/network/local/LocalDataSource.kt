@@ -23,8 +23,8 @@ import com.khalid.hamid.githubrepos.network.Result.Success
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.vo.Repositories
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 /**
  * This will always fetch data from database

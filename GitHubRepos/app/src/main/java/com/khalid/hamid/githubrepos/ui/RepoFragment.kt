@@ -33,8 +33,8 @@ import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.ForceRefresh
 import com.khalid.hamid.githubrepos.utilities.RetryListener
 import com.khalid.hamid.githubrepos.utilities.autoCleared
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 @OpenForTesting
 open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(), Injectable {

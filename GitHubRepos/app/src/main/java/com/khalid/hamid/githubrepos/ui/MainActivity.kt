@@ -23,8 +23,8 @@ import androidx.fragment.app.Fragment
 import com.khalid.hamid.githubrepos.R
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 

@@ -21,8 +21,8 @@ import com.khalid.hamid.githubrepos.network.local.LocalDataSource
 import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 /**
  * This will return data from either DB or get from network

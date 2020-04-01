@@ -21,9 +21,9 @@ import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.Result.Error_
 import com.khalid.hamid.githubrepos.network.Result.Success
 import com.khalid.hamid.githubrepos.vo.Repositories
+import javax.inject.Inject
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val gitHubService: GitHubService

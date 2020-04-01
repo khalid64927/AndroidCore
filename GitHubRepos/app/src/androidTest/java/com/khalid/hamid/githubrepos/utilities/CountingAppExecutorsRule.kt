@@ -19,11 +19,11 @@ package com.khalid.hamid.githubrepos.utilities
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import com.khalid.hamid.githubrepos.testing.CountingAppExecutors
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
 /**
  * A Junit rule that registers an espresso idling resource which counts all tasks that are submitted
