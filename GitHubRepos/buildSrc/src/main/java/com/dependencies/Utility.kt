@@ -16,12 +16,16 @@
 
 package com.dependencies
 
+import com.android.builder.model.LintOptions
 import org.gradle.api.Action
+import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.exclude
+import java.io.File
 
 /**
  * @author Mohammed Khalid Hamid
@@ -33,6 +37,62 @@ open class Utility {
     val testImplementation        = "testImplementation"
     val androidTestImplementation = "androidTestImplementation"
 
+
+    lateinit var ext: KPluginExtensions
+
+    fun Project.applyPlugins(){
+        if(!ext.isLibraryModule){
+            apply(plugin = "com.android.application")
+            apply(plugin = "com.google.firebase.crashlytics")
+        } else {
+            apply(plugin = "com.android.library")
+            apply(plugin = "org.gradle.maven-publish")
+        }
+       /* apply(plugin = "com.android.application")
+        apply(plugin = "io.fabric")*/
+        apply(plugin = "kotlin-android")
+        apply(plugin = "com.google.gms.google-services")
+        apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
+        apply(plugin = "androidx.navigation.safeargs")
+
+        //apply(plugin = "com.diffplug.gradle.spotless")
+        apply(plugin = "kotlin-kapt")
+        apply(plugin = "kotlin-android-extensions")
+    }
+
+    private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
+        "IconExpectedSize",
+        "InvalidPackage", // Firestore uses GRPC which makes lint mad
+        "NewerVersionAvailable", "GradleDependency", // For reproducible builds
+        "SelectableText", "SyntheticAccessor")
+
+    fun Project.getLintBaseline() : File{
+        val lintBaseLineFilePath = ext.lintBaseLineFilePath
+        if(lintBaseLineFilePath.length <=0 ) return file("$rootDir/quality/lint-baseline.xml")
+        return file(lintBaseLineFilePath)
+    }
+
+    fun LintOptions.disableLint(){
+        System.out.println(" size is "+ext.lintExclusionRules.size)
+        if(ext.lintExclusionRules.isEmpty()){
+            lintExclusion.addAll(ext.lintExclusionRules)
+        }
+        System.out.println(" size is "+lintExclusion.size)
+        try{
+            lintExclusion.forEach {
+                disable.add(it)
+                severityOverrides.put(it, 5)
+            }
+
+        }catch (e : Exception){
+            e.printStackTrace()
+        }
+    }
+
+    fun LintOptions.disableThis(rule : String){
+        disable.add("")
+        severityOverrides
+    }
     fun DependencyHandler.unitTest() {
         testImplementation(Dependencies.JUNIT)
         testImplementation(Dependencies.JUNITX)
@@ -48,13 +108,50 @@ open class Utility {
         testImplementation(Dependencies.MOKITO_ALL)
         testImplementation(Dependencies.MOKITO_INLINE)
         testImplementation(Dependencies.CR_TEST)
+        testImplementation(Dependencies.MULTIDEXTEST)
+
+    }
+
+    /**
+     * 1. KOTLIN
+     * 2. V7
+     * 3. CONSTRAINT LAYOUT
+     * 4. TIMBER
+     * 5. RETROFIT ADAPTER
+     * 6. RETROFIT GSON CONVERTER
+     * 7. RETROFIT RUNTIME
+     * 8. OKHTTP
+     * 9. OKHTTP INTERCEPTOR
+     * 10. CARD VIEW
+     * 11. GOOGLE MATERIAL
+     * 12. ANNOTATIONS
+     *
+    */
+    fun DependencyHandler.commonAndroidLibrariers(){
+        implementation(Dependencies.KOTLIN)
+        implementation(Dependencies.V7)
+        implementation(Dependencies.CONSTRAINT_LAYOUT)
+        implementation(Dependencies.TIMBER)
+        implementation(Dependencies.SWIPEX)
+        implementation(Dependencies.MULTIDEX)
+
+        implementation(Dependencies.RETROFIT_ADAPTER)
+        implementation(Dependencies.RETROFIT_GSON_CONVERTER)
+        implementation(Dependencies.RETROFIT_RUNTIME)
+
+        implementation(Dependencies.OKHTTP)
+        implementation(Dependencies.OKHTTP_INTERCEPTOR)
+
+        implementation(Dependencies.CARD_VIEW)
+        implementation(Dependencies.GOOGLE_MATERIAL)
+        implementation(Dependencies.ANNOTATIONS)
     }
 
     fun DependencyHandler.UITest(){
         androidTestImplementation(Dependencies.NAV_TESTING_KTX)
         androidTestImplementation(Dependencies.RECYCLER_VIEW)
         androidTestImplementation(Dependencies.CARD_VIEW)
-        androidTestImplementation(Dependencies.DESIGN)
+        androidTestImplementation(Dependencies.GOOGLE_MATERIAL)
         androidTestImplementation(Dependencies.JUNITX)
         androidTestImplementation(Dependencies.RECYCLER_VIEW)
         androidTestImplementation(Dependencies.GOOGLE_MATERIAL)
@@ -62,6 +159,9 @@ open class Utility {
         androidTestImplementation(Dependencies.TEST_RULES)
         androidTestImplementation(Dependencies.ARCH_CORE_TESTING)
         androidTestImplementation(Dependencies.MOKITO_CORE)
+        androidTestImplementation(Dependencies.SWIPEX)
+        androidTestImplementation(Dependencies.MULTIDEXTEST)
+
 
 
         addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE, {
@@ -73,9 +173,34 @@ open class Utility {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun DependencyHandler.Dagger(){
-        //TODO: library specific dependency functions
+    public fun DependencyHandler.dagger(){
+        implementation(Dependencies.DAGGER_RUNTIME)
+        implementation(Dependencies.DAGGER_ANDROID)
+        implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
+        kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
+        kapt(Dependencies.DAGGER_COMPILER)
+    }
 
+    @Suppress("UNUSED_PARAMETER")
+    fun DependencyHandler.room(){
+        implementation(Dependencies.ROOM_RUNTIME)
+        implementation(Dependencies.ROOM_TESTING)
+        kapt(Dependencies.ROOM_COMPILER)
+        implementation(Dependencies.ROOM_KTX)
+    }
+
+    fun DependencyHandler.lifeCycle(){
+        // Lifecycle component
+        implementation(Dependencies.LC_EXTENSION)
+        implementation(Dependencies.LC_JAVA8)
+        implementation(Dependencies.LC_RUNTIME)
+        kapt(Dependencies.LC_COMPILER)
+
+    }
+
+    fun DependencyHandler.fragment(){
+        implementation(Dependencies.FRAGMENT)
+        implementation(Dependencies.FRAGMENT_TESTING)
     }
 
     private fun DependencyHandler.implementation(dependencyName: String){

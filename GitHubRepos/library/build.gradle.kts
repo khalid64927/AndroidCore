@@ -1,17 +1,24 @@
 import com.dependencies.Dependencies
-import com.dependencies.Versions
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
+
 }
 
-//spotless {
-//    kotlin {
-//        target ("**/*.kt")
-//        ktlint("0.35.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
-//        licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
-//    }
-//}
+KPlugin {
+    isLibraryModule = false
+    minSDK = 19
+    compileSDK = "android-R"
+    targetSDK = "R"
+    versionCode = 10
+    versionName = "1.1"
+    testRunner = "androidx.test.runner.AndroidJUnitRunner"
+    lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+    //var testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+    checkstylePath = "$rootDir/quality/checkstyle.xml"
+}
+
+
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 
 dependencies {
@@ -23,6 +30,7 @@ dependencies {
     implementation(Dependencies.DAGGER_RUNTIME)
     implementation(Dependencies.DAGGER_ANDROID)
     implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
+    implementation(Dependencies.MULTIDEX)
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)

@@ -67,6 +67,11 @@ The project uses [MockWebServer][mockwebserver] and Fake implementations
 * [espresso][espresso] for UI tests
 * [mockito][mockito] for mocking in tests
 
+## Refernces
+
+* https://github.com/firebase/FirebaseUI-Android
+
+
 
 
 

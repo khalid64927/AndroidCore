@@ -33,15 +33,14 @@ import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.ForceRefresh
 import com.khalid.hamid.githubrepos.utilities.RetryListener
 import com.khalid.hamid.githubrepos.utilities.autoCleared
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
 open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(), Injectable {
 
     @Inject
     lateinit var executors: AppExecutors
-
     private var adapterD by autoCleared<RepoAdapter>()
     private lateinit var repoDataBinding: FragmentRepoBinding
 
@@ -50,6 +49,7 @@ open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (viewModelFactory == null) Timber.d("onActivityCreated viewModelFactory is null")
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoViewModel::class.java)
         val repoLD = viewModel._items
 
@@ -75,7 +75,7 @@ open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(
             }
         }
 
-        repoLD.observe(this, Observer { repositories ->
+        repoLD.observe(viewLifecycleOwner, Observer { repositories ->
             // binding.repoList = repositories.data
             binding.resource = repositories
                 Timber.d("got " + repositories.data.toString())
@@ -105,7 +105,7 @@ open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(
         super.onCreateView(inflater, container, savedInstanceState)
         Timber.d("onCreateView")
         setHasOptionsMenu(true)
-        return binding.root
+        return binding.repoRoot
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

@@ -26,9 +26,9 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.khalid.hamid.githubrepos.utilities.FragmentDataBindingComponent
 import com.khalid.hamid.githubrepos.utilities.autoCleared
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
@@ -38,12 +38,18 @@ abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragmen
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.d("onCreate")
+    }
+
     @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("onCreateView")
         binding = getViewBindings(container)
         return binding.root
     }
@@ -51,7 +57,7 @@ abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragmen
 
     @CallSuper
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        Timber.d("onActivityCreated")
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(viewModel::class.java)
     }
 }

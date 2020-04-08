@@ -26,6 +26,7 @@ import com.khalid.hamid.githubrepos.GithubApp
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import timber.log.Timber
 
 /**
  * Helper class to automatically inject fragments if they implement [Injectable].
@@ -51,11 +52,10 @@ object AppInjector {
 
                 override fun onActivityStopped(activity: Activity) {
                 }
-
-                override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+                override fun onActivityDestroyed(activity: Activity) {
                 }
 
-                override fun onActivityDestroyed(activity: Activity) {
+                override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {
                 }
             })
     }
@@ -74,7 +74,10 @@ object AppInjector {
                             savedInstanceState: Bundle?
                         ) {
                             if (f is Injectable) {
+                                Timber.d("Injectable %s", f::class.java.simpleName)
                                 AndroidSupportInjection.inject(f)
+                            } else {
+                                Timber.d("Injectable false %s", f::class.java.simpleName)
                             }
                         }
                     }, true

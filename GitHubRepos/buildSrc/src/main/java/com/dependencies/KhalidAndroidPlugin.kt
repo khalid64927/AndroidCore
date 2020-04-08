@@ -29,41 +29,39 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
      */
     val Project.isLibrary get() = name == "app"
     val Project.configDir get() = "$rootDir/quality"
+
+
+
+    private var lintExclusionRules = arrayListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
+        "IconExpectedSize",
+        "InvalidPackage", // Firestore uses GRPC which makes lint mad
+        "NewerVersionAvailable", "GradleDependency", // For reproducible builds
+        "SelectableText", "SyntheticAccessor")
+
     override fun apply(target: Project) {
-       // target.configurePlugins()
+        // target.configurePlugins()
+        ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.configureAndroid()
         target.configureQuality()
     }
 
     fun Project.configureAndroid() {
-        if (name == "app") {
-            apply(plugin = "com.android.application")
-            apply(plugin = "io.fabric")
-        } else {
-            apply(plugin = "com.android.library")
-        }
-        apply(plugin = "kotlin-android")
-        apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
-        apply(plugin = "androidx.navigation.safeargs")
-        apply(plugin = "jacoco")
-       // apply(plugin = "com.diffplug.gradle.spotless")
-        apply(plugin = "kotlin-kapt")
-        apply(plugin = "kotlin-android-extensions")
-
-
-
+        applyPlugins()
         configure<BaseExtension>{
-
-            compileSdkVersion(Versions.MAX_SDK)
+            compileSdkVersion(ext.compileSDK)
             defaultConfig {
-                minSdkVersion(Versions.MIN_SDK)
-                targetSdkVersion(Versions.MAX_SDK)
-                versionName = Versions.VERSION_NAME
-                versionCode = Versions.VERSION_CODE
+                System.out.println(" min sdk "+ ext.minSDK)
+                System.out.println(" compileSDK sdk "+ ext.compileSDK)
+                System.out.println(" targetSDK sdk "+ ext.targetSDK)
+                minSdkVersion(ext.minSDK)
+                multiDexEnabled = true
+                targetSdkVersion(ext.targetSDK)
+                versionName = ext.versionName
+                versionCode = ext.versionCode
                 dataBinding.isEnabled = true
                 dataBinding.isEnabledForTests = true
                 vectorDrawables.useSupportLibrary = true
-                testInstrumentationRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+                testInstrumentationRunner = ext.testRunner
             }
 
             lintOptions {
@@ -74,20 +72,19 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     "NewerVersionAvailable", "GradleDependency", // For reproducible builds
                     "SelectableText", "SyntheticAccessor" // We almost never care about this
                 )
-
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
                 isAbortOnError = true
-                baselineFile = file("$configDir/lint-baseline.xml")
+                baselineFile = getLintBaseline()
             }
 
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
-                    if(name == "app"){
-                        proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-                    }else{
+                    if(ext.isLibraryModule){
                         consumerProguardFile("proguard-android.txt")
+                    }else{
+                        proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
                     }
                 }
             }
@@ -109,9 +106,10 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
             testOptions.unitTests.isIncludeAndroidResources = true
 
             compileOptions {
-                setSourceCompatibility(JavaVersion.VERSION_1_8)
-                setTargetCompatibility(JavaVersion.VERSION_1_8)
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
             }
+
 
             dependencies {
                 unitTest()
@@ -127,7 +125,11 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         tasks.named("check").configure { dependsOn("checkstyle") }
 
         tasks.register<Checkstyle>("checkstyle") {
-            configFile = file("${project.configDir}/checkstyle.xml")
+            var path = ext.checkstylePath
+            if(path.length <= 0){
+                path = "${project.configDir}/checkstyle.xml"
+            }
+            configFile = file(path)
             source("src")
             include("**/*.java")
             exclude("**/gen/**")

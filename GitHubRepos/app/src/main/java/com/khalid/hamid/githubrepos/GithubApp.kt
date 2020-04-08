@@ -17,15 +17,16 @@
 package com.khalid.hamid.githubrepos
 
 import android.app.Activity
-import android.app.Application
+import androidx.multidex.BuildConfig
+import androidx.multidex.MultiDexApplication
 import com.khalid.hamid.githubrepos.di.AppInjector
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
-class GithubApp : Application(), HasActivityInjector {
+class GithubApp : MultiDexApplication(), HasActivityInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
