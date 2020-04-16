@@ -16,19 +16,18 @@
 
 package com.khalid.hamid.githubrepos
 
-import android.app.Activity
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
 import com.khalid.hamid.githubrepos.di.AppInjector
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-class GithubApp : MultiDexApplication(), HasActivityInjector {
+class GithubApp : MultiDexApplication(), HasAndroidInjector {
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -39,6 +38,5 @@ class GithubApp : MultiDexApplication(), HasActivityInjector {
         }
         AppInjector.init(this)
     }
-
-    override fun activityInjector() = dispatchingAndroidInjector
+    override fun androidInjector() = dispatchingAndroidInjector
 }

@@ -4,12 +4,16 @@ plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
 
 }
+kapt {
+    correctErrorTypes = true
+}
 
 KPlugin {
+    System.out.println("Library ... ")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "android-R"
-    targetSDK = "R"
+    compileSDK = "29"
+    targetSDK = "29"
     versionCode = 10
     versionName = "1.1"
     testRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -27,9 +31,9 @@ dependencies {
     implementation(Dependencies.V7)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
     implementation(Dependencies.TIMBER)
-    implementation(Dependencies.DAGGER_RUNTIME)
-    implementation(Dependencies.DAGGER_ANDROID)
-    implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
+    //implementation(Dependencies.DAGGER_RUNTIME)
+    api(Dependencies.DAGGER_ANDROID)
+    //implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
     implementation(Dependencies.MULTIDEX)
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
@@ -47,12 +51,13 @@ dependencies {
     implementation(Dependencies.OKHTTP)
     implementation(Dependencies.OKHTTP_INTERCEPTOR)
     implementation(Dependencies.ESP_IDL)
-    implementation(Dependencies.FRAGMENT)
     implementation(Dependencies.FRAGMENT_TESTING)
     implementation(Dependencies.TEST_CORE)
     // UI
     implementation(Dependencies.SHIMMER)
-    implementation(Dependencies.GOOGLE_MATERIAL)
+    implementation(Dependencies.GOOGLE_MATERIAL){
+        exclude(group = "androidx.recyclerview")
+    }
     implementation(Dependencies.ANNOTATIONS)
     implementation(Dependencies.CARD_VIEW)
     // Image library
@@ -63,8 +68,9 @@ dependencies {
     kapt(Dependencies.ROOM_COMPILER)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
-    kapt(Dependencies.DAGGER_COMPILER)
+    //kapt(Dependencies.DAGGER_COMPILER)
     kapt(Dependencies.GLIDE_COMPILER)
+
 }
 
 

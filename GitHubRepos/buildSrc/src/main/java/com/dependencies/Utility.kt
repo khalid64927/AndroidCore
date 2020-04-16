@@ -16,8 +16,10 @@
 
 package com.dependencies
 
+import com.android.build.gradle.api.BaseVariant
 import com.android.builder.model.LintOptions
 import org.gradle.api.Action
+import org.gradle.api.DomainObjectSet
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
@@ -25,6 +27,10 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.exclude
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.register
+import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
 
 /**
@@ -34,16 +40,19 @@ import java.io.File
 open class Utility {
     val implementation            = "implementation"
     val kapt                      = "kapt"
+    val api                       = "api"
     val testImplementation        = "testImplementation"
     val androidTestImplementation = "androidTestImplementation"
 
 
     lateinit var ext: KPluginExtensions
 
-    fun Project.applyPlugins(){
-        if(!ext.isLibraryModule){
+    open fun Project.applyPlugins(isApp : Boolean){
+
+        if(isApp){
             apply(plugin = "com.android.application")
             apply(plugin = "com.google.firebase.crashlytics")
+            apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
@@ -51,13 +60,12 @@ open class Utility {
        /* apply(plugin = "com.android.application")
         apply(plugin = "io.fabric")*/
         apply(plugin = "kotlin-android")
-        apply(plugin = "com.google.gms.google-services")
+        apply(plugin = "kotlin-android-extensions")
+        apply(plugin = "kotlin-kapt")
+
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
         apply(plugin = "androidx.navigation.safeargs")
-
-        //apply(plugin = "com.diffplug.gradle.spotless")
-        apply(plugin = "kotlin-kapt")
-        apply(plugin = "kotlin-android-extensions")
+        apply(plugin = "com.diffplug.gradle.spotless")
     }
 
     private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
@@ -95,7 +103,7 @@ open class Utility {
     }
     fun DependencyHandler.unitTest() {
         testImplementation(Dependencies.JUNIT)
-        testImplementation(Dependencies.JUNITX)
+        testImplementation(Dependencies.JUNIT_EXT)
         testImplementation(Dependencies.MOCKWEBSERVER)
         testImplementation(Dependencies.ARCH_CORE_TESTING)
         testImplementation(Dependencies.ESPRESSO_CORE)
@@ -147,16 +155,78 @@ open class Utility {
         implementation(Dependencies.ANNOTATIONS)
     }
 
+    fun KaptExtension.configureKapt(){
+        correctErrorTypes = true
+        javacOptions {
+            // Increase the max count of errors from annotation processors.
+            // Default is 100.
+            option("-Xmaxerrs", 500)
+        }
+    }
+
+    fun Project.configureJacoco(
+        project: Project,
+        variants: DomainObjectSet<out BaseVariant>,
+        options: JacocoOptions
+    ) {
+        variants.all {
+            val variantName = name
+            val isDebuggable = this.buildType.isDebuggable
+            if (!isDebuggable) {
+                project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
+                return@all
+            }
+
+            /*tasks.withType<JavaCompile> {
+                val compilerArgs = getOptions().allCompilerArgs
+                compilerArgs.add("-Xmaxerrs,500")
+            }*/
+
+            project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
+                dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
+                val coverageSourceDirs = "src/main/java"
+
+                val javaClasses = project
+                    .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
+                        setExcludes(options.excludes)
+                    }
+
+                val kotlinClasses = project
+                    .fileTree("${project.buildDir}/tmp/kotlin-classes/$variantName") {
+                        setExcludes(options.excludes)
+                    }
+
+                // Using the default Jacoco exec file output path.
+                val execFile = "jacoco/test${variantName.capitalize()}UnitTest.exec"
+
+                executionData.setFrom(
+                    project.fileTree("${project.buildDir}") {
+                        setIncludes(listOf(execFile))
+                    }
+                )
+
+                // Do not run task if there's no execution data.
+                setOnlyIf { executionData.files.any { it.exists() } }
+
+                classDirectories.setFrom(javaClasses, kotlinClasses)
+                sourceDirectories.setFrom(coverageSourceDirs)
+                additionalSourceDirs.setFrom(coverageSourceDirs)
+
+                reports.xml.isEnabled = true
+                reports.html.isEnabled = true
+            }
+        }
+    }
+
     fun DependencyHandler.UITest(){
-        androidTestImplementation(Dependencies.NAV_TESTING_KTX)
         androidTestImplementation(Dependencies.RECYCLER_VIEW)
         androidTestImplementation(Dependencies.CARD_VIEW)
         androidTestImplementation(Dependencies.GOOGLE_MATERIAL)
-        androidTestImplementation(Dependencies.JUNITX)
         androidTestImplementation(Dependencies.RECYCLER_VIEW)
         androidTestImplementation(Dependencies.GOOGLE_MATERIAL)
 
         androidTestImplementation(Dependencies.TEST_RULES)
+        androidTestImplementation(Dependencies.JUNIT_EXT)
         androidTestImplementation(Dependencies.ARCH_CORE_TESTING)
         androidTestImplementation(Dependencies.MOKITO_CORE)
         androidTestImplementation(Dependencies.SWIPEX)
@@ -173,12 +243,11 @@ open class Utility {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    public fun DependencyHandler.dagger(){
-        implementation(Dependencies.DAGGER_RUNTIME)
-        implementation(Dependencies.DAGGER_ANDROID)
-        implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
+    fun DependencyHandler.dagger(){
+        //implementation(Dependencies.DAGGER_RUNTIME)
+        api(Dependencies.DAGGER_ANDROID)
+        //implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
         kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
-        kapt(Dependencies.DAGGER_COMPILER)
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -199,12 +268,15 @@ open class Utility {
     }
 
     fun DependencyHandler.fragment(){
-        implementation(Dependencies.FRAGMENT)
         implementation(Dependencies.FRAGMENT_TESTING)
     }
 
     private fun DependencyHandler.implementation(dependencyName: String){
         addConfiguration(implementation,dependencyName)
+    }
+
+    private fun DependencyHandler.api(dependencyName: String){
+        addConfiguration(api,dependencyName)
     }
 
     private fun DependencyHandler.kapt(dependencyName: String){

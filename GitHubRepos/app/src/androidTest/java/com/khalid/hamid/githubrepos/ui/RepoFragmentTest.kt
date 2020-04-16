@@ -93,6 +93,10 @@ class RepoFragmentTest {
     }
 
     @Test
+    fun test() {
+    }
+
+    @Test
     fun error() {
         repoListData.postValue(Resource.error("", null))
         onView(withId(R.id.error_content)).check(matches(isDisplayed()))

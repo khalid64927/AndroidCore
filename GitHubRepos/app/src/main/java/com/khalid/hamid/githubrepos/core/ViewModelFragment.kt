@@ -17,43 +17,17 @@
 package com.khalid.hamid.githubrepos.core
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.khalid.hamid.githubrepos.utilities.FragmentDataBindingComponent
-import com.khalid.hamid.githubrepos.utilities.autoCleared
+import com.khalid.hamid.githubrepos.di.Injectable
 import timber.log.Timber
-import javax.inject.Inject
 
-abstract class ViewModelFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
-    lateinit var viewModel: VM
-    var binding: VB by autoCleared<VB>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+abstract class ViewModelFragment : Fragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
     }
-
-    @CallSuper
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Timber.d("onCreateView")
-        binding = getViewBindings(container)
-        return binding.root
-    }
-    abstract fun getViewBindings(container: ViewGroup?): VB
 
     @CallSuper
     override fun onActivityCreated(savedInstanceState: Bundle?) {

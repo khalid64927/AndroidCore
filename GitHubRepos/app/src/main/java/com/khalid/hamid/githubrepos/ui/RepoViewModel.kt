@@ -26,12 +26,12 @@ import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
-open class RepoViewModel@Inject constructor(private val repository: BaseRepository) : ViewModel() {
+open class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewModel() {
     val _items = MutableLiveData<Resource<List<Repositories>>>().apply { value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait") }
     private val error_item = Resource<List<Repositories>>(Status.ERROR, emptyList(), " error happned")
     // here we are getting from DB if not then network
