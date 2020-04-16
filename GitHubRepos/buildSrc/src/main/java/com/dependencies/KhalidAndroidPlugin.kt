@@ -137,6 +137,9 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                         proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
                     }
                 }
+                getByName("debug"){
+                    isDebuggable = true
+                }
             }
 
             packagingOptions {

@@ -169,22 +169,21 @@ open class Utility {
         variants: DomainObjectSet<out BaseVariant>,
         options: JacocoOptions
     ) {
+        System.out.println("configureJacoco 1")
         variants.all {
             val variantName = name
+            System.out.println("configureJacoco 1$variantName")
             val isDebuggable = this.buildType.isDebuggable
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
+                System.out.println("configureJacoco 2$isDebuggable")
                 return@all
             }
-
-            /*tasks.withType<JavaCompile> {
-                val compilerArgs = getOptions().allCompilerArgs
-                compilerArgs.add("-Xmaxerrs,500")
-            }*/
-
+            System.out.println("configureJacoco 33")
             project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
                 dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
                 val coverageSourceDirs = "src/main/java"
+                System.out.println("configureJacoco 3")
 
                 val javaClasses = project
                     .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -214,6 +213,7 @@ open class Utility {
 
                 reports.xml.isEnabled = true
                 reports.html.isEnabled = true
+                System.out.println("configureJacoco 4")
             }
         }
     }

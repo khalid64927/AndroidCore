@@ -20,6 +20,8 @@ buildscript {
         // Add the Fabric Crashlytics plugin.
         classpath ("com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta03")
     }
+
+
 }
 
 

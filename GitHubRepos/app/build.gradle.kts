@@ -11,6 +11,8 @@ kapt {
         option("-Xmaxerrs", 500)
     }
 }
+
+
 KPlugin {
     System.out.println("KPlugin Ext app...")
     isLibraryModule = false
@@ -22,6 +24,9 @@ KPlugin {
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
+    jacoco{
+        excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")
+    }
 }
 
 spotless {
