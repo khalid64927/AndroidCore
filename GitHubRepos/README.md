@@ -56,7 +56,7 @@ mock database.
 The project uses [MockWebServer][mockwebserver] and Fake implementations
 
 ## Jacoco
-run "jacoco<PRODDEBUG>Report"
+run "jacocoPRODDEBUGReport"
 
 
 ### Libraries
