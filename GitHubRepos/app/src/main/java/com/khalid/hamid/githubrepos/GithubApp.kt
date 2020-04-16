@@ -22,8 +22,8 @@ import com.khalid.hamid.githubrepos.di.AppInjector
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 class GithubApp : MultiDexApplication(), HasAndroidInjector {
     @Inject

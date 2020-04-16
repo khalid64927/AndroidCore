@@ -32,8 +32,8 @@ import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.*
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 @OpenForTesting
 class RepoFragment : Fragment(), Injectable {
