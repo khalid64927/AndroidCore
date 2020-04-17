@@ -19,82 +19,65 @@ package com.khalid.hamid.githubrepos.ui
 import android.app.Application
 import android.os.Bundle
 import android.view.*
+import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
-import com.khalid.hamid.githubrepos.core.ViewModelFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
 import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
-import com.khalid.hamid.githubrepos.utilities.AppExecutors
-import com.khalid.hamid.githubrepos.utilities.ForceRefresh
-import com.khalid.hamid.githubrepos.utilities.RetryListener
-import com.khalid.hamid.githubrepos.utilities.autoCleared
-import timber.log.Timber
+import com.khalid.hamid.githubrepos.utilities.*
 import javax.inject.Inject
+import timber.log.Timber
 
 @OpenForTesting
-open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(), Injectable {
+class RepoFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var executors: AppExecutors
-    private var adapterD by autoCleared<RepoAdapter>()
-    private lateinit var repoDataBinding: FragmentRepoBinding
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var app: Application
-
+    private var adapter by autoCleared<RepoAdapter>()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    var binding by autoCleared<FragmentRepoBinding>()
+    val repoViewModel: RepoViewModel by viewModels {
+        viewModelFactory
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (viewModelFactory == null) Timber.d("onActivityCreated viewModelFactory is null")
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoViewModel::class.java)
-        val repoLD = viewModel._items
-
+        val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
-
-        val adapter = RepoAdapter(dataBindingComponent, executors) { repositories ->
-            //
-        }
-
-        adapterD = adapter
-        binding.repoList.adapter = adapterD
+        val adapter = RepoAdapter(dataBindingComponent, executors) { repositories -> }
+        this.adapter = adapter
+        binding.repoList.adapter = this.adapter
         binding.repoList.addItemDecoration(decorator)
-
         binding.callback = object : RetryListener {
             override fun fetchFromRepote() {
-                viewModel.getRepoList()
+                repoViewModel.getRepoList()
             }
         }
-
         binding.forceRefresh = object : ForceRefresh {
             override fun refresh() {
-                viewModel.forcedRefresh()
+                repoViewModel.forcedRefresh()
             }
         }
-
-        repoLD.observe(viewLifecycleOwner, Observer { repositories ->
-            // binding.repoList = repositories.data
+        repoLiveData.observe(viewLifecycleOwner, Observer { repositories ->
             binding.resource = repositories
-                Timber.d("got " + repositories.data.toString())
-
-            if (repositories.status == Status.SUCCESS) {
-                Timber.d("success ")
-            } else if (repositories.status == Status.ERROR) {
-                Timber.d("ERROR ")
-            } else if (repositories.status == Status.LOADING) {
-                Timber.d("LOADING ")
+            this.adapter.submitList(repositories.data)
+            when (repositories.status) {
+                Status.SUCCESS -> Timber.d("success %s", repositories.data.toString())
+                Status.ERROR -> Timber.d("error ")
+                Status.LOADING -> Timber.d("loading ")
             }
-
-            adapterD.submitList(repositories.data)
         })
-        viewModel.getRepoList()
-    }
-
-    override fun getViewBindings(container: ViewGroup?): FragmentRepoBinding {
-        return DataBindingUtil.inflate<FragmentRepoBinding>(layoutInflater, R.layout.fragment_repo, container, false)
+        repoViewModel.getRepoList()
     }
 
     override fun onCreateView(
@@ -103,22 +86,23 @@ open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        val dataBinding = DataBindingUtil.inflate<FragmentRepoBinding>(
+            inflater,
+            R.layout.fragment_repo,
+            container,
+            false
+        )
         Timber.d("onCreateView")
         setHasOptionsMenu(true)
+        binding = dataBinding
         return binding.repoRoot
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
-
-            R.id.menu_sort_name -> {
-                // sort by name
-            true
-            }
-            R.id.menu_sort_star -> {
-                // sort adapter by stars
-                true
-            }
+            R.id.menu_sort_name -> true
+            // sort adapter by stars
+            R.id.menu_sort_star -> true
             else -> false
     }
 
@@ -126,21 +110,6 @@ open class RepoFragment : ViewModelFragment<RepoViewModel, FragmentRepoBinding>(
         super.onCreateOptionsMenu(menu, inflater)
         Timber.d("onCreateOptionsMenu")
         inflater.inflate(R.menu.arrange_list, menu)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.d("onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.d("onPause")
     }
 
     /**

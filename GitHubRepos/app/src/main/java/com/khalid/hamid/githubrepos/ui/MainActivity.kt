@@ -19,17 +19,22 @@ package com.khalid.hamid.githubrepos.ui
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.khalid.hamid.githubrepos.R
+import com.khalid.hamid.githubrepos.core.contentView
+import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
+    private val binding2 by contentView<MainActivity, FragmentRepoBinding>(
+        R.layout.fragment_repo
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.d("onCreate")
@@ -42,5 +47,5 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun supportFragmentInjector() = dispatchingAndroidInjector
+    override fun androidInjector() = dispatchingAndroidInjector
 }

@@ -31,7 +31,6 @@ import org.mockito.Mockito.*
 
 @RunWith(JUnit4::class)
 class RepositoryImpleTest {
-
     lateinit var localDataSource: LocalDataSource
     lateinit var remoteDataSource: RemoteDataSource
     lateinit var repositoryImple: RepositoryImple
@@ -52,13 +51,10 @@ class RepositoryImpleTest {
     @Test
     fun getRepositories_FirtTimeAccess() {
         `when`(localDataSource.hasCacheExpired()).thenReturn(true)
-
         emptyList<Repositories>()
-
         runBlocking {
             repositoryImple.getRepositories()
         }
-
         runBlocking {
             verify((remoteDataSource), times(1)).fetchRespos()
             verify((localDataSource), times(1)).saveData(any())
@@ -68,17 +64,13 @@ class RepositoryImpleTest {
     @Test
     fun getRepositories_ConsecuentAccess() {
         `when`(localDataSource.hasCacheExpired()).thenReturn(false)
-
         val empty = emptyList<Repositories>()
-
         runBlocking {
             Mockito.`when`(localDataSource.getRepositories()).thenReturn(Result.Success(empty))
         }
-
         runBlocking {
             repositoryImple.getRepositories()
         }
-
         runBlocking {
             verify((localDataSource), times(1)).getRepositories()
             verify((remoteDataSource), never()).fetchRespos()

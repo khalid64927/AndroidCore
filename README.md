@@ -55,9 +55,6 @@ mock database.
 ##### Webservice Tests
 The project uses [MockWebServer][mockwebserver] and Fake implementations
 
-## Jacoco
-run "jacocoPRODDEBUGReport"
-
 
 ### Libraries
 * [Android Support Library][support-lib]

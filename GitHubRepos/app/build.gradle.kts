@@ -1,23 +1,33 @@
 import com.dependencies.Dependencies
-
 plugins {
-    id("com.diffplug.gradle.spotless") version ("3.25.0")
     id("com.khalid.hamid.KhalidAndroidPlugin")
-
 }
+System.out.println("after plugin")
+kapt {
+    correctErrorTypes = true
+    javacOptions {
+        // Increase the max count of errors from annotation processors.
+        // Default is 100.
+        option("-Xmaxerrs", 500)
+    }
+}
+
+
 KPlugin {
+    System.out.println("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "android-R"
-    targetSDK = "R"
+    compileSDK = "29"
+    targetSDK = "29"
     versionCode = 10
     versionName = "1.1"
-    testRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
+    jacoco{
+        excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")
+    }
 }
-
-
 
 spotless {
     kotlin {
@@ -29,6 +39,13 @@ spotless {
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
+    System.out.println("android block...")
+    compileSdkVersion(29)
+    buildFeatures {
+        dataBinding = true
+        viewBinding = false
+
+    }
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }
@@ -47,6 +64,7 @@ android {
         }
     }
 }
+
 dependencies {
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.V7)
@@ -56,14 +74,16 @@ dependencies {
     implementation(Dependencies.CRASH)
 
     implementation(Dependencies.DAGGER_RUNTIME)
-    implementation(Dependencies.DAGGER_ANDROID)
+    api(Dependencies.DAGGER_ANDROID)
     implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
     kapt(Dependencies.DAGGER_COMPILER)
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)
+    implementation("android.arch.lifecycle:common-java8:1.1.1")
     implementation(Dependencies.LC_RUNTIME)
+    implementation(Dependencies.LD_KTX)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.LC_VM_KTX)
     // Rx Java
@@ -83,7 +103,6 @@ dependencies {
 
     implementation(Dependencies.ESP_IDL)
 
-    implementation(Dependencies.FRAGMENT)
     implementation(Dependencies.FRAGMENTKTX)
     implementation(Dependencies.ACTIVITY_KTX)
     implementation(Dependencies.FRAGMENT_TESTING)
@@ -91,8 +110,11 @@ dependencies {
     // UI
     implementation(Dependencies.SHIMMER)
     implementation(Dependencies.SWIPEX)
+    implementation(Dependencies.RECYCLER_VIEW)
 
-    implementation(Dependencies.GOOGLE_MATERIAL)
+    implementation(Dependencies.GOOGLE_MATERIAL){
+        exclude(group = "androidx.recyclerview")
+    }
     implementation(Dependencies.ANNOTATIONS)
     implementation(Dependencies.CARD_VIEW)
     // Image library
@@ -102,4 +124,5 @@ dependencies {
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 }
 
+System.out.println("script end")
 

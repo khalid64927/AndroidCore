@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.di.scopes
 
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import javax.inject.Inject
+import javax.inject.Scope
+import kotlin.annotation.AnnotationRetention.RUNTIME
 
 /**
- * Binding adapters that work with a fragment instance.
+ * Scope for a feature module.
  */
-open class FragmentBindingAdapters @Inject constructor(val fragment: Fragment) {
-    @BindingAdapter("imageUrl")
-    fun bindImage(imageView: ImageView, url: String?) {
-        Glide.with(fragment).load(url).into(imageView)
-    }
-}
+@Scope
+@Retention(RUNTIME)
+annotation class FeatureScope
