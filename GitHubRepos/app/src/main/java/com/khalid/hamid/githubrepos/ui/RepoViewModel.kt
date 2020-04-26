@@ -29,7 +29,6 @@ import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import org.junit.runner.notification.Failure
 import timber.log.Timber
 
 @OpenForTesting
@@ -55,24 +54,22 @@ class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewMod
         Timber.d("getRepos end")
     }
 
-
-    fun getRepoListSuccess(list: List<Repositories>){
+    fun getRepoListSuccess(list: List<Repositories>) {
         Timber.d(" success" + list.toString())
         Timber.d(" Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         _items.value = Resource<List<Repositories>>(Status.SUCCESS, list, "success yay !")
     }
 
-    private fun getRepoListFailed(error_: Exception){
+    private fun getRepoListFailed(error_: Exception) {
         Timber.d(" Error" + error_.toString())
         _items.value = Resource<List<Repositories>>(Status.ERROR, emptyList(), error_.toString())
         Timber.d(" Error Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Error Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-
     }
 
     // here we are only getting data over the network
-    private fun forcedRefresh() {
+    fun forcedRefresh() {
         EspressoIdlingResource.increment() // Set app as busy.
         viewModelScope.launch {
             val repoResult = repository.fetchRepos()
@@ -86,14 +83,14 @@ class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewMod
         }
     }
 
-    private fun fetchSuccess(list: List<Repositories>){
+    private fun fetchSuccess(list: List<Repositories>) {
         Timber.d(" success$list")
         Timber.d(" Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         _items.value = Resource<List<Repositories>>(Status.SUCCESS, list, "success yay !")
     }
 
-    private fun fetchFailed(error_ : Exception){
+    private fun fetchFailed(error_: Exception) {
         Timber.d(" Error$error_.toString()")
         _items.value = Resource<List<Repositories>>(Status.ERROR, emptyList(), error_.toString())
         Timber.d(" Error Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")

@@ -14,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.71")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
         // Add the Google Services plugin (check for v3.1.2 or higher).
         classpath ("com.google.gms:google-services:4.3.3")
         // Add the Fabric Crashlytics plugin.
@@ -23,11 +23,6 @@ buildscript {
 
 
 }
-
-
-
-
-
 
 allprojects {
     repositories {

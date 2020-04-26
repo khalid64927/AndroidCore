@@ -16,7 +16,7 @@ object Versions {
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.2-alpha05"
     const val TESTX = "1.3.0-alpha05"
-    const val KOTLIN = "1.3.60-eap-25"
+    const val KOTLIN = "1.3.72"
 }
 
 object Dependencies {
