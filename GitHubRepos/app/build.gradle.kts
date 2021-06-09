@@ -17,8 +17,8 @@ KPlugin {
     System.out.println("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "29"
-    targetSDK = "29"
+    compileSDK = "30"
+    targetSDK = "30"
     versionCode = 10
     versionName = "1.1"
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
@@ -81,6 +81,9 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.MULTIDEX)
     implementation(Dependencies.CRASH)
+    implementation(Dependencies.CR_CORE)
+    implementation(Dependencies.CR_ANDROID)
+
 
     implementation(Dependencies.DAGGER_RUNTIME)
     api(Dependencies.DAGGER_ANDROID)

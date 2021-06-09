@@ -41,6 +41,7 @@ open class Utility {
     val implementation            = "implementation"
     val kapt                      = "kapt"
     val api                       = "api"
+    val compileOnly               = "compileOnly"
     val testImplementation        = "testImplementation"
     val androidTestImplementation = "androidTestImplementation"
 
@@ -117,6 +118,17 @@ open class Utility {
         testImplementation(Dependencies.MOKITO_INLINE)
         testImplementation(Dependencies.CR_TEST)
         testImplementation(Dependencies.MULTIDEXTEST)
+        testImplementation(Dependencies.KLUENT)
+        testImplementation(Dependencies.MOKITO_ANDROID)
+        testImplementation(Dependencies.MOKITO_KOTLIN)
+        testImplementation(Dependencies.CR_TEST_DEBUG)
+        testImplementation(Dependencies.CR_TEST)
+
+        //
+        compileOnly(Dependencies.jdk9Deps)
+        kapt(Dependencies.jaxbApi)
+        kapt(Dependencies.jaxbCore)
+        kapt(Dependencies.jaxbImpl)
 
     }
 
@@ -277,6 +289,10 @@ open class Utility {
 
     private fun DependencyHandler.api(dependencyName: String){
         addConfiguration(api,dependencyName)
+    }
+
+    private fun DependencyHandler.compileOnly(dependencyName: String){
+        addConfiguration(compileOnly,dependencyName)
     }
 
     private fun DependencyHandler.kapt(dependencyName: String){

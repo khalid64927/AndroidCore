@@ -7,9 +7,9 @@ open class KPluginExtensions {
     var modules = listOf<String>()
     var isLibraryModule = false
     var exclusions = ""
-    var compileSDK = "android-R"
-    var buildTools = "29.0.2"
-    var targetSDK = "R"
+    var compileSDK = "30"
+    var buildTools = "30.0.3"
+    var targetSDK = "30"
     var minSDK : Int = 21
     var versionCode : Int = 10
     var versionName = "1.1"

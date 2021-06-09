@@ -36,8 +36,6 @@ allprojects {
     configurations.all() {
         resolutionStrategy.force("org.antlr:antlr4-runtime:4.7.1")
         resolutionStrategy.force("org.antlr:antlr4-tool:4.7.1")
-        //resolutionStrategy.force "org.antlr:antlr4-runtime:4.7.1"
-        //resolutionStrategy.force "org.antlr:antlr4-tool:4.7.1"
     }
 
 }
