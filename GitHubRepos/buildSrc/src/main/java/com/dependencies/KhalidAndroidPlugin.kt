@@ -22,7 +22,6 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
-import org.gradle.testing.jacoco.plugins.JacocoPlugin
 
 open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     /**
@@ -38,35 +37,11 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     override fun apply(target: Project) {
         ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.applyPlugins((target.name == "app"))
-        System.out.println("name "+ target.name)
+        println("name "+ target.name)
         //TODO: unable to use extension property in apply function
         target.configureAndroid()
         target.configureQuality()
-        System.out.println("ext  ..after "+ ext.compileSDK)
-        target.afterEvaluate {
-            System.out.println("afterEvaluate")
-            target.extensions.getByType(KPluginExtensions::class.java).run {
-                val jacocoOptions = this.jacoco
-                if (jacocoOptions.isEnabled) {
-                    // Setup jacoco tasks to generate coverage report for this module.
-                    target.plugins.apply(JacocoPlugin::class.java)
-                    target.plugins.all {
-                        when (this) {
-                            is LibraryPlugin -> {
-                                target.extensions.getByType(LibraryExtension::class.java).run {
-                                    configureJacoco(target, libraryVariants, jacocoOptions)
-                                }
-                            }
-                            is AppPlugin -> {
-                                target.extensions.getByType(AppExtension::class.java).run {
-                                    configureJacoco(target, applicationVariants, jacocoOptions)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        println("ext  ..after "+ ext.compileSDK)
     }
 
     fun Project.configureKotlin(){
@@ -75,21 +50,18 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         }
     }
 
-    fun Project.configureAndroid() {
-        /*configure<KaptExtension> {
-            configureKapt()
-        }*/
+    private fun Project.configureAndroid() {
         configure<BaseExtension>{
-            System.out.println(" compileSDK "+ ext.compileSDK)
+            println(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK)
             buildToolsVersion(ext.buildTools)
             defaultConfig {
-                System.out.println(" min sdk "+ ext.minSDK)
-                System.out.println(" targetSDK "+ ext.targetSDK)
-                System.out.println(" testRunner  "+ ext.testRunner)
-                System.out.println(" lintExclusionRules "+ ext.lintExclusionRules)
-                System.out.println(" isLibraryModule "+ ext.isLibraryModule)
-                System.out.println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
+                println(" min sdk "+ ext.minSDK)
+                println(" targetSDK "+ ext.targetSDK)
+                println(" testRunner  "+ ext.testRunner)
+                println(" lintExclusionRules "+ ext.lintExclusionRules)
+                println(" isLibraryModule "+ ext.isLibraryModule)
+                println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
                 minSdkVersion(ext.minSDK)
                 multiDexEnabled = true
                 targetSdkVersion(ext.targetSDK)
@@ -109,10 +81,6 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     }
                 }
             }
-
-
-
-
 
             lintOptions {
                 disable(
@@ -170,7 +138,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         }
     }
 
-    fun Project.configureQuality() {
+    private fun Project.configureQuality() {
         apply(plugin = "checkstyle")
 
         configure<CheckstyleExtension> { toolVersion = "8.10.1" }
@@ -178,7 +146,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
 
         tasks.register<Checkstyle>("checkstyle") {
             var path = ext.checkstylePath
-            if(path.length <= 0){
+            if(path.isEmpty()){
                 path = "${project.configDir}/checkstyle.xml"
             }
             configFile = file(path)

@@ -16,68 +16,70 @@
 
 package com.khalid.hamid.githubrepos.network
 
-import com.khalid.hamid.githubrepos.network.local.LocalDataSource
 import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
+import java.lang.Exception
 import kotlinx.coroutines.runBlocking
-import org.junit.After
+import org.amshove.kluent.*
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 
-@RunWith(JUnit4::class)
 class RepositoryImpleTest {
-    lateinit var localDataSource: LocalDataSource
     lateinit var remoteDataSource: RemoteDataSource
-    lateinit var repositoryImple: RepositoryImple
+    lateinit var subject: RepositoryImple
+    val default = GitRepos("", emptyList(), 0)
 
     @Before
     fun setUp() {
-        localDataSource = mock(LocalDataSource::class.java)
         remoteDataSource = mock(RemoteDataSource::class.java)
-        repositoryImple = RepositoryImple(localDataSource, remoteDataSource)
+        subject = RepositoryImple(remoteDataSource)
     }
-
-    @After
-    fun tearDown() {
-    }
-
-    inline fun <reified T : Any> argumentCaptor() = ArgumentCaptor.forClass(T::class.java)
 
     @Test
-    fun getRepositories_FirtTimeAccess() {
-        `when`(localDataSource.hasCacheExpired()).thenReturn(true)
-        emptyList<Repositories>()
+    fun `verify that repo is called`() {
+        // Given
         runBlocking {
-            repositoryImple.getRepositories()
+            When calling remoteDataSource.fetchRepos() itReturns Result.Success(default)
+        }
+
+        runBlocking {
+            // When
+            subject.fetchRepos()
         }
         runBlocking {
-            verify((remoteDataSource), times(1)).fetchRespos()
-            verify((localDataSource), times(1)).saveData(any())
+            // Then
+            Verify on remoteDataSource that remoteDataSource.fetchRepos() was called
         }
     }
 
     @Test
-    fun getRepositories_ConsecuentAccess() {
-        `when`(localDataSource.hasCacheExpired()).thenReturn(false)
-        val empty = emptyList<Repositories>()
+    fun `verify success response is received when fetchRepos is called`() {
+        // Given
         runBlocking {
-            Mockito.`when`(localDataSource.getRepositories()).thenReturn(Result.Success(empty))
+            When calling remoteDataSource.fetchRepos() itReturns Result.Success(default)
         }
+
+        // When
         runBlocking {
-            repositoryImple.getRepositories()
-        }
-        runBlocking {
-            verify((localDataSource), times(1)).getRepositories()
-            verify((remoteDataSource), never()).fetchRespos()
+            val result = subject.fetchRepos()
+            // Then
+            assert(result is Result.Success)
         }
     }
 
     @Test
-    fun fetchRepos() {
+    fun `verify error response is received when fetchRepos is called`() {
+        // Given
+        runBlocking {
+            When calling remoteDataSource.fetchRepos() itReturns Result.Error_(Exception("Some error"))
+        }
+
+        runBlocking {
+            // When
+            val result = subject.fetchRepos()
+            // Then
+            assert(result is Result.Error_)
+        }
     }
 }

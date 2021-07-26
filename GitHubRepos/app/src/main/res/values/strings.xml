@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">GithubRepos</string>
     <string name="loading_tasks_error">Something went wrong at our end</string>
+    <string name="project_avatar_imge">project avatar imge</string>
+    <string name="something_went_wrong">Something went wrong..</string>
+    <string name="an_alien_is_probably_blocking_your_signal">An alien is probably blocking your signal.</string>
+    <string name="retry">RETRY</string>
+    <string name="trending">Trending</string>
+    <string name="image">image</string>
 </resources>

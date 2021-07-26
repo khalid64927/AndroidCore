@@ -16,32 +16,84 @@
 
 package com.khalid.hamid.githubrepos.ui
 
+import com.khalid.hamid.githubrepos.BaseUnitTest
+import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.network.Result
+import com.khalid.hamid.githubrepos.network.Status
+import com.khalid.hamid.githubrepos.testing.getOrAwaitValue
+import com.khalid.hamid.githubrepos.vo.GitRepos
+import java.lang.Exception
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
+import org.amshove.kluent.*
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 
-class RepoViewModelTest {
+class RepoViewModelTest : BaseUnitTest() {
 
     private lateinit var mockWebServer: MockWebServer
 
+    lateinit var subject: RepoViewModel
+
+    @Mock
+    lateinit var baseRepository: BaseRepository
+
+    val default = GitRepos("", emptyList(), 0)
+
     @Before
     fun setUp() {
-    }
-
-    @After
-    fun tearDown() {
-    }
-
-    @Test
-    fun get_items() {
+        MockitoAnnotations.openMocks(this)
+        subject = RepoViewModel(baseRepository)
     }
 
     @Test
-    fun getRepoList() {
+    fun `verify getList returns success response`() {
+        runBlockingTest {
+            When calling baseRepository.fetchRepos() itReturns Result.Success(default)
+            subject.getRepoList()
+            pauseDispatcher()
+            subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.LOADING::class.java
+            resumeDispatcher()
+            val result = subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.SUCCESS::class.java
+        }
     }
 
     @Test
-    fun forcedRefresh() {
+    fun `verify getList returns error response`() {
+        runBlockingTest {
+            When calling baseRepository.fetchRepos() itReturns Result.Error_(Exception(""))
+            subject.getRepoList()
+            pauseDispatcher()
+            subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.LOADING::class.java
+
+            resumeDispatcher()
+            val result = subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.ERROR::class.java
+        }
+    }
+
+    @Test
+    fun `verify forcedRefresh returns success response`() {
+        runBlockingTest {
+            When calling baseRepository.fetchRepos() itReturns Result.Success(default)
+            subject.forcedRefresh()
+            pauseDispatcher()
+            subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.LOADING::class.java
+            resumeDispatcher()
+            val result = subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.SUCCESS::class.java
+        }
+    }
+
+    @Test
+    fun `verify forcedRefresh returns error response`() {
+        runBlockingTest {
+            When calling baseRepository.fetchRepos() itReturns Result.Error_(Exception(""))
+            subject.forcedRefresh()
+            pauseDispatcher()
+            subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.LOADING::class.java
+
+            resumeDispatcher()
+            val result = subject.items.getOrAwaitValue().status shouldBeInstanceOf Status.ERROR::class.java
+        }
     }
 }

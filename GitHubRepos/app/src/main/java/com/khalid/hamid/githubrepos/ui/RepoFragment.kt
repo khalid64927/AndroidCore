@@ -32,6 +32,7 @@ import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.*
+import com.khalid.hamid.githubrepos.vo.toViewData
 import javax.inject.Inject
 import timber.log.Timber
 
@@ -52,13 +53,14 @@ class RepoFragment : Fragment(), Injectable {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repoLiveData = repoViewModel._items
+        val repoLiveData = repoViewModel.items
         val decorator = SimpleDividerItemDecoration(app)
         val adapter = RepoAdapter(dataBindingComponent, executors) { repositories -> }
         this.adapter = adapter
         binding.repoList.adapter = this.adapter
         binding.repoList.addItemDecoration(decorator)
         binding.callback = object : RetryListener {
+
             override fun fetchFromRepote() {
                 repoViewModel.getRepoList()
             }
@@ -68,11 +70,11 @@ class RepoFragment : Fragment(), Injectable {
                 repoViewModel.forcedRefresh()
             }
         }
-        repoLiveData.observe(viewLifecycleOwner, Observer { repositories ->
-            binding.resource = repositories
-            this.adapter.submitList(repositories.data)
-            when (repositories.status) {
-                Status.SUCCESS -> Timber.d("success %s", repositories.data.toString())
+        repoLiveData.observe(viewLifecycleOwner, Observer { gitRepos ->
+            binding.resource = gitRepos
+            this.adapter.submitList(gitRepos.data?.values?.map { it.toViewData() })
+            when (gitRepos.status) {
+                Status.SUCCESS -> Timber.d("success %s", gitRepos.data.toString())
                 Status.ERROR -> Timber.d("error ")
                 Status.LOADING -> Timber.d("loading ")
             }

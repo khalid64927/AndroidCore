@@ -41,20 +41,11 @@ allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     System.out.println("android block...")
     compileSdkVersion(29)
-    // TODO: new config
-    /*buildFeatures {
-        dataBinding = true
-        viewBinding = false
-
-    }*/
 
     dataBinding {
         isEnabledForTests = true
         isEnabled = true
     }
-    /*viewBinding {
-        isEnabled = true
-    }*/
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }

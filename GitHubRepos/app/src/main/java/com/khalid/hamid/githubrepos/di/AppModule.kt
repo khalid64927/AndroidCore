@@ -17,46 +17,50 @@
 package com.khalid.hamid.githubrepos.di
 
 import android.app.Application
-import androidx.room.Room
-import com.khalid.hamid.githubrepos.db.GithubDb
-import com.khalid.hamid.githubrepos.db.RepoDao
 import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.Module
 import dagger.Provides
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module(includes = [ViewModelModule::class])
 class AppModule {
+    companion object {
+        const val TIME_OUT_INTERVAL: Long = 60
+    }
+
     @Singleton
     @Provides
-    fun provideGithubService(): GitHubService {
+    fun provideGithubService(okHttpClient: OkHttpClient): GitHubService {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubService::class.java)
     }
 
-    @Singleton
     @Provides
-    fun provideDb(app: Application): GithubDb {
-        return Room
-            .databaseBuilder(app, GithubDb::class.java, Constants.DB_NAME)
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
     @Singleton
-    @Provides
-    fun provideRepoDao(db: GithubDb): RepoDao {
-        return db.getRepoDao()
+    fun provideOkHttpClient(): OkHttpClient {
+        val httpLogging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder().apply {
+            connectTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+                .writeTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+            addInterceptor(httpLogging)
+        }.build()
     }
 
     @Singleton

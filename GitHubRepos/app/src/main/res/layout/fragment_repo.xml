@@ -14,10 +14,6 @@
             type="Resource" />
 
         <variable
-            name="repos"
-            type="com.khalid.hamid.githubrepos.vo.Repositories" />
-
-        <variable
             name="callback"
             type="com.khalid.hamid.githubrepos.utilities.RetryListener" />
 
@@ -43,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trending"
+            android:text="@string/trending"
             android:layout_gravity="center"
             android:id="@+id/toolbar_title" />
 
@@ -57,9 +53,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
      android:id="@+id/error_content"
+     tools:visibility="gone"
     app:visibleGone="@{resource.status == Status.ERROR}"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
     <com.google.android.material.button.MaterialButton
@@ -70,7 +66,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="RETRY"
+        android:text="@string/retry"
         android:onClick="@{() -> callback.fetchFromRepote()}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +82,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nointernet_connection" />
+        app:srcCompat="@drawable/nointernet_connection"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/textView"
@@ -94,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Something went wrong.."
+        android:text="@string/something_went_wrong"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -105,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="An alien is probably blocking your signal."
+        android:text="@string/an_alien_is_probably_blocking_your_signal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -113,8 +110,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <LinearLayout
+    <LinearLayout
+    tools:visibility="gone"
     android:orientation="vertical"
     android:layout_width="match_parent"
     app:visibleGone="@{(resource.status != Status.ERROR &amp;&amp; resource.status != Status.SUCCESS)}"
@@ -150,6 +147,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:id="@+id/content_success"
+    tools:visibility="visible"
     app:visibleGone="@{resource.status == Status.SUCCESS}"
     android:layout_height="match_parent">
 
@@ -177,25 +175,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--commented this since binding is unable to get included views,
-        seems like include tag is not supported by data binding ): ! -->
-
-
-        <!--<include layout="@layout/container_error" android:id="@+id/content_error"
-            app:resource="@{resource}"
-            app:callback="@{() -> callback.fetchFromRepote()}"/>
-
-        <include layout="@layout/container_loading" android:id="@+id/content_loading"
-            app:resource="@{resource}"/>
-
-        <include layout="@layout/container_main" android:id="@+id/content_success"
-            app:repos="@{repos}"
-            app:resource="@{resource}"/>-->
-
     </FrameLayout>
-
-
 </LinearLayout>
 
 </layout>

@@ -16,20 +16,17 @@
 
 package com.khalid.hamid.githubrepos.network
 
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.testing.OpenForTesting
+import com.khalid.hamid.githubrepos.vo.GitRepos
 import javax.inject.Singleton
 import timber.log.Timber
 
+@OpenForTesting
 @Singleton
 class BaseRepository(private val baseDataSource: BaseDataSource) : BaseDataSource {
 
-    override suspend fun getRepositories(): Result<List<Repositories>> {
+    override suspend fun fetchRepos(): Result<GitRepos> {
         Timber.d("getRepositories")
-        return baseDataSource.getRepositories()
-    }
-
-    override suspend fun fetchRepos(): Result<List<Repositories>> {
-        Timber.d("getRepositories")
-        return baseDataSource.getRepositories()
+        return baseDataSource.fetchRepos()
     }
 }

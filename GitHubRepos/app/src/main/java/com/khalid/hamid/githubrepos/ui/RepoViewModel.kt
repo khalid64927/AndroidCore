@@ -16,6 +16,7 @@
 
 package com.khalid.hamid.githubrepos.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,22 +27,28 @@ import com.khalid.hamid.githubrepos.network.Result.Success
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OpenForTesting
 class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewModel() {
-    val _items = MutableLiveData<Resource<List<Repositories>>>().apply { value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait") }
-    private val error_item = Resource<List<Repositories>>(Status.ERROR, emptyList(), " error happned")
+
+    val default = GitRepos("", emptyList(), 0)
+
+    val items: LiveData<Resource<GitRepos>>
+    get() = _items
+    private val _items = MutableLiveData<Resource<GitRepos>>().apply {
+        value = Resource.loading(default) }
+
     // here we are getting from DB if not then network
     fun getRepoList() {
-        Timber.d("getRepos :: " + Thread.currentThread().getName())
-        _items.value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait")
+        Timber.d("getRepos :: " + Thread.currentThread().name)
+        _items.value = Resource.loading(default)
         EspressoIdlingResource.increment() // Set app as busy.
         viewModelScope.launch {
-            val repoResult = repository.getRepositories()
+            val repoResult = repository.fetchRepos()
             EspressoIdlingResource.decrement() // Set app as idle.
             if (repoResult is Success) {
                 getRepoListSuccess(repoResult.data)
@@ -54,16 +61,16 @@ class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewMod
         Timber.d("getRepos end")
     }
 
-    fun getRepoListSuccess(list: List<Repositories>) {
-        Timber.d(" success" + list.toString())
+    private fun getRepoListSuccess(list: GitRepos) {
+        Timber.d(" success$list")
         Timber.d(" Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-        _items.value = Resource<List<Repositories>>(Status.SUCCESS, list, "success yay !")
+        _items.value = Resource.success(list)
     }
 
     private fun getRepoListFailed(error_: Exception) {
-        Timber.d(" Error" + error_.toString())
-        _items.value = Resource<List<Repositories>>(Status.ERROR, emptyList(), error_.toString())
+        Timber.d(" Error$error_")
+        _items.value = Resource<GitRepos>(Status.ERROR, default, error_.toString())
         Timber.d(" Error Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Error Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
     }
@@ -83,16 +90,16 @@ class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewMod
         }
     }
 
-    private fun fetchSuccess(list: List<Repositories>) {
+    private fun fetchSuccess(list: GitRepos) {
         Timber.d(" success$list")
         Timber.d(" Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-        _items.value = Resource<List<Repositories>>(Status.SUCCESS, list, "success yay !")
+        _items.value = Resource<GitRepos>(Status.SUCCESS, list, "success yay !")
     }
 
     private fun fetchFailed(error_: Exception) {
         Timber.d(" Error$error_.toString()")
-        _items.value = Resource<List<Repositories>>(Status.ERROR, emptyList(), error_.toString())
+        _items.value = Resource<GitRepos>(Status.ERROR, default, error_.toString())
         Timber.d(" Error Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Error Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
     }

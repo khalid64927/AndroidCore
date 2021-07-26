@@ -16,7 +16,9 @@
 
 package com.khalid.hamid.githubrepos.utilities
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -30,4 +32,11 @@ open class FragmentBindingAdapters @Inject constructor(val fragment: Fragment) {
     fun bindImage(imageView: ImageView, url: String?) {
         Glide.with(fragment).load(url).into(imageView)
     }
+}
+
+@BindingAdapter("showIfNotEmpty")
+fun TextView.showText(textString: String) {
+    if (text.isEmpty()) visibility = View.GONE
+    visibility = View.VISIBLE
+    text = textString
 }

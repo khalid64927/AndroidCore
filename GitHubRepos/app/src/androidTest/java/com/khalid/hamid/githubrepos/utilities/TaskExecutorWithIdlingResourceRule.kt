@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.gojekgithubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities
 
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
 import androidx.test.espresso.IdlingRegistry

@@ -52,14 +52,10 @@ open class Utility {
 
         if(isApp){
             apply(plugin = "com.android.application")
-            apply(plugin = "com.google.firebase.crashlytics")
-            apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
         }
-       /* apply(plugin = "com.android.application")
-        apply(plugin = "io.fabric")*/
         apply(plugin = "kotlin-android")
         apply(plugin = "kotlin-android-extensions")
         apply(plugin = "kotlin-kapt")
@@ -77,7 +73,7 @@ open class Utility {
 
     fun Project.getLintBaseline() : File{
         val lintBaseLineFilePath = ext.lintBaseLineFilePath
-        if(lintBaseLineFilePath.length <=0 ) return file("$rootDir/quality/lint-baseline.xml")
+        if(lintBaseLineFilePath.isEmpty()) return file("$rootDir/quality/lint-baseline.xml")
         return file(lintBaseLineFilePath)
     }
 

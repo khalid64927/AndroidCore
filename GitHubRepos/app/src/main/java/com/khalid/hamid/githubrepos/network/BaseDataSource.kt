@@ -17,13 +17,10 @@
 package com.khalid.hamid.githubrepos.network
 
 import androidx.annotation.WorkerThread
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
 
 interface BaseDataSource {
 
     @WorkerThread
-    suspend fun getRepositories(): Result<List<Repositories>>
-
-    @WorkerThread
-    suspend fun fetchRepos(): Result<List<Repositories>>
+    suspend fun fetchRepos(): Result<GitRepos>
 }

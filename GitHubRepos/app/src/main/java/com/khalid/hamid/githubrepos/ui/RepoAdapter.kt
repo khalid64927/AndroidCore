@@ -24,21 +24,21 @@ import androidx.recyclerview.widget.DiffUtil
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.databinding.ItemMainBinding
 import com.khalid.hamid.githubrepos.utilities.AppExecutors
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.RepoViewData
 
 class RepoAdapter(
     private val dataBindingComponent: DataBindingComponent,
     appExecutors: AppExecutors,
-    private val callback: ((Repositories) -> Unit)?
-) : DataBoundListAdapter<Repositories, ItemMainBinding>(
+    private val callback: ((RepoViewData) -> Unit)?
+) : DataBoundListAdapter<RepoViewData, ItemMainBinding>(
     appExecutors = appExecutors,
-    diffCallback = object : DiffUtil.ItemCallback<Repositories>() {
-        override fun areItemsTheSame(oldItem: Repositories, newItem: Repositories): Boolean {
-            return oldItem.id == newItem.id
+    diffCallback = object : DiffUtil.ItemCallback<RepoViewData>() {
+        override fun areItemsTheSame(oldItem: RepoViewData, newItem: RepoViewData): Boolean {
+            return oldItem.uuid == newItem.uuid
         }
 
-        override fun areContentsTheSame(oldItem: Repositories, newItem: Repositories): Boolean {
-            return oldItem.avatar == newItem.avatar &&
+        override fun areContentsTheSame(oldItem: RepoViewData, newItem: RepoViewData): Boolean {
+            return oldItem.imageUrl == newItem.imageUrl &&
                     oldItem.description == newItem.description
         }
     }
@@ -61,7 +61,7 @@ class RepoAdapter(
         return binding
     }
 
-    override fun bind(binding: ItemMainBinding, item: Repositories) {
+    override fun bind(binding: ItemMainBinding, item: RepoViewData) {
         binding.repos = item
     }
 }

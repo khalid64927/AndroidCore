@@ -18,46 +18,97 @@ package com.khalid.hamid.githubrepos.network.remote
 
 import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
+import java.lang.Exception
 import kotlinx.coroutines.runBlocking
-import org.junit.After
+import org.amshove.kluent.When
+import org.amshove.kluent.calling
+import org.amshove.kluent.itReturns
+import org.amshove.kluent.mock
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.Mockito
 import retrofit2.Response
 
+@RunWith(JUnit4::class)
 class RemoteDataSourceTest {
 
-    lateinit var remoteDataSource: RemoteDataSource
+    lateinit var subject: RemoteDataSource
     lateinit var service: GitHubService
 
     @Before
     fun setUp() {
         service = Mockito.mock(GitHubService::class.java)
-        remoteDataSource = RemoteDataSource(service)
-    }
-
-    @After
-    fun tearDown() {
+        subject = RemoteDataSource(service)
     }
 
     @Test
-    fun fetchRespos_Success() {
-        val list = emptyList<Repositories>()
+    fun `verify when fetchRepos is called data is received`() {
+        val default = GitRepos("", emptyList(), 0)
         var response = Mockito.mock(Response::class.java)
 
         Mockito.`when`(response.isSuccessful).thenReturn(true)
-        Mockito.`when`(response.body()).thenReturn(list)
+        Mockito.`when`(response.body()).thenReturn(default)
 
         runBlocking {
-            Mockito.`when`(service.getRepositories()).thenReturn(response as Response<List<Repositories>>)
+            Mockito.`when`(service.fetchRepos()).thenReturn(response as Response<GitRepos>)
         }
 
         val result = runBlocking {
-            remoteDataSource.fetchRespos()
+            subject.fetchRepos()
+        }
+        assertEquals(result, Result.Success(default))
+    }
+
+    @Test
+    fun `verify when fetchRepos is called error is received`() {
+        // Given
+        val default = GitRepos("", emptyList(), 0)
+        var response = Mockito.mock(Response::class.java)
+
+        When calling response.isSuccessful itReturns false
+        When calling response.body() itReturns default
+
+        runBlocking {
+            When calling service.fetchRepos() itReturns response as Response<GitRepos>
         }
 
-        assertEquals(result, Result.Success(list))
+        // When
+        val result = runBlocking {
+            subject.fetchRepos()
+        }
+
+        // Then
+        assertEquals(result, Result.Success(default))
+    }
+
+    @Test
+    fun `verify when fetchRepos is called exception is received`() {
+        // Given
+        val default = GitRepos("", emptyList(), 0)
+        var response = Mockito.mock(Response::class.java)
+        val exception = "Unknown error"
+
+        When calling response.isSuccessful itReturns false
+        When calling response.body() itReturns "exception"
+
+        runBlocking {
+            When calling service.fetchRepos() itReturns response as Response<GitRepos>
+        }
+
+        var result: Result<GitRepos>? = null
+        runBlocking {
+            // When
+            result = subject.fetchRepos()
+        }
+
+        // Then
+        assert(result is Result.Error_)
+        val errorType: Exception = (result as Result.Error_).exception
+
+        assert(errorType.message == exception)
     }
 }

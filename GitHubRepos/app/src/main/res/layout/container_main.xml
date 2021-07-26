@@ -12,10 +12,6 @@
             name="resource"
             type="Resource" />
 
-        <variable
-            name="repos"
-            type="com.khalid.hamid.githubrepos.vo.Repositories" />
-
     </data>
 
 

@@ -20,7 +20,7 @@ import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.Result.Error_
 import com.khalid.hamid.githubrepos.network.Result.Success
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
 import javax.inject.Inject
 import retrofit2.HttpException
 import timber.log.Timber
@@ -29,16 +29,16 @@ class RemoteDataSource @Inject constructor(
     private val gitHubService: GitHubService
 ) {
 
-    suspend fun fetchRespos(): Result<List<Repositories>> {
+    suspend fun fetchRepos(): Result<GitRepos> {
         Timber.d("fetchRespos")
         try {
-            val dataResponse = gitHubService.getRepositories()
+            val dataResponse = gitHubService.fetchRepos()
             Timber.d("data response is  " + dataResponse.body().toString())
 
             if (dataResponse.isSuccessful) {
                 Timber.d("dataResponse.isSuccessful")
-
-                return Success(dataResponse?.body() ?: emptyList())
+                val default = GitRepos("", emptyList(), 0)
+                return Success(dataResponse.body() ?: default)
             } else {
                 Timber.d("dataResponse.Error_")
                 return Error_(Exception(dataResponse?.message() ?: "Unknown error"))
