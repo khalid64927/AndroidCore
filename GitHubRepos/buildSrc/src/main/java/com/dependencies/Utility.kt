@@ -38,12 +38,12 @@ import java.io.File
 */
 
 open class Utility {
-    val implementation            = "implementation"
-    val kapt                      = "kapt"
-    val api                       = "api"
-    val compileOnly               = "compileOnly"
-    val testImplementation        = "testImplementation"
-    val androidTestImplementation = "androidTestImplementation"
+    private val implementation            = "implementation"
+    private val kapt                      = "kapt"
+    private val api                       = "api"
+    private val compileOnly               = "compileOnly"
+    private val testImplementation        = "testImplementation"
+    private val androidTestImplementation = "androidTestImplementation"
 
 
     lateinit var ext: KPluginExtensions
@@ -74,17 +74,18 @@ open class Utility {
         "SelectableText", "SyntheticAccessor")
 
     fun Project.getLintBaseline() : File{
+        val defaultLintFile = file("$rootDir/quality/lint-baseline.xml")
         val lintBaseLineFilePath = ext.lintBaseLineFilePath
-        if(lintBaseLineFilePath.length <=0 ) return file("$rootDir/quality/lint-baseline.xml")
+        if(lintBaseLineFilePath.isEmpty()) return defaultLintFile
         return file(lintBaseLineFilePath)
     }
 
     fun LintOptions.disableLint(){
-        System.out.println(" size is "+ext.lintExclusionRules.size)
+        println(" size is "+ext.lintExclusionRules.size)
         if(ext.lintExclusionRules.isEmpty()){
             lintExclusion.addAll(ext.lintExclusionRules)
         }
-        System.out.println(" size is "+lintExclusion.size)
+        println(" size is "+lintExclusion.size)
         try{
             lintExclusion.forEach {
                 disable.add(it)
@@ -179,21 +180,21 @@ open class Utility {
         variants: DomainObjectSet<out BaseVariant>,
         options: JacocoOptions
     ) {
-        System.out.println("configureJacoco 1")
+        println("configureJacoco 1")
         variants.all {
             val variantName = name
-            System.out.println("configureJacoco 1$variantName")
+            println("configureJacoco 1$variantName")
             val isDebuggable = this.buildType.isDebuggable
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
-                System.out.println("configureJacoco 2$isDebuggable")
+                println("configureJacoco 2$isDebuggable")
                 return@all
             }
-            System.out.println("configureJacoco 33")
+            println("configureJacoco 33")
             project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
                 dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
                 val coverageSourceDirs = "src/main/java"
-                System.out.println("configureJacoco 3")
+                println("configureJacoco 3")
 
                 val javaClasses = project
                     .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -223,7 +224,7 @@ open class Utility {
 
                 reports.xml.isEnabled = true
                 reports.html.isEnabled = true
-                System.out.println("configureJacoco 4")
+                println("configureJacoco 4")
             }
         }
     }
@@ -244,12 +245,12 @@ open class Utility {
 
 
 
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE, {
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")
             exclude(group = "com.google.code.findbugs", module = "jsr305")
-        })
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE,
-            { exclude(group = "net.bytebuddy") })
+        }
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE
+        ) { exclude(group = "net.bytebuddy") }
     }
 
     @Suppress("UNUSED_PARAMETER")

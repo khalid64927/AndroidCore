@@ -17,8 +17,7 @@ KPlugin {
     versionCode = 10
     versionName = "1.1"
     testRunner = "androidx.test.runner.AndroidJUnitRunner"
-    lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
-    //var testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+    lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
 }
 

@@ -22,7 +22,7 @@ KPlugin {
     versionCode = 10
     versionName = "1.1"
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
-    lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+    lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
     jacoco{
         excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")

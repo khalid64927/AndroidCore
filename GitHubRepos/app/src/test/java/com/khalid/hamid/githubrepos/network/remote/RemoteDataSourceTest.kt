@@ -55,7 +55,7 @@ class RemoteDataSourceTest {
         }
 
         val result = runBlocking {
-            remoteDataSource.fetchRespos()
+            remoteDataSource.fetchRepos()
         }
 
         assertEquals(result, Result.Success(list))

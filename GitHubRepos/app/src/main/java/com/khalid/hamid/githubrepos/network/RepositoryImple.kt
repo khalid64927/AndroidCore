@@ -56,7 +56,7 @@ class RepositoryImple @Inject constructor(
     }
 
     override suspend fun fetchRepos(): Result<List<Repositories>> {
-        val fetchedData = remoteDataSource.fetchRespos()
+        val fetchedData = remoteDataSource.fetchRepos()
         Timber.d("fetched data ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         when (fetchedData) {
             is Success -> {

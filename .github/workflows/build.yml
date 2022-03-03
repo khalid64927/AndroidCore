@@ -13,11 +13,16 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Run Spotless
+        run: cd GitHubRepos && ./gradlew app:spotlessCheck
+
+      - name: Run Lint
+        run: cd GitHubRepos && ./gradlew app:lintProdDebug
 
       - name: Run Tests
-        run: ./gradlew test
+        run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
 
       - name: Build
-        run: ./gradlew app:assembleProdDebug
+        run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
 

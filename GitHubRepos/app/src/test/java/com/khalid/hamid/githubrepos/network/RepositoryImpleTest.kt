@@ -56,7 +56,7 @@ class RepositoryImpleTest {
             repositoryImple.getRepositories()
         }
         runBlocking {
-            verify((remoteDataSource), times(1)).fetchRespos()
+            verify((remoteDataSource), times(1)).fetchRepos()
             verify((localDataSource), times(1)).saveData(any())
         }
     }
@@ -73,7 +73,7 @@ class RepositoryImpleTest {
         }
         runBlocking {
             verify((localDataSource), times(1)).getRepositories()
-            verify((remoteDataSource), never()).fetchRespos()
+            verify((remoteDataSource), never()).fetchRepos()
         }
     }
 

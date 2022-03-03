@@ -29,11 +29,11 @@ class RemoteDataSource @Inject constructor(
     private val gitHubService: GitHubService
 ) {
 
-    suspend fun fetchRespos(): Result<List<Repositories>> {
-        Timber.d("fetchRespos")
+    suspend fun fetchRepos(): Result<List<Repositories>> {
+        Timber.d("fetchRepos")
         try {
             val dataResponse = gitHubService.getRepositories()
-            Timber.d("data response is  " + dataResponse.body().toString())
+            Timber.d("data response is   ${dataResponse.body().toString()}")
 
             if (dataResponse.isSuccessful) {
                 Timber.d("dataResponse.isSuccessful")
@@ -47,10 +47,10 @@ class RemoteDataSource @Inject constructor(
             Timber.d("dataResponse.Error_")
             httpException.printStackTrace()
             return Error_(httpException)
-        } catch (unkown: Exception) {
+        } catch (unknown: Exception) {
             Timber.d("dataResponse.Error_")
-            unkown.printStackTrace()
-            return Error_(unkown)
+            unknown.printStackTrace()
+            return Error_(unknown)
         }
     }
 }

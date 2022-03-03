@@ -1,19 +1,593 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues by="lint 3.0.0-rc1" format="4">
+<issues format="5" by="lint 4.2 Canary 2">
 
-    <!-- Let the client decide -->
     <issue
-        id="RtlEnabled"
-        message="The project references RTL attributes, but does not explicitly enable or disable RTL support with `android:supportsRtl` in the manifest">
-        <location file="src/main/AndroidManifest.xml" />
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `capitalize(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`.">
+        <location
+            file="src/main/java/com/dependencies/Utility.kt"
+            line="194"/>
     </issue>
 
-    <!-- This is an acceptable misspelling for German -->
     <issue
-        id="Typos"
-        severity="Error"
-        message="&quot;abzuschliessen&quot; is a common misspelling; did you mean &quot;abzuschließen&quot; ?"
-        category="Correctness:Messages">
-        <location file="auth/src/main/res/values-de-rCH/strings.xml" />
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `capitalize(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`.">
+        <location
+            file="src/main/java/com/dependencies/Utility.kt"
+            line="195"/>
     </issue>
+
+    <issue
+        id="DefaultLocale"
+        message="Implicitly using the default locale is a common source of bugs: Use `capitalize(Locale)` instead. For strings meant to be internal use `Locale.ROOT`, otherwise `Locale.getDefault()`.">
+        <location
+            file="src/main/java/com/dependencies/Utility.kt"
+            line="210"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontStyle` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="5"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontWeight` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="6"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `font` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="7"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontStyle` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontWeight` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="14"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `font` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="15"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontStyle` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="21"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontWeight` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="22"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `font` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="23"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontStyle` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="29"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontWeight` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="30"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `font` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="31"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontStyle` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="37"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `fontWeight` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="38"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `font` is only used in API level 26 and higher (current min is 21)">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="39"/>
+    </issue>
+
+    <issue
+        id="FragmentTagUsage"
+        message="Replace the &lt;fragment> tag with FragmentContainerView.">
+        <location
+            file="src/main/res/layout/activity_main.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlin:kotlin-gradle-plugin than 1.3.72 is available: 1.4.0">
+        <location
+            file="build.gradle.kts"
+            line="15"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlin:kotlin-allopen than 1.3.72 is available: 1.4.0">
+        <location
+            file="build.gradle.kts"
+            line="17"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of org.jetbrains.kotlin:kotlin-gradle-plugin than 1.3.72 is available: 1.4.0">
+        <location
+            file="build.gradle.kts"
+            line="17"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.diffplug.spotless:spotless-plugin-gradle than 3.27.0 is available: 5.6.1">
+        <location
+            file="build.gradle.kts"
+            line="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.gms:google-services than 4.3.3 is available: 4.3.10">
+        <location
+            file="build.gradle.kts"
+            line="19"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="19"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="25"/>
+    </issue>
+
+    <issue
+        id="SpUsage"
+        message="Should use &quot;`sp`&quot; instead of &quot;`dp`&quot; for text sizes">
+        <location
+            file="src/main/res/values/styles.xml"
+            line="31"/>
+    </issue>
+
+    <issue
+        id="AllowBackup"
+        message="On SDK version 23 and up, your app data will be automatically backed up, and restored on app install. Your GCM regid will not work across restores, so you must ensure that it is excluded from the back-up set. Use the attribute `android:fullBackupContent` to specify an `@xml` resource which configures which files to backup. More info: https://developer.android.com/training/backup/autosyncapi.html">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.container_error` appears to be unused">
+        <location
+            file="src/main/res/layout/container_error.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.container_loading` appears to be unused">
+        <location
+            file="src/main/res/layout/container_loading.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.container_main` appears to be unused">
+        <location
+            file="src/main/res/layout/container_main.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.activityPadding` appears to be unused">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="4"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.placeholderImage` appears to be unused">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="5"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.placeholderTextHeight` appears to be unused">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="6"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.dimen.padding_10` appears to be unused">
+        <location
+            file="src/main/res/values/dimens.xml"
+            line="7"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.layout.item_details` appears to be unused">
+        <location
+            file="src/main/res/layout/item_details.xml"
+            line="2"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.more_black` appears to be unused">
+        <location
+            file="src/main/res/drawable-hdpi/more_black.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/more_black.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/more_black.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/more_black.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/more_black.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.refresh_black` appears to be unused">
+        <location
+            file="src/main/res/drawable-hdpi/refresh_black.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/refresh_black.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/refresh_black.png"/>
+        <location
+            file="src/main/res/drawable-xxhdpi/refresh_black.png"/>
+        <location
+            file="src/main/res/drawable-xxxhdpi/refresh_black.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.font.repofonts` appears to be unused">
+        <location
+            file="src/main/res/font/repofonts.xml"
+            line="2"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.loading_tasks_error` appears to be unused">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="3"/>
+    </issue>
+
+    <issue
+        id="RedundantNamespace"
+        message="This namespace declaration is redundant">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="62"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/container_error.xml"
+            line="40"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="80"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="32"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="92"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="108"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="124"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Sort by star&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/menu/arrange_list.xml"
+            line="7"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Sort by name&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/menu/arrange_list.xml"
+            line="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Material Default Button&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/container_error.xml"
+            line="33"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Something went wrong..&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/container_error.xml"
+            line="57"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;An alien is probably blocking your signal.&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/container_error.xml"
+            line="68"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Trending&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="46"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;RETRY&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="73"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Something went wrong..&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="97"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;An alien is probably blocking your signal.&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="108"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        message="Hardcoded string &quot;Web&quot;, should use `@string` resource">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="60"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;16dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="45"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_toRightOf` with `android:layout_toEndOf=&quot;@+id/textView5&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="88"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;4dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="101"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;4dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="117"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;15dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="129"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;4dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_main.xml"
+            line="134"/>
+    </issue>
+
+    <issue
+        id="RtlHardcoded"
+        message="Consider replacing `android:layout_marginLeft` with `android:layout_marginStart=&quot;16dp&quot;` to better support right-to-left layouts">
+        <location
+            file="src/main/res/layout/item_place_holder.xml"
+            line="35"/>
+    </issue>
+
+    <issue
+        id="UnusedIds"
+        message="The resource R.id.viewLayer appears to be unused">
+        <location
+            file="src/main/res/layout/item_place_holder.xml"
+            line="25"/>
+    </issue>
+
+    <issue
+        id="UnusedIds"
+        message="The resource R.id.viewText4 appears to be unused">
+        <location
+            file="src/main/res/layout/item_place_holder.xml"
+            line="43"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to private method handleActivity of class AppInjector requires synthetic accessor">
+        <location
+            file="src/main/java/com/khalid/hamid/githubrepos/di/AppInjector.kt"
+            line="41"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Access to private field _value of class AutoClearedValue requires synthetic accessor">
+        <location
+            file="src/main/java/com/khalid/hamid/githubrepos/utilities/AutoClearedValue.kt"
+            line="38"/>
+    </issue>
+
+    <issue
+        id="UnusedNamespace"
+        message="Unused namespace declaration xmlns:app; already declared on the root element">
+        <location
+            file="src/main/res/layout/fragment_repo.xml"
+            line="62"/>
+    </issue>
+
+    <issue
+        id="ConvertToWebp"
+        message="One or more images in this project can be converted to the">
+        <location
+            file="src/main/res/drawable-xxxhdpi/nointernet_connection.png"/>
+    </issue>
+
+    <issue
+        id="GoogleAppIndexingWarning"
+        message="App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW intent filter. See issue explanation for more details.">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="5"/>
+    </issue>
+
 </issues>

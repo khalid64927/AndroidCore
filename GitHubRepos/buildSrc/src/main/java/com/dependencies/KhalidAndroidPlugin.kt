@@ -114,22 +114,19 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 }
             }
 
-
-
-
-
             lintOptions {
-                disable(
+                baselineFile = getLintBaseline()
+                /*disable(
                     "ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
                     "IconExpectedSize",
                     "InvalidPackage", // Firestore uses GRPC which makes lint mad
                     "NewerVersionAvailable", "GradleDependency", // For reproducible builds
                     "SelectableText", "SyntheticAccessor" // We almost never care about this
-                )
+                )*/
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
                 isAbortOnError = true
-                baselineFile = getLintBaseline()
+
             }
 
             buildTypes {
