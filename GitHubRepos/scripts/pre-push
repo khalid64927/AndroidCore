@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "🛠️  Running:  ./gradlew runTests"
+echo ""
+./gradlew app:testProdDebugUnitTest
+
+echo ""
+echo "✨ pre-push tasks completed"
+echo ""

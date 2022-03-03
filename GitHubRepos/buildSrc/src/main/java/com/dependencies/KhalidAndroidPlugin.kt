@@ -29,7 +29,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
      * Determines if a Project is the 'library' module
      */
     val Project.isLibrary get() = name == "app"
-    val Project.configDir get() = "$rootDir/quality"
+    private val Project.configDir get() = "$rootDir/quality"
     private var lintExclusionRules = arrayListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
         "IconExpectedSize",
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
@@ -38,13 +38,13 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     override fun apply(target: Project) {
         ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.applyPlugins((target.name == "app"))
-        System.out.println("name "+ target.name)
+        println("name "+ target.name)
         //TODO: unable to use extension property in apply function
         target.configureAndroid()
         target.configureQuality()
-        System.out.println("ext  ..after "+ ext.compileSDK)
+        println("ext  ..after "+ ext.compileSDK)
         target.afterEvaluate {
-            System.out.println("afterEvaluate")
+            println("afterEvaluate")
             target.extensions.getByType(KPluginExtensions::class.java).run {
                 val jacocoOptions = this.jacoco
                 if (jacocoOptions.isEnabled) {
@@ -75,19 +75,19 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         }
     }
 
-    fun Project.configureAndroid() {
+    private fun Project.configureAndroid() {
         // TODO:configureKapt
         configure<BaseExtension>{
-            System.out.println(" compileSDK "+ ext.compileSDK)
+            println(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
             buildToolsVersion(ext.buildTools)
             defaultConfig {
-                System.out.println(" min sdk "+ ext.minSDK)
-                System.out.println(" targetSDK "+ ext.targetSDK)
-                System.out.println(" testRunner  "+ ext.testRunner)
-                System.out.println(" lintExclusionRules "+ ext.lintExclusionRules)
-                System.out.println(" isLibraryModule "+ ext.isLibraryModule)
-                System.out.println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
+                println(" min sdk "+ ext.minSDK)
+                println(" targetSDK "+ ext.targetSDK)
+                println(" testRunner  "+ ext.testRunner)
+                println(" lintExclusionRules "+ ext.lintExclusionRules)
+                println(" isLibraryModule "+ ext.isLibraryModule)
+                println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
                 minSdkVersion(ext.minSDK)
                 multiDexEnabled = true
                 targetSdkVersion(ext.targetSDK.toInt())
@@ -99,12 +99,6 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
 
                 javaCompileOptions {
                     annotationProcessorOptions {
-                        val arg = mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
-                                        "room.expandProjection" to "true",
-                                        "room.expandProjection" to "true",
-                                        "androidx.room.RoomProcessor" to "true",
-                                        "dagger.gradle.incremental" to "true"
-                        )
                         arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
                             "room.expandProjection" to "true",
                             "room.expandProjection" to "true",
@@ -116,17 +110,9 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
 
             lintOptions {
                 baselineFile = getLintBaseline()
-                /*disable(
-                    "ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
-                    "IconExpectedSize",
-                    "InvalidPackage", // Firestore uses GRPC which makes lint mad
-                    "NewerVersionAvailable", "GradleDependency", // For reproducible builds
-                    "SelectableText", "SyntheticAccessor" // We almost never care about this
-                )*/
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
                 isAbortOnError = true
-
             }
 
             buildTypes {
@@ -172,7 +158,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     }
 
     // TODO: add checkstyle
-    fun Project.configureQuality() {
+    private fun Project.configureQuality() {
         apply(plugin = "checkstyle")
 
         configure<CheckstyleExtension> { toolVersion = "8.10.1" }
@@ -180,7 +166,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
 
         tasks.register<Checkstyle>("checkstyle") {
             var path = ext.checkstylePath
-            if(path.length <= 0){
+            if(path.isEmpty()){
                 path = "${project.configDir}/checkstyle.xml"
             }
             configFile = file(path)
@@ -196,7 +182,5 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         plugins.apply("com.android.library")
         plugins.apply("org.gradle.maven-publish") // or anything else, that you would like to load
     }
-
-
 
 }

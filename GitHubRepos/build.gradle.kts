@@ -36,4 +36,17 @@ allprojects {
         resolutionStrategy.force("org.antlr:antlr4-tool:4.7.1")
     }
 
+
+    task<Exec>("createHooks") {
+        if (org.apache.tools.ant.taskdefs.condition.Os.isFamily(org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS)) {
+            commandLine ("${project.rootDir}/scripts/create-symlink.bat" , System.getProperty("user.dir"))
+        }
+        if (org.apache.tools.ant.taskdefs.condition.Os.isFamily(org.apache.tools.ant.taskdefs.condition.Os.FAMILY_UNIX)) {
+            commandLine ("${project.rootDir}/scripts/create-symlink.sh")
+        }
+    }
+
+
 }
+
+
