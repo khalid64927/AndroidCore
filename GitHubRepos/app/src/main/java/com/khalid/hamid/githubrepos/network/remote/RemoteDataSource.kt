@@ -33,7 +33,7 @@ class RemoteDataSource @Inject constructor(
         Timber.d("fetchRepos")
         try {
             val dataResponse = gitHubService.getRepositories()
-            Timber.d("data response is   ${dataResponse.body().toString()}")
+            Timber.d("data response is   ${dataResponse.body()}")
 
             if (dataResponse.isSuccessful) {
                 Timber.d("dataResponse.isSuccessful")
