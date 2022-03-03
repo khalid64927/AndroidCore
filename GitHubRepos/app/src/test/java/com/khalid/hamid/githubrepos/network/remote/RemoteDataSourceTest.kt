@@ -43,7 +43,7 @@ class RemoteDataSourceTest {
     }
 
     @Test
-    fun fetchRespos_Success() {
+    fun fetchRepos_Success() {
         val list = emptyList<Repositories>()
         var response = Mockito.mock(Response::class.java)
 
@@ -55,7 +55,7 @@ class RemoteDataSourceTest {
         }
 
         val result = runBlocking {
-            remoteDataSource.fetchRespos()
+            remoteDataSource.fetchRepos()
         }
 
         assertEquals(result, Result.Success(list))

@@ -38,28 +38,26 @@ import java.io.File
 */
 
 open class Utility {
-    val implementation            = "implementation"
-    val kapt                      = "kapt"
-    val api                       = "api"
-    val compileOnly               = "compileOnly"
-    val testImplementation        = "testImplementation"
-    val androidTestImplementation = "androidTestImplementation"
+    private val implementation            = "implementation"
+    private val kapt                      = "kapt"
+    private val api                       = "api"
+    private val compileOnly               = "compileOnly"
+    private val testImplementation        = "testImplementation"
+    private val androidTestImplementation = "androidTestImplementation"
 
 
     lateinit var ext: KPluginExtensions
 
-    open fun Project.applyPlugins(isApp : Boolean){
+    fun Project.applyPlugins(isApp : Boolean){
 
         if(isApp){
             apply(plugin = "com.android.application")
-            apply(plugin = "com.google.firebase.crashlytics")
-            apply(plugin = "com.google.gms.google-services")
+            // TODO: add in demo
+            //apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
         }
-       /* apply(plugin = "com.android.application")
-        apply(plugin = "io.fabric")*/
         apply(plugin = "kotlin-android")
         apply(plugin = "kotlin-android-extensions")
         apply(plugin = "kotlin-kapt")
@@ -69,24 +67,25 @@ open class Utility {
         apply(plugin = "com.diffplug.gradle.spotless")
     }
 
-    private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
+    var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
         "IconExpectedSize",
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
         "NewerVersionAvailable", "GradleDependency", // For reproducible builds
         "SelectableText", "SyntheticAccessor")
 
-    fun Project.getLintBaseline() : File{
+    fun Project.getLintBaseline() : File {
+        val defaultLintFile = file("$rootDir/quality/lint-baseline.xml")
         val lintBaseLineFilePath = ext.lintBaseLineFilePath
-        if(lintBaseLineFilePath.length <=0 ) return file("$rootDir/quality/lint-baseline.xml")
+        if(lintBaseLineFilePath.isEmpty()) return defaultLintFile
         return file(lintBaseLineFilePath)
     }
 
     fun LintOptions.disableLint(){
-        System.out.println(" size is "+ext.lintExclusionRules.size)
+        println(" size is "+ext.lintExclusionRules.size)
         if(ext.lintExclusionRules.isEmpty()){
             lintExclusion.addAll(ext.lintExclusionRules)
         }
-        System.out.println(" size is "+lintExclusion.size)
+        println(" size is "+lintExclusion.size)
         try{
             lintExclusion.forEach {
                 disable.add(it)
@@ -181,21 +180,21 @@ open class Utility {
         variants: DomainObjectSet<out BaseVariant>,
         options: JacocoOptions
     ) {
-        System.out.println("configureJacoco 1")
+        println("configureJacoco 1")
         variants.all {
             val variantName = name
-            System.out.println("configureJacoco 1$variantName")
+            println("configureJacoco 1$variantName")
             val isDebuggable = this.buildType.isDebuggable
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
-                System.out.println("configureJacoco 2$isDebuggable")
+                println("configureJacoco 2$isDebuggable")
                 return@all
             }
-            System.out.println("configureJacoco 33")
+            println("configureJacoco 33")
             project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
                 dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
                 val coverageSourceDirs = "src/main/java"
-                System.out.println("configureJacoco 3")
+                println("configureJacoco 3")
 
                 val javaClasses = project
                     .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -225,7 +224,7 @@ open class Utility {
 
                 reports.xml.isEnabled = true
                 reports.html.isEnabled = true
-                System.out.println("configureJacoco 4")
+                println("configureJacoco 4")
             }
         }
     }

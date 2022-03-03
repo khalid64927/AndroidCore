@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+# Re purposing the script from here - https://gist.github.com/toefel18/23c8927e28b7e7cf600cb5cdd4d980e1
+
+# Skips files that are deleted and file extension based filter
+# filesToFormat="$(git --no-pager diff --name-status --no-color --cached | awk '$1 != "D" && $2 ~ /\.kts|\.java|\.kt|\.xml|\.gradle/ { print $2}')"
+
+# Skips files that are deleted
+filesToFormat="$(git --no-pager diff --name-status --no-color --cached | awk '$1 != "D" { print $2}')"
+
+# Runs spotless for all files in the directory, can experiment with -PspotlessIdeHook for specific files
+echo "🛠️  Running: ./gradlew spotlessApply -q"
+echo ""
+cd GitHubRepos && ./gradlew app:spotlessApply -q && cd ..
+
+echo ""
+echo "📜 Staging files -"
+for sourceFilePath in $filesToFormat
+do
+  echo -e "   \033[1m· $sourceFilePath\033[0m"
+  git add $sourceFilePath
+done;
+
+echo ""
+echo "✨ pre-commit tasks completed"
+echo ""

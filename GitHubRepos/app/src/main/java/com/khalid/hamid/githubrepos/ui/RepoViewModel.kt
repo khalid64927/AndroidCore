@@ -34,10 +34,9 @@ import timber.log.Timber
 @OpenForTesting
 class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewModel() {
     val _items = MutableLiveData<Resource<List<Repositories>>>().apply { value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait") }
-    private val error_item = Resource<List<Repositories>>(Status.ERROR, emptyList(), " error happned")
     // here we are getting from DB if not then network
     fun getRepoList() {
-        Timber.d("getRepos :: " + Thread.currentThread().getName())
+        Timber.d("getRepos :: ${Thread.currentThread().getName()}")
         _items.value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait")
         EspressoIdlingResource.increment() // Set app as busy.
         viewModelScope.launch {
@@ -55,14 +54,14 @@ class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewMod
     }
 
     fun getRepoListSuccess(list: List<Repositories>) {
-        Timber.d(" success" + list.toString())
+        Timber.d(" success$list")
         Timber.d(" Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         _items.value = Resource<List<Repositories>>(Status.SUCCESS, list, "success yay !")
     }
 
     private fun getRepoListFailed(error_: Exception) {
-        Timber.d(" Error" + error_.toString())
+        Timber.d(" Error$error_")
         _items.value = Resource<List<Repositories>>(Status.ERROR, emptyList(), error_.toString())
         Timber.d(" Error Expresso counter before ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         Timber.d(" Error Expresso counter AFTER ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")

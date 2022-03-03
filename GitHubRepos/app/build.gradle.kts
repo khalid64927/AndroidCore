@@ -17,12 +17,12 @@ KPlugin {
     System.out.println("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "30"
-    targetSDK = "30"
+    compileSDK = "32"
+    targetSDK = "32"
     versionCode = 10
     versionName = "1.1"
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
-    lintBaseLineFilePath = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
+    lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
     jacoco{
         excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")

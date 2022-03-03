@@ -49,15 +49,14 @@ class RepositoryImpleTest {
     inline fun <reified T : Any> argumentCaptor() = ArgumentCaptor.forClass(T::class.java)
 
     @Test
-    fun getRepositories_FirtTimeAccess() {
+    fun getRepositories_FirtTimeAccess() = runBlocking {
         `when`(localDataSource.hasCacheExpired()).thenReturn(true)
-        emptyList<Repositories>()
+        val savedData = emptyList<Repositories>()
+        `when`(remoteDataSource.fetchRepos()).thenReturn(Result.Success(savedData))
+        repositoryImple.getRepositories()
         runBlocking {
-            repositoryImple.getRepositories()
-        }
-        runBlocking {
-            verify((remoteDataSource), times(1)).fetchRespos()
-            verify((localDataSource), times(1)).saveData(any())
+            verify((remoteDataSource), times(1)).fetchRepos()
+            verify((localDataSource), times(1)).saveData(savedData)
         }
     }
 
@@ -73,7 +72,7 @@ class RepositoryImpleTest {
         }
         runBlocking {
             verify((localDataSource), times(1)).getRepositories()
-            verify((remoteDataSource), never()).fetchRespos()
+            verify((remoteDataSource), never()).fetchRepos()
         }
     }
 

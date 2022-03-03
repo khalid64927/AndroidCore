@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -17,8 +18,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
         // Add the Google Services plugin (check for v3.1.2 or higher).
         classpath ("com.google.gms:google-services:4.3.3")
-        // Add the Fabric Crashlytics plugin.
-        classpath ("com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta03")
     }
 
 
@@ -38,4 +37,23 @@ allprojects {
         resolutionStrategy.force("org.antlr:antlr4-tool:4.7.1")
     }
 
+
+    task<Exec>("createHooks") {
+        doFirst {
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                println("FAMILY_WINDOWS")
+                commandLine ("${project.rootDir}/scripts/create-symlink.bat" , System.getProperty("user.dir"))
+            }
+            if (Os.isFamily(Os.FAMILY_UNIX)) {
+                println("FAMILY_UNIX")
+                commandLine ("${project.rootDir}/scripts/create-symlink.sh")
+            }
+
+        }
+
+    }
+
+
 }
+
+
