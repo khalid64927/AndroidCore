@@ -10,9 +10,9 @@ set -e
 filesToFormat="$(git --no-pager diff --name-status --no-color --cached | awk '$1 != "D" { print $2}')"
 
 # Runs spotless for all files in the directory, can experiment with -PspotlessIdeHook for specific files
-echo "🛠️  Running: ./gradlew runSpotless -q"
+echo "🛠️  Running: ./gradlew spotlessApply -q"
 echo ""
-./gradlew app:spotlessApply -q
+cd GitHubRepos && ./gradlew app:spotlessApply -q && cd ..
 
 echo ""
 echo "📜 Staging files -"

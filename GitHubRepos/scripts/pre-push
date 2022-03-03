@@ -3,7 +3,7 @@ set -e
 
 echo "🛠️  Running:  ./gradlew runTests"
 echo ""
-./gradlew app:testProdDebugUnitTest
+cd GitHubRepos && ./gradlew app:testProdDebugUnitTest && cd ..
 
 echo ""
 echo "✨ pre-push tasks completed"

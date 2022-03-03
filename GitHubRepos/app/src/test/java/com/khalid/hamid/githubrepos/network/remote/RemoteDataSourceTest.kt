@@ -43,7 +43,7 @@ class RemoteDataSourceTest {
     }
 
     @Test
-    fun fetchRespos_Success() {
+    fun fetchRepos_Success() {
         val list = emptyList<Repositories>()
         var response = Mockito.mock(Response::class.java)
 

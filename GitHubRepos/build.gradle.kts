@@ -1,3 +1,4 @@
+import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -38,12 +39,18 @@ allprojects {
 
 
     task<Exec>("createHooks") {
-        if (org.apache.tools.ant.taskdefs.condition.Os.isFamily(org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS)) {
-            commandLine ("${project.rootDir}/scripts/create-symlink.bat" , System.getProperty("user.dir"))
+        doFirst {
+            if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                println("FAMILY_WINDOWS")
+                commandLine ("${project.rootDir}/scripts/create-symlink.bat" , System.getProperty("user.dir"))
+            }
+            if (Os.isFamily(Os.FAMILY_UNIX)) {
+                println("FAMILY_UNIX")
+                commandLine ("${project.rootDir}/scripts/create-symlink.sh")
+            }
+
         }
-        if (org.apache.tools.ant.taskdefs.condition.Os.isFamily(org.apache.tools.ant.taskdefs.condition.Os.FAMILY_UNIX)) {
-            commandLine ("${project.rootDir}/scripts/create-symlink.sh")
-        }
+
     }
 
 
