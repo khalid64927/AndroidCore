@@ -17,8 +17,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
         // Add the Google Services plugin (check for v3.1.2 or higher).
         classpath ("com.google.gms:google-services:4.3.3")
-        // Add the Fabric Crashlytics plugin.
-        classpath ("com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta03")
     }
 
 

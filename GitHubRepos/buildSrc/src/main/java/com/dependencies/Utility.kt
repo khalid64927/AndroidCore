@@ -52,14 +52,12 @@ open class Utility {
 
         if(isApp){
             apply(plugin = "com.android.application")
-            apply(plugin = "com.google.firebase.crashlytics")
-            apply(plugin = "com.google.gms.google-services")
+            // TODO: add in demo
+            //apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
         }
-       /* apply(plugin = "com.android.application")
-        apply(plugin = "io.fabric")*/
         apply(plugin = "kotlin-android")
         apply(plugin = "kotlin-android-extensions")
         apply(plugin = "kotlin-kapt")

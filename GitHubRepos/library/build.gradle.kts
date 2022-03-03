@@ -12,8 +12,8 @@ KPlugin {
     System.out.println("Library ... ")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "30"
-    targetSDK = "30"
+    compileSDK = "32"
+    targetSDK = "32"
     versionCode = 10
     versionName = "1.1"
     testRunner = "androidx.test.runner.AndroidJUnitRunner"

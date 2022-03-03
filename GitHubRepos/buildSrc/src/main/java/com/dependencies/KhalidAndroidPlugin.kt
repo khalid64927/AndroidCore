@@ -76,12 +76,10 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     }
 
     fun Project.configureAndroid() {
-        /*configure<KaptExtension> {
-            configureKapt()
-        }*/
+        // TODO:configureKapt
         configure<BaseExtension>{
             System.out.println(" compileSDK "+ ext.compileSDK)
-            compileSdkVersion(ext.compileSDK)
+            compileSdkVersion(ext.compileSDK.toInt())
             buildToolsVersion(ext.buildTools)
             defaultConfig {
                 System.out.println(" min sdk "+ ext.minSDK)
@@ -92,20 +90,26 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 System.out.println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
                 minSdkVersion(ext.minSDK)
                 multiDexEnabled = true
-                targetSdkVersion(ext.targetSDK)
+                targetSdkVersion(ext.targetSDK.toInt())
                 versionName = ext.versionName
                 versionCode = ext.versionCode
-                //dataBinding.isEnabledForTests = true
+                //TODO: dataBinding.isEnabledForTests = true
                 vectorDrawables.useSupportLibrary = true
                 testInstrumentationRunner = ext.testRunner
 
                 javaCompileOptions {
                     annotationProcessorOptions {
-                        arguments = mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()")
-                        arguments = mapOf("room.incremental" to "true")
-                        arguments = mapOf("room.expandProjection" to "true")
-                        arguments = mapOf("androidx.room.RoomProcessor" to "true")
-                        arguments = mapOf("dagger.gradle.incremental" to "true")
+                        val arg = mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
+                                        "room.expandProjection" to "true",
+                                        "room.expandProjection" to "true",
+                                        "androidx.room.RoomProcessor" to "true",
+                                        "dagger.gradle.incremental" to "true"
+                        )
+                        arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
+                            "room.expandProjection" to "true",
+                            "room.expandProjection" to "true",
+                            "androidx.room.RoomProcessor" to "true",
+                            "dagger.gradle.incremental" to "true"))
                     }
                 }
             }
@@ -170,6 +174,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         }
     }
 
+    // TODO: add checkstyle
     fun Project.configureQuality() {
         apply(plugin = "checkstyle")
 
@@ -189,6 +194,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         }
     }
 
+    // TODO: publish plugin
     internal fun Project.configurePlugins() {
         plugins.apply("com.android.library")
         plugins.apply("org.gradle.maven-publish") // or anything else, that you would like to load
