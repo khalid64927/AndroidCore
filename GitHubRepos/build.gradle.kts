@@ -60,6 +60,7 @@ allprojects {
  * Configuring Dependency Check plugin
  * 1. Maximum allowed vulnerabilities are no more than 7
  * 2. Report is generated at app/builds/reports/ in HTML format
+ * ./gradlew dependencycheckAnalyze --info
 */
 configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
     format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
