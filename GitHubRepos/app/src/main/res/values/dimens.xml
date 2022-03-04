@@ -5,5 +5,12 @@
     <dimen name="placeholderImage">60dp</dimen>
     <dimen name="placeholderTextHeight">8dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+    <dimen name="dimen10">5dp</dimen>
+    <dimen name="dimen20">20dp</dimen>
+    <dimen name="dimen30">30dp</dimen>
     <dimen name="margin24">24dp</dimen>
+    <dimen name="dimen16">16dp</dimen>
+    <dimen name="dimen40">40dp</dimen>
+    <dimen name="dimen5">5dp</dimen>
+    <dimen name="dimen15">15dp</dimen>
 </resources>

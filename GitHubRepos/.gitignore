@@ -13,5 +13,6 @@
 .externalNativeBuild
 .cxx
 .DG_Store
+/.DS_Store
 /buildSrc/build/
 /.idea/shelf/

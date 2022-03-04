@@ -1,69 +1,60 @@
 /*
- * Copyright 2020 Mohammed Khalid Hamid.
+ * MIT License
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright 2021 Mohammed Khalid Hamid.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
 
 package com.khalid.hamid.githubrepos.network
 
 import com.khalid.hamid.githubrepos.network.Result.Success
-import com.khalid.hamid.githubrepos.network.local.LocalDataSource
 import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
+import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
+import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
+import com.khalid.hamid.githubrepos.ui.login.LoginRequest
+import com.khalid.hamid.githubrepos.ui.login.LoginResponse
+import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
+import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
+import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
+import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
+import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
-import com.khalid.hamid.githubrepos.vo.Repositories
+import com.khalid.hamid.githubrepos.vo.GitRepos
+import javax.inject.Inject
 import timber.log.Timber
 
 /**
  * This will return data from either DB or get from network
 */
-class RepositoryImple constructor(
-    private val localDataSource: LocalDataSource,
+class RepositoryImple @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : BaseDataSource {
 
-    override suspend fun getRepositories(): Result<List<Repositories>> {
-        Timber.d("getRepositories ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-        return fetchTasksFromRemoteOrLocal()
-    }
-
-    private suspend fun fetchTasksFromRemoteOrLocal(): Result<List<Repositories>> {
-        Timber.d("fetchTasksFromRemoteOrLocal")
-
-        // check
-        val hasExpired = localDataSource.hasCacheExpired()
-
-        if (!hasExpired) {
-            Timber.d("cache is valid ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-            Timber.d("hasExpired is false retirnung DB data ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-            return localDataSource.getRepositories()
-        }
-
-        // session has expired
-        Timber.d("cache is invalid ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-
-        return fetchRepos()
-    }
-
-    override suspend fun fetchRepos(): Result<List<Repositories>> {
+    override suspend fun fetchRepos(): Result<GitRepos> {
         val fetchedData = remoteDataSource.fetchRepos()
         Timber.d("fetched data ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         when (fetchedData) {
             is Success -> {
                 Timber.d("Success ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-                localDataSource.saveData(fetchedData.data)
-                val savedData = localDataSource.getRepos()
-                Timber.d(" saved data in DB $savedData")
-                return localDataSource.getRepositories()
+                return fetchedData
             }
 
             else -> {
@@ -71,5 +62,29 @@ class RepositoryImple constructor(
                 return fetchedData
             }
         }
+    }
+
+    override suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse> {
+        return remoteDataSource.register(registerRequest)
+    }
+
+    override suspend fun login(loginRequest: LoginRequest): Result<LoginResponse> {
+        return remoteDataSource.login(loginRequest)
+    }
+
+    override suspend fun balance(): Result<BalanceResponse> {
+        return remoteDataSource.balance()
+    }
+
+    override suspend fun transactions(): Result<TransactionResponse> {
+        return remoteDataSource.transactions()
+    }
+
+    override suspend fun payees(): Result<PayeeResponse> {
+        return remoteDataSource.payees()
+    }
+
+    override suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse> {
+        return remoteDataSource.transfer(transferRequest)
     }
 }

@@ -54,7 +54,7 @@ abstract class BaseFragment :
     @Inject
     lateinit var pickerViewModelProvider: AppViewModelProvider
 
-    abstract fun getPageName(): String?
+    open fun getPageName(): String? = this::class.java.simpleName
 
     lateinit var mContext: Context
     var appCompatActivity: AppCompatActivity? = null
@@ -197,11 +197,6 @@ abstract class BaseFragment :
         )
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        logBreadcrumb("onActivityCreated" + getPageName())
-    }
-
     protected fun logBreadcrumb(crumb: String) {
         // TODO: log
     }
@@ -281,9 +276,6 @@ abstract class BaseFragment :
                     when (asyncState.status) {
                         State.SUCCESS -> {
                             hideLoader()
-//                                if (asyncState.msg.equalsIgnoreCase("pageload")) {
-//                                    onPageLoaded()
-//                                }
                         }
                         State.FAILED -> {
                             hideLoader()

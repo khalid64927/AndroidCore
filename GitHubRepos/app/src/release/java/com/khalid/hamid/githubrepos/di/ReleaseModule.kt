@@ -17,6 +17,7 @@
 package com.khalid.hamid.githubrepos.di
 
 import com.khalid.hamid.githubrepos.di.AppModule.TIME_OUT_INTERVAL
+import com.khalid.hamid.githubrepos.network.remote.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,11 +32,12 @@ class ReleaseModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
                 .writeTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+            addInterceptor(authInterceptor)
         }.build()
     }
 }

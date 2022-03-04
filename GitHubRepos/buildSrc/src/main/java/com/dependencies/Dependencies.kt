@@ -12,7 +12,7 @@ object Versions {
     const val LIFECYCLE = "2.5.0-alpha03"
     const val ROOM = "2.5.0-alpha01"
     const val FRAGMENT = "1.5.0-alpha03"
-    const val NAV = "2.4.1" // NAV_SAFE_ARG
+    const val NAV = "2.4.2" // NAV_SAFE_ARG
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.4-alpha04"
     const val TESTX = "1.4.1-alpha04"
@@ -88,6 +88,7 @@ object Dependencies {
     const val FRAGMENTKTX                = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
     const val ACTIVITY_KTX               = "androidx.activity:activity-ktx:1.5.0-alpha03"
     const val FRAGMENT_TESTING           = "androidx.fragment:fragment-testing:${Versions.FRAGMENT}"
+    const val CHUCKER                    = "com.github.chuckerteam.chucker:library:3.5.2"
 
     // testing
     const val TEST_KTX_CORE              = "androidx.test:core-ktx:${Versions.TESTX}"

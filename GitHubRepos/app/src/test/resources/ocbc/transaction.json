@@ -1,0 +1,27 @@
+{
+   "status":"success",
+   "data":[
+      {
+         "transactionId":"628f5307b55ad12206938e75",
+         "amount":10,
+         "transactionDate":"2022-05-26T10:14:31.875Z",
+         "description":"test444",
+         "transactionType":"transfer",
+         "receipient":{
+            "accountNo":"6554-630-9653",
+            "accountHolder":"Andy"
+         }
+      },
+      {
+         "transactionId":"628f52a7b55ad12206938e66",
+         "amount":100000,
+         "transactionDate":"2022-05-26T10:12:55.279Z",
+         "description":"Default money-in transaction",
+         "transactionType":"received",
+         "sender":{
+            "accountNo":"1111-111-1111",
+            "accountHolder":"Jane"
+         }
+      }
+   ]
+}

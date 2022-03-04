@@ -1,56 +1,76 @@
 /*
- * Copyright 2020 Mohammed Khalid Hamid.
+ * MIT License
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright 2021 Mohammed Khalid Hamid.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
 
 package com.khalid.hamid.githubrepos.network.remote
 
 import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.network.Result.Error_
-import com.khalid.hamid.githubrepos.network.Result.Success
-import com.khalid.hamid.githubrepos.vo.Repositories
-import retrofit2.HttpException
-import timber.log.Timber
+import com.khalid.hamid.githubrepos.network.getRetrofitResult
+import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
+import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
+import com.khalid.hamid.githubrepos.ui.login.LoginRequest
+import com.khalid.hamid.githubrepos.ui.login.LoginResponse
+import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
+import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
+import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
+import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
+import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
+import com.khalid.hamid.githubrepos.vo.GitRepos
 import javax.inject.Inject
+import timber.log.Timber
 
 class RemoteDataSource @Inject constructor(
     private val gitHubService: GitHubService
 ) {
 
-    suspend fun fetchRepos(): Result<List<Repositories>> {
-        Timber.d("fetchRepos")
-        try {
-            val dataResponse = gitHubService.getRepositories()
-            Timber.d("data response is   ${dataResponse.body()}")
+    suspend fun fetchRepos(): Result<GitRepos> {
+        Timber.d("fetchRespos")
+        return Result.Failure(Exception(""))
+    }
 
-            if (dataResponse.isSuccessful) {
-                Timber.d("dataResponse.isSuccessful")
+    suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse> {
+        return gitHubService.register(registerRequest).getRetrofitResult { it }
+    }
 
-                return Success(dataResponse?.body() ?: emptyList())
-            } else {
-                Timber.d("dataResponse.Error_")
-                return Error_(Exception(dataResponse?.message() ?: "Unknown error"))
-            }
-        } catch (httpException: HttpException) {
-            Timber.d("dataResponse.Error_")
-            httpException.printStackTrace()
-            return Error_(httpException)
-        } catch (unknown: Exception) {
-            Timber.d("dataResponse.Error_")
-            unknown.printStackTrace()
-            return Error_(unknown)
-        }
+    suspend fun login(loginRequest: LoginRequest): Result<LoginResponse> {
+        return gitHubService.login(loginRequest).getRetrofitResult { it }
+    }
+
+    suspend fun balance(): Result<BalanceResponse> {
+        return gitHubService.balance().getRetrofitResult { it }
+    }
+
+    suspend fun transactions(): Result<TransactionResponse> {
+        return gitHubService.transactions().getRetrofitResult { it }
+    }
+
+    suspend fun payees(): Result<PayeeResponse> {
+        return gitHubService.payees().getRetrofitResult { it }
+    }
+
+    suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse> {
+        return gitHubService.transfer(transferRequest).getRetrofitResult { it }
     }
 }

@@ -11,50 +11,46 @@
 
 
 ### Functionality
+App shows has coding assignment for OCBC 
+Has below features
+1. Login
+2. Register user
+3. Show balance
+4. Show transactions
+5. Make transfer
+6. Logout
 
-App shows list of github repos with Local DB as single source of truth.
-
-Swipe to refresh will update the list
-
-#### RepoFragment
-This fragment displays the list of a repository
+This has Clean code architecture and has below layers
+1. Repository layer: provides mock and remote interfaces
+2. ViewModel Layer: business layer
+3. View Layer: Android View layer
 
 
 #### Building
 ##[The project uses Gradle KTS script]
 ## The project is in Kotlin
 
-## APK can be found in [release/apks]  
-## Screenshots can be found in  [release/apks]  
+Run below command to build and install
+`./gradlew app:installProdDebug`
+
+## Quality
+1. This project is formatted with Spotless can be added in commit/push hooks
+   to maintain clean code review process
+2. Has Lint baseline static check which can be added in CICD
+3. Has Jacoco for code coverage config which can be added in CICD
+4. Has checkstyle config static check which can be added in CICD
+
+## APK can be found in [release]
+## Screenshots can be found in  [release]
+
+# Demo Finish
+![alt text](release/Screenshot_20220215_222225.png)
 
 
-
-### Testing
-The project uses both instrumentation tests that run on the device
-and local unit tests that run on your computer.
-To run both of them and generate a coverage report, you can run:
+![alt text](release/Screenshot 2022-02-15 at 10.43.19 PM.png)
 
 
-
-#### Device Tests
-##### UI Tests
-The projects uses Espresso for UI testing. Since each fragment
-is limited to a ViewModel, each test mocks related ViewModel to
-run the tests.
-##### Database Tests
-The project creates an in memory database for each database test but still
-runs them on the device.
-
-#### Local Unit Tests
-##### ViewModel Tests
-Each ViewModel is tested using local unit tests with mock Repository
-implementations.
-##### Repository Tests
-Each Repository is tested using local unit tests with mock web service and
-mock database.
-##### Webservice Tests
-The project uses [MockWebServer][mockwebserver] and Fake implementations
-
+![alt text](release/Screenshot 2022-02-15 at 10.43.37 PM.png)
 ## Jacoco
 run "jacocoPRODDEBUGReport"
 

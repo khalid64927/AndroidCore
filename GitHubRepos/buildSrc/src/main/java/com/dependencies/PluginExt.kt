@@ -52,9 +52,26 @@ inline fun applyPlugins(isApp : Boolean, project: Project) = project.run {
     apply(plugin = "androidx.navigation.safeargs.kotlin")
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "org.owasp.dependencycheck")
+
     if(isApp){
         apply(plugin = "dagger.hilt.android.plugin")
     }
+    applyDynatrace()
+}
+
+inline fun Project.applyDynatrace(){
+    apply(plugin = "com.dynatrace.instrumentation")
+    /*dynatrace {
+        configurations {
+            sampleConfig {
+                autoStart {
+                    applicationId '9c5f66f9-b4d1-48e0-a09d-74756392aa19'
+                    beaconUrl 'https://bf93215wen.bf.dynatrace.com/mbeacon'
+                }
+            }
+        }
+    }*/
+
 }
 
 inline fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = project.run {
@@ -98,6 +115,9 @@ inline fun DependencyHandler.unitTest() {
     testImplementation(Dependencies.MULTIDEXTEST)
     testImplementation(Dependencies.KLUENT)
     testImplementation(Dependencies.MOCKK)
+    // TODO: migrate mockito to mockK
+    testImplementation(Dependencies.MOKITO_ANDROID)
+    testImplementation(Dependencies.MOKITO_KOTLIN)
     testImplementation(Dependencies.CR_TEST_DEBUG)
     testImplementation(Dependencies.CR_TEST)
 
@@ -184,6 +204,9 @@ inline fun DependencyHandler.UITest(){
     androidTestImplementation(Dependencies.SWIPEX)
     androidTestImplementation(Dependencies.MULTIDEXTEST)
     androidTestImplementation(Dependencies.MOCKK)
+    // TODO: migrate mockito to mockK
+    testImplementation(Dependencies.MOKITO_ANDROID)
+    testImplementation(Dependencies.MOKITO_KOTLIN)
 
     addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
         exclude(group = "com.android.support", module = "support-annotations")

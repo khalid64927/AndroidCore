@@ -16,7 +16,13 @@
 
 package com.khalid.hamid.githubrepos.di
 
+import android.app.Application
+import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.chuckerteam.chucker.api.RetentionManager
 import com.khalid.hamid.githubrepos.di.AppModule.TIME_OUT_INTERVAL
+import com.khalid.hamid.githubrepos.network.remote.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,12 +40,16 @@ class DebugModule {
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
                 .writeTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
             addInterceptor(httpLoggingInterceptor)
+            addInterceptor(authInterceptor)
+            addInterceptor(chuckerInterceptor)
         }.build()
     }
 
@@ -47,5 +57,21 @@ class DebugModule {
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    @Provides
+    @Singleton
+    fun providesChuckerInterceptor(context: Application): ChuckerInterceptor{
+        val chuckerCollector = ChuckerCollector(
+            context = context,  // Context on which you are
+            showNotification = true, // Boolean for showing Notification, set to true to show and false otherwise
+            retentionPeriod = RetentionManager.Period.ONE_WEEK  // Period taken to retain the collected data, can be an hour, day or week
+        )
+        return ChuckerInterceptor.Builder(context)
+            .collector(chuckerCollector)
+            .maxContentLength(250000L)
+            .alwaysReadResponseBody(true)
+            .build()
+
     }
 }

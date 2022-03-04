@@ -3,16 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_sort_star"
-        android:title="Sort by star"
+        android:id="@+id/menu_logout"
+        android:title="@string/logout"
         android:visible="true"
         android:enabled="true"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_sort_name"
-        android:title="Sort by name"
-        android:visible="true"
-        android:enabled="true"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom"/>
+
 
 </menu>

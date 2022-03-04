@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorTitle">#52575C</color>
     <color name="colorGreen">#31B057</color>
     <color name="colorFill">#FFFFFF</color>
     <color name="colorBB">#4A4A4A</color>
     <color name="colorLight">#929292</color>
-
+    <color name="colorCard">#47A1ED</color>
+    <color name="colorBlack">#80000000</color>
+    <color name="alertDialogTitleBackground">#ECF0F1</color>
+    <color name="colorActionBarTitle">#333333</color>
     <color name="background">#dddddd</color>
+    <color name="primaryText">#2b3238</color>
 
     <color name="real_black">#000000</color>
     <color name="colorActionBar">#F5F5F5</color>
