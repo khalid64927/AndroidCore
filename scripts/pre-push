@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+echo "🛠️  Running: ./gradlew app:lintProdDebug"
+echo ""
+./gradlew app:lintProdDebug
+echo ""
+echo "Lint run completed!"
+
+echo "🛠️  Running:  ./gradlew app:testProdDebugUnitTest"
+echo ""
+./gradlew app:testProdDebugUnitTest
+echo ""
+echo "Unit Test run completed!"
+
+echo ""
+echo "✨ pre-push tasks completed"
+echo ""
