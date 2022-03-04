@@ -58,6 +58,17 @@ The project uses [MockWebServer][mockwebserver] and Fake implementations
 ## Jacoco
 run "jacocoPRODDEBUGReport"
 
+## Security
+Once gradle plugin applied, run following gradle task to check dependencies:
+
+```
+gradle dependencyCheckAnalyze --info
+```
+
+The reports will be generated automatically under `build/reports` directory.
+
+If your project includes multiple sub-projects, the report will be generated for each sub-project in their own `build/reports`.
+
 
 ### Libraries
 * [Android Support Library][support-lib]
@@ -69,6 +80,7 @@ run "jacocoPRODDEBUGReport"
 * [Timber][timber] for logging
 * [espresso][espresso] for UI tests
 * [mockito][mockito] for mocking in tests
+* [Dependency Security Chek][dependencyCheck] To run OSS scan on third party libraries and generate report
 
 ## Refernces
 

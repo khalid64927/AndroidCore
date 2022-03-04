@@ -59,7 +59,7 @@ object Dependencies {
     const val MOKITO_ALL                 = "org.mockito:mockito-all:2.0.2-beta"
     const val MOKITO_INLINE              = "org.mockito:mockito-inline:3.6.0"
     const val MOCKWEBSERVER              = "com.squareup.okhttp3:mockwebserver:${Versions.OKHTTP_INTERCEPTOR}"
-    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN}"
+    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
     const val SHIMMER                    = "com.facebook.shimmer:shimmer:0.5.0"
     const val LC_RUNTIME                 = "androidx.lifecycle:lifecycle-runtime:${Versions.LIFECYCLE}"
     const val LC_COMPILER                = "androidx.lifecycle:lifecycle-compiler:${Versions.LIFECYCLE}"
@@ -77,6 +77,7 @@ object Dependencies {
     const val FRAGMENTKTX                = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
     const val ACTIVITY_KTX               = "androidx.activity:activity-ktx:1.2.0-alpha03"
     const val FRAGMENT_TESTING           = "androidx.fragment:fragment-testing:${Versions.FRAGMENT}"
+
     // testing
     const val TEST_KTX_CORE              = "androidx.test:core-ktx:${Versions.TESTX}"
     const val TEST_KTX_JUNIT             = "androidx.test.ext:junit-ktx:${Versions.JUNITX}"
@@ -98,4 +99,18 @@ object Dependencies {
     const val jdk9Deps                   = "com.github.pengrad:jdk9-deps:1.0"
 
 
+}
+
+object GradlePlugins {
+    // for third party lib vulnerability scan
+    const val DEPENDENCY_SCAN            = "org.owasp:dependency-check-gradle:6.4.1.2"
+    const val SPOTLESS                   = "com.diffplug.spotless:spotless-plugin-gradle:3.27.0"
+    const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
+    const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.3.72"
+    const val AGP                        = "com.android.tools.build:gradle:4.1.0"
+    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+}
+
+object Repos {
+    const val KOTLIN_EAP                 = "https://dl.bintray.com/kotlin/kotlin-eap"
 }

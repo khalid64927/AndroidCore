@@ -52,8 +52,7 @@ open class Utility {
 
         if(isApp){
             apply(plugin = "com.android.application")
-            // TODO: add in demo
-            //apply(plugin = "com.google.gms.google-services")
+            // TODO: add in demo : apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
@@ -65,9 +64,10 @@ open class Utility {
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
         apply(plugin = "androidx.navigation.safeargs")
         apply(plugin = "com.diffplug.gradle.spotless")
+        apply(plugin = "org.owasp.dependencycheck")
     }
 
-    var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
+    private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
         "IconExpectedSize",
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
         "NewerVersionAvailable", "GradleDependency", // For reproducible builds
@@ -245,12 +245,12 @@ open class Utility {
 
 
 
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE, {
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")
             exclude(group = "com.google.code.findbugs", module = "jsr305")
-        })
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE,
-            { exclude(group = "net.bytebuddy") })
+        }
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE
+        ) { exclude(group = "net.bytebuddy") }
     }
 
     @Suppress("UNUSED_PARAMETER")

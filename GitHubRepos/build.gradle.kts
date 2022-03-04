@@ -2,13 +2,9 @@ import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        //google()
+        mavenCentral()
         maven {
             url = uri("https://maven.google.com")
-        }
-        jcenter()
-        maven {
-            url = uri("https://maven.fabric.io/public")
         }
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
@@ -24,9 +20,12 @@ buildscript {
 }
 
 allprojects {
+    apply(plugin = "org.owasp.dependencycheck")
     repositories {
-        google()
-        jcenter()
+        mavenCentral()
+        maven {
+            url = uri("https://maven.google.com")
+        }
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
@@ -56,4 +55,16 @@ allprojects {
 
 }
 
-
+/**
+ * TODO: move this to configureOSSScan in ProjectBuildTask
+ * Configuring Dependency Check plugin
+ * 1. Maximum allowed vulnerabilities are no more than 7
+ * 2. Report is generated at app/builds/reports/ in HTML format
+*/
+configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+    format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+    outputDirectory = "${project.buildDir}/reports"
+    failBuildOnCVSS = 7f
+}
+// TODO: add dep update plugin
+// https://github.com/ben-manes/gradle-versions-plugin
