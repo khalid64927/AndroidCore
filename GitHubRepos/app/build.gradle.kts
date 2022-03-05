@@ -1,6 +1,7 @@
 import com.dependencies.Dependencies
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
+    id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
 System.out.println("after plugin")
 kapt {
@@ -40,13 +41,6 @@ spotless {
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     System.out.println("android block...")
-    // TODO: new config
-    /*buildFeatures {
-        dataBinding = true
-        viewBinding = false
-
-    }*/
-
     dataBinding {
         isEnabledForTests = true
         isEnabled = true
@@ -97,12 +91,11 @@ dependencies {
     implementation(Dependencies.LD_KTX)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.LC_VM_KTX)
-    // Rx Java
-    implementation(Dependencies.RX_ANDROID)
     // Room component
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
-    kapt(Dependencies.ROOM_COMPILER)
+    // TODO:
+    //kapt(Dependencies.ROOM_COMPILER)
     implementation(Dependencies.ROOM_KTX)
 
     implementation(Dependencies.RETROFIT_ADAPTER)

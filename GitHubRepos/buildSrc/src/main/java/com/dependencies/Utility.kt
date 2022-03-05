@@ -24,11 +24,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.exclude
-import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.register
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
@@ -59,12 +56,15 @@ open class Utility {
         }
         apply(plugin = "kotlin-android")
         apply(plugin = "kotlin-android-extensions")
+        //apply(plugin = "com.google.devtools.ksp")
         apply(plugin = "kotlin-kapt")
 
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
         apply(plugin = "androidx.navigation.safeargs.kotlin")
         apply(plugin = "com.diffplug.spotless")
         apply(plugin = "org.owasp.dependencycheck")
+
+
     }
 
     private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
@@ -88,8 +88,8 @@ open class Utility {
         println(" size is "+lintExclusion.size)
         try{
             lintExclusion.forEach {
-                disable.add(it)
-                severityOverrides.put(it, 5)
+                //disable.add(it)
+                //severityOverrides.put(it, 5)
             }
 
         }catch (e : Exception){
@@ -98,8 +98,8 @@ open class Utility {
     }
 
     fun LintOptions.disableThis(rule : String){
-        disable.add("")
-        severityOverrides
+        //disable.add("")
+        //severityOverrides
     }
     fun DependencyHandler.unitTest() {
         testImplementation(Dependencies.JUNIT)
@@ -271,7 +271,7 @@ open class Utility {
     fun DependencyHandler.room(){
         implementation(Dependencies.ROOM_RUNTIME)
         implementation(Dependencies.ROOM_TESTING)
-        kapt(Dependencies.ROOM_COMPILER)
+        //ksp(Dependencies.ROOM_COMPILER)
         implementation(Dependencies.ROOM_KTX)
     }
 

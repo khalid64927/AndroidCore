@@ -109,6 +109,13 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     }
                 }
             }
+
+            buildFeatures.viewBinding = true
+            buildFeatures.compose = true
+            dataBinding {
+                this.isEnabled = true
+            }
+
             lintOptions {
                 baselineFile = getLintBaseline()
                 isCheckAllWarnings = true

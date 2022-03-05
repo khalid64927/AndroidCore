@@ -27,8 +27,6 @@ data class Repositories @JvmOverloads constructor(
     @ColumnInfo(name = "id_column") var id: Int = 0,
     @ColumnInfo(name = "author_column") var author: String = "",
     @ColumnInfo(name = "avatar_column") var avatar: String = "",
-    @Ignore
-    var builtBy: List<BuiltBy> = listOf(),
     @ColumnInfo(name = "description_column") var description: String = "",
     @ColumnInfo(name = "forks_column") var forks: Int = 0,
     @ColumnInfo(name = "language_column") var language: String = "",
@@ -36,4 +34,7 @@ data class Repositories @JvmOverloads constructor(
     @ColumnInfo(name = "name_column") var name: String = "",
     @ColumnInfo(name = "stars_column") var stars: Int = 0,
     @ColumnInfo(name = "url_column") var url: String = ""
-)
+){
+    @Ignore
+    var builtBy: List<BuiltBy> = listOf()
+}

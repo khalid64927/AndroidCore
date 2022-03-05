@@ -2,8 +2,8 @@ import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        google()
         mavenCentral()
+        google()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
@@ -20,8 +20,8 @@ buildscript {
 allprojects {
     apply(plugin = "org.owasp.dependencycheck")
     repositories {
-        google()
         mavenCentral()
+        google()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }

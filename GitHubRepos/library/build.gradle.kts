@@ -38,8 +38,6 @@ dependencies {
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)
     implementation(Dependencies.LC_RUNTIME)
-    // Rx Java
-    implementation(Dependencies.RX_ANDROID)
     // Room component
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
@@ -64,7 +62,7 @@ dependencies {
     // Nav
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 
-    kapt(Dependencies.ROOM_COMPILER)
+    //kapt(Dependencies.ROOM_COMPILER)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
     //kapt(Dependencies.DAGGER_COMPILER)
