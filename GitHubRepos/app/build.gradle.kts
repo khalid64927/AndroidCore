@@ -1,7 +1,7 @@
 import com.dependencies.Dependencies
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
-    id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
+    // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
 System.out.println("after plugin")
 kapt {
@@ -41,15 +41,14 @@ spotless {
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     System.out.println("android block...")
-    dataBinding {
-        isEnabledForTests = true
-        isEnabled = true
-    }
-    /*viewBinding {
-        isEnabled = true
-    }*/
+    dataBinding.isEnabled = true
+    dataBinding.isEnabledForTests = true
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     kotlinOptions {
@@ -95,7 +94,7 @@ dependencies {
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
     // TODO:
-    //kapt(Dependencies.ROOM_COMPILER)
+    kapt(Dependencies.ROOM_COMPILER)
     implementation(Dependencies.ROOM_KTX)
 
     implementation(Dependencies.RETROFIT_ADAPTER)

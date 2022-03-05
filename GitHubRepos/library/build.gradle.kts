@@ -2,7 +2,6 @@ import com.dependencies.Dependencies
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
-
 }
 kapt {
     correctErrorTypes = true
@@ -62,10 +61,10 @@ dependencies {
     // Nav
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 
-    //kapt(Dependencies.ROOM_COMPILER)
+    kapt(Dependencies.ROOM_COMPILER)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
-    //kapt(Dependencies.DAGGER_COMPILER)
+    kapt(Dependencies.DAGGER_COMPILER)
     kapt(Dependencies.GLIDE_COMPILER)
 
 }

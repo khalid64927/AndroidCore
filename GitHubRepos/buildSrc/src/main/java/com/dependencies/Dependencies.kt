@@ -19,6 +19,7 @@ object Versions {
     const val KOTLIN = "1.6.10"
     const val SPOTLESS = "6.3.0"
     const val NAV_SAFE_ARG = "2.4.1"
+    const val DAGGER = "2.41"
 }
 
 object Dependencies {
@@ -33,13 +34,13 @@ object Dependencies {
     const val CARD_VIEW = "androidx.cardview:cardview:1.0.0"
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.1.3"
     // Add below for Dagger
-    const val DAGGER_RUNTIME = "com.google.dagger:dagger:2.41"
-    const val DAGGER_ANDROID = "com.google.dagger:dagger-android:2.41"
-    const val DAGGER_ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:2.41"
-    const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:2.41"
+    const val DAGGER_RUNTIME = "com.google.dagger:dagger:${Versions.DAGGER}"
+    const val DAGGER_ANDROID = "com.google.dagger:dagger-android:${Versions.DAGGER}"
+    const val DAGGER_ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
+    const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
     const val CRASHLYTICS                = "com.crashlytics.sdk.android:crashlytics:2.10.1"
     // kapt here
-    const val DAGGER_ANDROID_PROCESSOR   = "com.google.dagger:dagger-android-processor:2.41"
+    const val DAGGER_ANDROID_PROCESSOR   = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
     // OKHTTP
     const val OKHTTP_INTERCEPTOR         = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP_INTERCEPTOR}"
     const val OKHTTP                     = "com.squareup.okhttp3:okhttp:${Versions.OKHTTP_INTERCEPTOR}"
@@ -110,7 +111,7 @@ object GradlePlugins {
     const val SPOTLESS                   = "com.diffplug.spotless:spotless-plugin-gradle:${Versions.SPOTLESS}"
     const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.NAV_SAFE_ARG}"
     const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.3.72"
-    const val AGP                        = "com.android.tools.build:gradle:4.1.0"
+    const val AGP                        = "com.android.tools.build:gradle:7.1.2"
     const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 }
 
