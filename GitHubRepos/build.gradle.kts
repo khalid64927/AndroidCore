@@ -2,16 +2,14 @@ import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        google()
         mavenCentral()
-        maven {
-            url = uri("https://maven.google.com")
-        }
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         // Add the Google Services plugin (check for v3.1.2 or higher).
         classpath ("com.google.gms:google-services:4.3.3")
     }
@@ -22,10 +20,8 @@ buildscript {
 allprojects {
     apply(plugin = "org.owasp.dependencycheck")
     repositories {
+        google()
         mavenCentral()
-        maven {
-            url = uri("https://maven.google.com")
-        }
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }

@@ -62,8 +62,8 @@ open class Utility {
         apply(plugin = "kotlin-kapt")
 
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
-        apply(plugin = "androidx.navigation.safeargs")
-        apply(plugin = "com.diffplug.gradle.spotless")
+        apply(plugin = "androidx.navigation.safeargs.kotlin")
+        apply(plugin = "com.diffplug.spotless")
         apply(plugin = "org.owasp.dependencycheck")
     }
 
@@ -123,12 +123,14 @@ open class Utility {
         testImplementation(Dependencies.CR_TEST_DEBUG)
         testImplementation(Dependencies.CR_TEST)
 
-        //
+        //TODO: check if you need JDK9 deps. JDK9()
+    }
+
+    fun DependencyHandler.JDK9(){
         compileOnly(Dependencies.jdk9Deps)
         kapt(Dependencies.jaxbApi)
         kapt(Dependencies.jaxbCore)
         kapt(Dependencies.jaxbImpl)
-
     }
 
     /**
@@ -166,8 +168,12 @@ open class Utility {
         implementation(Dependencies.ANNOTATIONS)
     }
 
+    @Deprecated(
+            message = "Use KSP instead for all kotlin annotation " +
+                    "processing url:https://github.com/google/ksp")
     fun KaptExtension.configureKapt(){
         correctErrorTypes = true
+        //jvmTarget = "11"
         javacOptions {
             // Increase the max count of errors from annotation processors.
             // Default is 100.
@@ -335,5 +341,5 @@ open class Utility {
         dependencyConfiguration: Action<ExternalModuleDependency>
     ): ExternalModuleDependency = addDependencyTo(
         this, configurationName, dependencyNotation, dependencyConfiguration
-    ) as ExternalModuleDependency
+    )
 }

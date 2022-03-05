@@ -12,11 +12,13 @@ object Versions {
     const val LIFECYCLE = "2.3.0-alpha01"
     const val ROOM = "2.2.5"
     const val FRAGMENT = "1.2.4"
-    const val NAV = "2.3.0-alpha04"
+    const val NAV = "2.4.1" // NAV_SAFE_ARG
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.2-alpha05"
     const val TESTX = "1.3.0-alpha05"
-    const val KOTLIN = "1.3.72"
+    const val KOTLIN = "1.6.10"
+    const val SPOTLESS = "6.3.0"
+    const val NAV_SAFE_ARG = "2.4.1"
 }
 
 object Dependencies {
@@ -88,7 +90,7 @@ object Dependencies {
     const val CR_ANDROID                 = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0"
     const val CR_TEST_DEBUG              = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.4.0"
     const val CRASH                      = "com.google.firebase:firebase-crashlytics:17.0.0-beta03"
-    const val KLUENT                     = "org.amshove.kluent:kluent:1.60"
+    const val KLUENT                     = "org.amshove.kluent:kluent:1.68"
     const val MOKITO_ANDROID             = "org.mockito:mockito-android:3.6.0"
     const val MOKITO_KOTLIN              = "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
@@ -103,12 +105,12 @@ object Dependencies {
 
 object GradlePlugins {
     // for third party lib vulnerability scan
-    const val DEPENDENCY_SCAN            = "org.owasp:dependency-check-gradle:6.4.1.2"
-    const val SPOTLESS                   = "com.diffplug.spotless:spotless-plugin-gradle:3.27.0"
-    const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
+    const val DEPENDENCY_SCAN            = "org.owasp:dependency-check-gradle:7.0.0"
+    const val SPOTLESS                   = "com.diffplug.spotless:spotless-plugin-gradle:${Versions.SPOTLESS}"
+    const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.NAV_SAFE_ARG}"
     const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.3.72"
     const val AGP                        = "com.android.tools.build:gradle:4.1.0"
-    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 }
 
 object Repos {

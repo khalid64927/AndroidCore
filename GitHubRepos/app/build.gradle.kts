@@ -40,7 +40,6 @@ spotless {
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     System.out.println("android block...")
-    compileSdkVersion(29)
     // TODO: new config
     /*buildFeatures {
         dataBinding = true

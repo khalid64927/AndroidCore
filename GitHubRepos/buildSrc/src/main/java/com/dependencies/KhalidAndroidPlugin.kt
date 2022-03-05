@@ -23,6 +23,7 @@ import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     /**
@@ -35,6 +36,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
         "NewerVersionAvailable", "GradleDependency", // For reproducible builds
         "SelectableText", "SyntheticAccessor")
+
     override fun apply(target: Project) {
         ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.applyPlugins((target.name == "app"))
@@ -70,13 +72,13 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     }
 
     fun Project.configureKotlin(){
-        configure<BaseExtension>{
-            compileSdkVersion(ext.compileSDK)
+        configure<KaptExtension> {
+            configureKapt()
         }
     }
 
     private fun Project.configureAndroid() {
-        // TODO:configureKapt
+        configureKotlin()
         configure<BaseExtension>{
             println(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
@@ -107,14 +109,12 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     }
                 }
             }
-
             lintOptions {
                 baselineFile = getLintBaseline()
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
                 isAbortOnError = true
             }
-
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
@@ -128,7 +128,6 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     isDebuggable = true
                 }
             }
-
             packagingOptions {
                 exclude("LICENSE.txt")
                 exclude("META-INF/rxjava.properties")
@@ -141,15 +140,12 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 exclude("META-INF/notice.txt")
                 exclude("META-INF/ASL2.0")
             }
-
             testOptions.unitTests.isReturnDefaultValues = true
             testOptions.unitTests.isIncludeAndroidResources = true
-
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
             }
-
             dependencies {
                 unitTest()
                 UITest()
