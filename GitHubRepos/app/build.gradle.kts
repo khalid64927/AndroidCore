@@ -3,7 +3,7 @@ plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
     // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
-System.out.println("after plugin")
+println("after plugin")
 kapt {
     correctErrorTypes = true
     javacOptions {
@@ -15,7 +15,7 @@ kapt {
 
 
 KPlugin {
-    System.out.println("KPlugin Ext app...")
+    println("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
     compileSDK = "32"
@@ -33,14 +33,14 @@ KPlugin {
 spotless {
     kotlin {
         target ("**/*.kt")
-        ktlint("0.35.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+        ktlint("0.44.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
             licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
     }
 }
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
-    System.out.println("android block...")
+    println("android block...")
     dataBinding.isEnabled = true
     dataBinding.isEnabledForTests = true
     defaultConfig {
@@ -127,5 +127,5 @@ dependencies {
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 }
 
-System.out.println("script end")
+println("script end")
 

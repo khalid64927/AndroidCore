@@ -80,7 +80,8 @@ object AppInjector {
                                 Timber.d("Injectable false %s", f::class.java.simpleName)
                             }
                         }
-                    }, true
+                    },
+                    true
                 )
         }
     }

@@ -27,9 +27,9 @@ import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
 class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewModel() {

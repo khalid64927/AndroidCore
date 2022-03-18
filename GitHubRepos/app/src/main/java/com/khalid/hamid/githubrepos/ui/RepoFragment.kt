@@ -32,8 +32,8 @@ import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.*
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
 class RepoFragment : Fragment(), Injectable {
@@ -68,15 +68,18 @@ class RepoFragment : Fragment(), Injectable {
                 repoViewModel.forcedRefresh()
             }
         }
-        repoLiveData.observe(viewLifecycleOwner, Observer { repositories ->
-            binding.resource = repositories
-            this.adapter.submitList(repositories.data)
-            when (repositories.status) {
-                Status.SUCCESS -> Timber.d("success %s", repositories.data.toString())
-                Status.ERROR -> Timber.d("error ")
-                Status.LOADING -> Timber.d("loading ")
+        repoLiveData.observe(
+            viewLifecycleOwner,
+            Observer { repositories ->
+                binding.resource = repositories
+                this.adapter.submitList(repositories.data)
+                when (repositories.status) {
+                    Status.SUCCESS -> Timber.d("success %s", repositories.data.toString())
+                    Status.ERROR -> Timber.d("error ")
+                    Status.LOADING -> Timber.d("loading ")
+                }
             }
-        })
+        )
         repoViewModel.getRepoList()
     }
 
@@ -104,7 +107,7 @@ class RepoFragment : Fragment(), Injectable {
             // sort adapter by stars
             R.id.menu_sort_star -> true
             else -> false
-    }
+        }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

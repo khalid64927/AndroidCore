@@ -8,7 +8,7 @@ kapt {
 }
 
 KPlugin {
-    System.out.println("Library ... ")
+    println("Library ... ")
     isLibraryModule = false
     minSDK = 19
     compileSDK = "32"

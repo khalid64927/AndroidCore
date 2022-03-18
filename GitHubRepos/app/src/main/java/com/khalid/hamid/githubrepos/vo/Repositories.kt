@@ -34,7 +34,7 @@ data class Repositories @JvmOverloads constructor(
     @ColumnInfo(name = "name_column") var name: String = "",
     @ColumnInfo(name = "stars_column") var stars: Int = 0,
     @ColumnInfo(name = "url_column") var url: String = ""
-){
+) {
     @Ignore
     var builtBy: List<BuiltBy> = listOf()
 }

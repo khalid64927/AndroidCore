@@ -39,7 +39,7 @@ class RepoAdapter(
 
         override fun areContentsTheSame(oldItem: Repositories, newItem: Repositories): Boolean {
             return oldItem.avatar == newItem.avatar &&
-                    oldItem.description == newItem.description
+                oldItem.description == newItem.description
         }
     }
 ) {
