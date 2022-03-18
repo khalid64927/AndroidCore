@@ -17,7 +17,6 @@
 package com.khalid.hamid.githubrepos.ui
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.contentView
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
 
     override fun androidInjector() = dispatchingAndroidInjector
 }
