@@ -5,6 +5,9 @@ plugins {
 }
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("-Xjvm-default", "compatibility")
+    }
 }
 
 KPlugin {

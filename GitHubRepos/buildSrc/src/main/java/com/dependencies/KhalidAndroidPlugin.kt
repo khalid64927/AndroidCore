@@ -104,6 +104,7 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                         arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
                             "room.expandProjection" to "true",
                             "androidx.room.RoomProcessor" to "true",
+                            "-Xjvm-default" to "enable",
                             "dagger.validateTransitiveComponentDependencies" to "DISABLED",
                             "dagger.gradle.incremental" to "true"))
                     }

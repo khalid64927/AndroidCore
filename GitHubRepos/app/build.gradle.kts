@@ -6,10 +6,13 @@ plugins {
 println("after plugin")
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("-Xjvm-default", "compatibility")
+    }
     javacOptions {
-        // Increase the max count of errors from annotation processors.
-        // Default is 100.
-        option("-Xmaxerrs", 500)
+        arguments {
+            arg("-Xmaxerrs", 1000)
+        }
     }
 }
 
