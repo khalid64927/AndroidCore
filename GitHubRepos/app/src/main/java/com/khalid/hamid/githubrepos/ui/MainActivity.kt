@@ -42,10 +42,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setContentView(R.layout.activity_main)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Timber.d("onCreateOptionsMenu")
-        return super.onCreateOptionsMenu(menu)
-    }
 
     override fun androidInjector() = dispatchingAndroidInjector
 }
