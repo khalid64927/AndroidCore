@@ -17,7 +17,7 @@ jobs:
         run: cd GitHubRepos && ./gradlew app:spotlessCheck
 
       - name: Run Lint
-        run: cd GitHubRepos && ./gradlew app:lintProdDebug
+        run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
       - name: Run Tests
         run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest

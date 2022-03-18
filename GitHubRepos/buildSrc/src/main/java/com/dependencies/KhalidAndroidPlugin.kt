@@ -103,8 +103,8 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     annotationProcessorOptions {
                         arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
                             "room.expandProjection" to "true",
-                            "room.expandProjection" to "true",
                             "androidx.room.RoomProcessor" to "true",
+                            "dagger.validateTransitiveComponentDependencies" to "DISABLED",
                             "dagger.gradle.incremental" to "true"))
                     }
                 }
