@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 /build
 /captures
+.patch
 .externalNativeBuild
 .cxx
 .DG_Store

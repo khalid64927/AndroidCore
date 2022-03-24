@@ -4,18 +4,6 @@ plugins {
     // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
 println("after plugin")
-kapt {
-    correctErrorTypes = true
-    arguments {
-        arg("-Xjvm-default", "compatibility")
-    }
-    javacOptions {
-        arguments {
-            arg("-Xmaxerrs", 1000)
-        }
-    }
-}
-
 
 KPlugin {
     println("KPlugin Ext app...")
@@ -44,21 +32,21 @@ spotless {
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     println("android block...")
-    dataBinding.isEnabled = true
-    dataBinding.isEnabledForTests = true
+    buildFeatures.dataBinding = true
+    dataBinding.enable = true
+    dataBinding.enableForTests = true
+    dataBinding.addKtx = true
+    buildFeatures.viewBinding = true
+    buildFeatures.compose = true
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
-    flavorDimensions("default")
+    flavorDimensions.add("default")
     productFlavors {
         create("mock") {
             applicationId = "com.khalid.hamid.githubrepos"

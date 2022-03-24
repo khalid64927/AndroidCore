@@ -55,7 +55,6 @@ open class Utility {
             apply(plugin = "org.gradle.maven-publish")
         }
         apply(plugin = "kotlin-android")
-        apply(plugin = "kotlin-android-extensions")
         //apply(plugin = "com.google.devtools.ksp")
         apply(plugin = "kotlin-kapt")
 
@@ -173,6 +172,10 @@ open class Utility {
                     "processing url:https://github.com/google/ksp")
     fun KaptExtension.configureKapt(){
         correctErrorTypes = true
+        arguments {
+            arg("-Xjvm-default", "all")
+            arg("dagger.validateTransitiveComponentDependencies", "DISABLED")
+        }
         //jvmTarget = "11"
         javacOptions {
             // Increase the max count of errors from annotation processors.
@@ -190,7 +193,7 @@ open class Utility {
         variants.all {
             val variantName = name
             println("configureJacoco 1$variantName")
-            val isDebuggable = this.buildType.isDebuggable
+            val isDebuggable = true
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
                 println("configureJacoco 2$isDebuggable")

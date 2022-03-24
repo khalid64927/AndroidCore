@@ -90,18 +90,19 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 println(" lintExclusionRules "+ ext.lintExclusionRules)
                 println(" isLibraryModule "+ ext.isLibraryModule)
                 println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
-                minSdkVersion(ext.minSDK)
+                minSdk = ext.minSDK
                 multiDexEnabled = true
-                targetSdkVersion(ext.targetSDK.toInt())
+                targetSdk = ext.targetSDK.toInt()
                 versionName = ext.versionName
                 versionCode = ext.versionCode
                 //TODO: dataBinding.isEnabledForTests = true
                 vectorDrawables.useSupportLibrary = true
                 testInstrumentationRunner = ext.testRunner
 
+                val schemas = "${projectDir}/schemas"
                 javaCompileOptions {
                     annotationProcessorOptions {
-                        arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
+                        arguments.putAll(mapOf("room.schemaLocation" to schemas,
                             "room.expandProjection" to "true",
                             "androidx.room.RoomProcessor" to "true",
                             "-Xjvm-default" to "enable",
@@ -111,11 +112,12 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 }
             }
 
+            dataBinding.enable = true
+            dataBinding.enableForTests = true
+            dataBinding.addKtx = true
+
             buildFeatures.viewBinding = true
             buildFeatures.compose = true
-            dataBinding {
-                this.isEnabled = true
-            }
 
             lintOptions {
                 baselineFile = getLintBaseline()
@@ -137,23 +139,24 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 }
             }
             packagingOptions {
-                exclude("LICENSE.txt")
-                exclude("META-INF/rxjava.properties")
-                exclude("META-INF/DEPENDENCIES")
-                exclude("META-INF/LICENSE")
-                exclude("META-INF/LICENSE.txt")
-                exclude("META-INF/license.txt")
-                exclude("META-INF/NOTICE")
-                exclude("META-INF/NOTICE.txt")
-                exclude("META-INF/notice.txt")
-                exclude("META-INF/ASL2.0")
+                resources.excludes.add("LICENSE.txt")
+                resources.excludes.add("META-INF/rxjava.properties")
+                resources.excludes.add("META-INF/DEPENDENCIES")
+                resources.excludes.add("META-INF/LICENSE")
+                resources.excludes.add("META-INF/LICENSE.txt")
+                resources.excludes.add("META-INF/license.txt")
+                resources.excludes.add("META-INF/NOTICE")
+                resources.excludes.add("META-INF/NOTICE.txt")
+                resources.excludes.add("META-INF/notice.txt")
+                resources.excludes.add("META-INF/ASL2.0")
             }
             testOptions.unitTests.isReturnDefaultValues = true
             testOptions.unitTests.isIncludeAndroidResources = true
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
             }
+
             dependencies {
                 unitTest()
                 UITest()
