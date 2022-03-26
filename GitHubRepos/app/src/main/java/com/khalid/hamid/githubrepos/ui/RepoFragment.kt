@@ -24,20 +24,21 @@ import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
-import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.*
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
 @OpenForTesting
-class RepoFragment : BaseFragment(), Injectable {
+@AndroidEntryPoint
+class RepoFragment : BaseFragment() {
 
-    //@Inject
+    @Inject
     lateinit var executors: AppExecutors
 
-    //@Inject
+    @Inject
     lateinit var app: Application
 
     override val mLayout = R.layout.fragment_repo

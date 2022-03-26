@@ -21,9 +21,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.khalid.hamid.githubrepos.R
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject

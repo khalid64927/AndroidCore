@@ -34,7 +34,8 @@ abstract class BaseFragment :
     @get:LayoutRes
     abstract val mLayout: Int
 
-    open var pickerViewModelProvider: AppViewModelProvider = AppViewModelProvider()
+    @Inject
+    lateinit var pickerViewModelProvider: AppViewModelProvider
 
     abstract fun getPageName(): String?
 

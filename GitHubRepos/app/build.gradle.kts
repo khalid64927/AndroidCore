@@ -59,6 +59,9 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.HILT_ANDROID)
+    kapt(Dependencies.HILT_ANDROID_COMPILER)
+
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.V7)
     implementation(Dependencies.CONSTRAINT_LAYOUT)

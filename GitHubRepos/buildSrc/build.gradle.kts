@@ -25,7 +25,7 @@ dependencies {
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
     implementation ("org.owasp:dependency-check-gradle:7.0.0")
     // TODO: migrate to hilt :
-    // TODO:implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
+    implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
 }
 
 

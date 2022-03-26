@@ -27,16 +27,16 @@ import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [
-        ViewModelModule::class,
-        AppViewModelModule::class,
-        CoroutinesModule::class])
+@Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
     @Singleton
     @Provides

@@ -66,7 +66,7 @@ open class Utility {
         apply(plugin = "org.owasp.dependencycheck")
 
         if(isApp){
-            //apply(plugin = "dagger.hilt.android.plugin")
+            apply(plugin = "dagger.hilt.android.plugin")
         }
     }
 
