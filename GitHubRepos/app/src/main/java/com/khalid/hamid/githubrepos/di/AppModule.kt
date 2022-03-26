@@ -38,6 +38,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
     @Singleton
     @Provides
     fun provideGithubService(): GitHubService {
@@ -63,11 +64,6 @@ class AppModule {
         return db.getRepoDao()
     }
 
-    @Singleton
-    @Provides
-    fun provideDispatcher(): CoroutineDispatcher {
-        return Dispatchers.IO
-    }
 
     @Singleton
     @Provides

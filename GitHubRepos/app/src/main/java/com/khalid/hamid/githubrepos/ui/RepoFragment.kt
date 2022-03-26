@@ -46,7 +46,6 @@ class RepoFragment : BaseFragment() {
     override fun getPageName(): String = this::class.java.simpleName
 
     private var adapter by autoCleared<RepoAdapter>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
     private var v by fragmentViewLifecycleDelegate<FragmentRepoBinding>({
         getFragmentBinding()
@@ -61,14 +60,14 @@ class RepoFragment : BaseFragment() {
 
         val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
-        val adapter = RepoAdapter(dataBindingComponent, executors) {
+        val adapter = RepoAdapter(FragmentDataBindingComponent(this), executors) {
             //no-op
         }
         this.adapter = adapter
         v.repoList.adapter = this.adapter
         v.repoList.addItemDecoration(decorator)
         v.callback = object : RetryListener {
-            override fun fetchFromRepote() {
+            override fun fetchFromRepo() {
                 repoViewModel.getRepoList()
             }
         }

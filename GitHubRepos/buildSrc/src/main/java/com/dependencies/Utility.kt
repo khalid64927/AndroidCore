@@ -358,5 +358,5 @@ open class Utility {
 }
 
 inline fun pln(msg: String){
-    //pln(msg)
+    //println(msg)
 }

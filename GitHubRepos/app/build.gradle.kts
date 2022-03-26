@@ -34,6 +34,7 @@ spotless {
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     pln("android block...")
+    namespace = "com.khalid.hamid.githubrepos"
     buildFeatures.dataBinding = true
     dataBinding.enable = true
     dataBinding.enableForTests = true

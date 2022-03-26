@@ -18,12 +18,14 @@ import androidx.navigation.fragment.findNavController
 import com.fairprice.common.utils.orZero
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.utilities.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@AndroidEntryPoint
 abstract class BaseFragment :
     Fragment(),
     CoroutineScope,
