@@ -19,12 +19,8 @@
     app:startDestination="@id/navigation">
 
     <navigation
-        android:id="@+id/navigation"
-        app:startDestination="@id/searchFragment" >
-        <fragment
-            android:id="@+id/searchFragment"
-            android:name="com.khalid.hamid.githubrepos.ui.RepoFragment"
-            android:label="RepoFragment"></fragment>
+        android:id="@+id/navigation" >
+
     </navigation>
 
 </navigation>

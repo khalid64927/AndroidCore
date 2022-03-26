@@ -22,12 +22,11 @@ import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * This will return data from either DB or get from network
 */
-class RepositoryImple @Inject constructor(
+class RepositoryImple constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ) : BaseDataSource {

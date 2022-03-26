@@ -16,7 +16,6 @@
 
 package com.khalid.hamid.githubrepos.network.local
 
-import com.khalid.hamid.githubrepos.db.RepoDao
 import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.Result.Success
@@ -31,7 +30,6 @@ import javax.inject.Inject
  *
  */
 open class LocalDataSource @Inject constructor(
-    private val repoDao: RepoDao,
     private val pref: Prefs
 ) : BaseDataSource {
 
@@ -61,12 +59,13 @@ open class LocalDataSource @Inject constructor(
     suspend fun saveData(list: List<Repositories>) {
         Timber.d(" saveData ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         pref.cachedTime = System.currentTimeMillis().toString()
-        repoDao.insertRepos(list)
+        //repoDao.insertRepos(list)
     }
 
     suspend fun getRepos(): List<Repositories> {
         Timber.d("getRepos ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-        return repoDao.getRepoList()
+       // return repoDao.getRepoList()
+        return emptyList()
     }
 
     override suspend fun fetchRepos(): Result<List<Repositories>> {
