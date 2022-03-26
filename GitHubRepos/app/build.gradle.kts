@@ -1,12 +1,14 @@
 import com.dependencies.Dependencies
+import com.dependencies.pln
+
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
     // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
-println("after plugin")
+pln("after plugin")
 
 KPlugin {
-    println("KPlugin Ext app...")
+    pln("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
     compileSDK = "32"
@@ -31,7 +33,7 @@ spotless {
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
-    println("android block...")
+    pln("android block...")
     buildFeatures.dataBinding = true
     dataBinding.enable = true
     dataBinding.enableForTests = true
@@ -65,7 +67,6 @@ dependencies {
     implementation(Dependencies.CRASH)
     implementation(Dependencies.CR_CORE)
     implementation(Dependencies.CR_ANDROID)
-
 
     implementation(Dependencies.DAGGER_RUNTIME)
     api(Dependencies.DAGGER_ANDROID)
@@ -118,5 +119,5 @@ dependencies {
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 }
 
-println("script end")
+pln("script end")
 

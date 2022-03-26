@@ -35,7 +35,7 @@ import javax.inject.Singleton
 
 @Module(includes = [
         ViewModelModule::class,
-        AppViewModelProvider::class,
+        AppViewModelModule::class,
         CoroutinesModule::class])
 class AppModule {
     @Singleton

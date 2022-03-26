@@ -16,19 +16,15 @@
 
 package com.khalid.hamid.githubrepos.di
 
-import androidx.lifecycle.ViewModel
-import com.khalid.hamid.githubrepos.ui.RepoViewModel
-import dagger.Binds
 import dagger.Module
-import dagger.multibindings.IntoMap
 
 @Suppress("unused")
 @Module
 abstract class ViewModelModule {
 
-    @Binds
+    /*@Binds
     @IntoMap
     @ViewModelKey(RepoViewModel::class)
-    abstract fun bindRepoViewModel(repoViewModel: RepoViewModel): ViewModel
+    abstract fun bindRepoViewModel(repoViewModel: RepoViewModel): ViewModel*/
 
 }

@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Module
 class AppViewModelModule {
 
-    /*@Singleton
+    @Singleton
     @Provides
-    fun provideViewModelFactory(): AppViewModelProvider = AppViewModelProvider()*/
+    fun provideViewModelFactory(): AppViewModelProvider = AppViewModelProvider()
 }

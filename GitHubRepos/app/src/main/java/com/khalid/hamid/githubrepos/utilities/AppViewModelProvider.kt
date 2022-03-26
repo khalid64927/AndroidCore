@@ -10,7 +10,6 @@ import dagger.Module
 import kotlin.reflect.KClass
 
 @OpenForTesting
-@Module
 class AppViewModelProvider {
 
     // used in  viewModel Delegate

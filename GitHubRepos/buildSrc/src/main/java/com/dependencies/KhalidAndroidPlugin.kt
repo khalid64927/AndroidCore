@@ -40,13 +40,13 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     override fun apply(target: Project) {
         ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.applyPlugins((target.name == "app"))
-        println("name "+ target.name)
+        pln("name "+ target.name)
         //TODO: unable to use extension property in apply function
         target.configureAndroid()
         target.configureQuality()
-        println("ext  ..after "+ ext.compileSDK)
+        pln("ext  ..after "+ ext.compileSDK)
         target.afterEvaluate {
-            println("afterEvaluate")
+            pln("afterEvaluate")
             target.extensions.getByType(KPluginExtensions::class.java).run {
                 val jacocoOptions = this.jacoco
                 if (jacocoOptions.isEnabled) {
@@ -80,16 +80,16 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     private fun Project.configureAndroid() {
         configureKotlin()
         configure<BaseExtension>{
-            println(" compileSDK "+ ext.compileSDK)
+            pln(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
             buildToolsVersion(ext.buildTools)
             defaultConfig {
-                println(" min sdk "+ ext.minSDK)
-                println(" targetSDK "+ ext.targetSDK)
-                println(" testRunner  "+ ext.testRunner)
-                println(" lintExclusionRules "+ ext.lintExclusionRules)
-                println(" isLibraryModule "+ ext.isLibraryModule)
-                println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
+                pln(" min sdk "+ ext.minSDK)
+                pln(" targetSDK "+ ext.targetSDK)
+                pln(" testRunner  "+ ext.testRunner)
+                pln(" lintExclusionRules "+ ext.lintExclusionRules)
+                pln(" isLibraryModule "+ ext.isLibraryModule)
+                pln(" lintExclusionRules "+ ext.lintExclusionRules.toString())
                 minSdk = ext.minSDK
                 multiDexEnabled = true
                 targetSdk = ext.targetSDK.toInt()

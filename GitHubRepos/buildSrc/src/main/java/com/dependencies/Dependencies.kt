@@ -40,7 +40,8 @@ object Dependencies {
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
     // HILT
     const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.DAGGER}"
-    const val HILT_COMPILER = "com.google.dagger:hilt-compiler${Versions.DAGGER}"
+    const val HILT_COMPILER = "com.google.dagger:hilt-compiler:${Versions.DAGGER}"
+    const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.DAGGER}"
     // Testing
     const val HILT_ANDROID_TESTING = "com.google.dagger:hilt-android-testing${Versions.DAGGER}"
 

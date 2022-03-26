@@ -11,14 +11,21 @@ repositories {
     }
 }
 
+object GlobalVersions {
+    const val DAGGER = "2.41"
+    const val KOTLIN = "1.6.10"
+}
+
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
     implementation("com.android.tools.build:gradle:7.3.0-alpha07")
-    implementation("org.jetbrains.kotlin:kotlin-allopen:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
     implementation ("org.owasp:dependency-check-gradle:7.0.0")
+    // TODO: migrate to hilt :
+    // TODO:implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
 }
 
 

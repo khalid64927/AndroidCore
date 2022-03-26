@@ -55,9 +55,14 @@ class RepoFragment : BaseFragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        repoViewModel = getViewModel()
+        v.lifecycleOwner = viewLifecycleOwner
+
         val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
-        val adapter = RepoAdapter(dataBindingComponent, executors) { repositories -> }
+        val adapter = RepoAdapter(dataBindingComponent, executors) {
+            //no-op
+        }
         this.adapter = adapter
         v.repoList.adapter = this.adapter
         v.repoList.addItemDecoration(decorator)

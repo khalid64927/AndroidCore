@@ -51,6 +51,7 @@ open class Utility {
 
         if(isApp){
             apply(plugin = "com.android.application")
+
             // TODO: add in demo : apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
@@ -64,7 +65,9 @@ open class Utility {
         apply(plugin = "com.diffplug.spotless")
         apply(plugin = "org.owasp.dependencycheck")
 
-
+        if(isApp){
+            //apply(plugin = "dagger.hilt.android.plugin")
+        }
     }
 
     private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
@@ -81,11 +84,11 @@ open class Utility {
     }
 
     fun LintOptions.disableLint(){
-        println(" size is "+ext.lintExclusionRules.size)
+        pln(" size is "+ext.lintExclusionRules.size)
         if(ext.lintExclusionRules.isEmpty()){
             lintExclusion.addAll(ext.lintExclusionRules)
         }
-        println(" size is "+lintExclusion.size)
+        pln(" size is "+lintExclusion.size)
         try{
             lintExclusion.forEach {
                 //disable.add(it)
@@ -122,10 +125,6 @@ open class Utility {
         testImplementation(Dependencies.MOKITO_KOTLIN)
         testImplementation(Dependencies.CR_TEST_DEBUG)
         testImplementation(Dependencies.CR_TEST)
-
-        testImplementation(Dependencies.HILT_ANDROID_TESTING)
-        kaptTest(Dependencies.HILT_COMPILER)
-
 
         //TODO: check if you need JDK9 deps. JDK9()
     }
@@ -194,21 +193,21 @@ open class Utility {
         variants: DomainObjectSet<out BaseVariant>,
         options: JacocoOptions
     ) {
-        println("configureJacoco 1")
+        pln("configureJacoco 1")
         variants.all {
             val variantName = name
-            println("configureJacoco 1$variantName")
+            pln("configureJacoco 1$variantName")
             val isDebuggable = true
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
-                println("configureJacoco 2$isDebuggable")
+                pln("configureJacoco 2$isDebuggable")
                 return@all
             }
-            println("configureJacoco 33")
+            pln("configureJacoco 33")
             project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
                 dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
                 val coverageSourceDirs = "src/main/java"
-                println("configureJacoco 3")
+                pln("configureJacoco 3")
 
                 val javaClasses = project
                     .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -238,7 +237,7 @@ open class Utility {
 
                 reports.xml.isEnabled = true
                 reports.html.isEnabled = true
-                println("configureJacoco 4")
+                pln("configureJacoco 4")
             }
         }
     }
@@ -256,9 +255,6 @@ open class Utility {
         androidTestImplementation(Dependencies.MOKITO_CORE)
         androidTestImplementation(Dependencies.SWIPEX)
         androidTestImplementation(Dependencies.MULTIDEXTEST)
-
-        androidTestImplementation(Dependencies.HILT_ANDROID_TESTING)
-        kaptAndroidTest(Dependencies.HILT_COMPILER)
 
         addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")
@@ -361,6 +357,6 @@ open class Utility {
     )
 }
 
-inline fun p(msg: String){
-    println(msg)
+inline fun pln(msg: String){
+    //pln(msg)
 }
