@@ -37,7 +37,6 @@ android {
     dataBinding.enableForTests = true
     dataBinding.addKtx = true
     buildFeatures.viewBinding = true
-    buildFeatures.compose = true
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }
@@ -73,6 +72,7 @@ dependencies {
     implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
     kapt(Dependencies.DAGGER_COMPILER)
+
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)

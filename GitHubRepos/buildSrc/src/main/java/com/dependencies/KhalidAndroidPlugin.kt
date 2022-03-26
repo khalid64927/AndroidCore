@@ -105,7 +105,6 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                         arguments.putAll(mapOf("room.schemaLocation" to schemas,
                             "room.expandProjection" to "true",
                             "androidx.room.RoomProcessor" to "true",
-                            "-Xjvm-default" to "enable",
                             "dagger.validateTransitiveComponentDependencies" to "DISABLED",
                             "dagger.gradle.incremental" to "true"))
                     }
@@ -117,7 +116,6 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
             dataBinding.addKtx = true
 
             buildFeatures.viewBinding = true
-            buildFeatures.compose = true
 
             lintOptions {
                 baselineFile = getLintBaseline()

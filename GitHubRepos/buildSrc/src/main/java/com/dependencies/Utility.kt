@@ -37,6 +37,8 @@ import java.io.File
 open class Utility {
     private val implementation            = "implementation"
     private val kapt                      = "kapt"
+    private val kaptTest                  = "kaptTest"
+    private val kaptAndroidTest           = "kaptAndroidTest"
     private val api                       = "api"
     private val compileOnly               = "compileOnly"
     private val testImplementation        = "testImplementation"
@@ -57,7 +59,6 @@ open class Utility {
         apply(plugin = "kotlin-android")
         //apply(plugin = "com.google.devtools.ksp")
         apply(plugin = "kotlin-kapt")
-
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
         apply(plugin = "androidx.navigation.safeargs.kotlin")
         apply(plugin = "com.diffplug.spotless")
@@ -121,6 +122,10 @@ open class Utility {
         testImplementation(Dependencies.MOKITO_KOTLIN)
         testImplementation(Dependencies.CR_TEST_DEBUG)
         testImplementation(Dependencies.CR_TEST)
+
+        testImplementation(Dependencies.HILT_ANDROID_TESTING)
+        kaptTest(Dependencies.HILT_COMPILER)
+
 
         //TODO: check if you need JDK9 deps. JDK9()
     }
@@ -252,7 +257,8 @@ open class Utility {
         androidTestImplementation(Dependencies.SWIPEX)
         androidTestImplementation(Dependencies.MULTIDEXTEST)
 
-
+        androidTestImplementation(Dependencies.HILT_ANDROID_TESTING)
+        kaptAndroidTest(Dependencies.HILT_COMPILER)
 
         addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")
@@ -307,6 +313,14 @@ open class Utility {
         addConfiguration(kapt,dependencyName)
     }
 
+    private fun DependencyHandler.kaptAndroidTest(dependencyName: String){
+        addConfiguration(kaptAndroidTest,dependencyName)
+    }
+
+    private fun DependencyHandler.kaptTest(dependencyName: String){
+        addConfiguration(kaptTest,dependencyName)
+    }
+
     private fun DependencyHandler.testImplementation(dependencyName: String){
         addConfiguration(testImplementation,dependencyName)
     }
@@ -345,4 +359,8 @@ open class Utility {
     ): ExternalModuleDependency = addDependencyTo(
         this, configurationName, dependencyNotation, dependencyConfiguration
     )
+}
+
+inline fun p(msg: String){
+    println(msg)
 }

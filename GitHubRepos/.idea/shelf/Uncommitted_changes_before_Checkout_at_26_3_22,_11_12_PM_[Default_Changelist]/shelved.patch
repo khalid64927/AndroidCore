@@ -1,0 +1,25 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CMakeSettings\">\n    <configurations>\n      <configuration PROFILE_NAME=\"Debug\" CONFIG_NAME=\"Debug\" />\n    </configurations>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" project-jdk-name=\"1.8 (3)\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision f4fdecfd00718182878bd197c2f6c6321b5bea6e)
++++ b/.idea/misc.xml	(date 1648307480042)
+@@ -5,6 +5,14 @@
+       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+     </configurations>
+   </component>
++  <component name="DesignSurface">
++    <option name="filePathToZoomLevelMap">
++      <map>
++        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2006340579710145" />
++        <entry key="app/src/main/res/layout/container_loading.xml" value="0.2006340579710145" />
++      </map>
++    </option>
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8 (3)" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>

@@ -16,6 +16,8 @@
 
 package com.khalid.hamid.githubrepos.utilities
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
 /**
@@ -55,5 +57,33 @@ class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Obser
         event?.getContentIfNotHandled()?.let {
             onEventUnhandledContent(it)
         }
+    }
+}
+
+class ErrorEvent(throwable: Throwable) : Event<Throwable>(throwable)
+
+// Wrapper for error and the action
+class RetryError(val throwable: Throwable, val retryAction: () -> Unit)
+
+// Wrapper for message and the action
+class ActionWrapper(val msg: String, val action: () -> Unit)
+
+inline fun LiveData<ErrorEvent>.observeErrorEvent(
+    owner: LifecycleOwner,
+    crossinline onEventUnhandledContent: (Throwable) -> Unit
+) {
+    observe(owner) {
+        it.getContentIfNotHandled()
+            ?.let(onEventUnhandledContent)
+    }
+}
+
+inline fun <T> LiveData<Event<T>>.observeEvent(
+    owner: LifecycleOwner,
+    crossinline onEventUnhandledContent: (T) -> Unit
+) {
+    observe(owner) {
+        it.getContentIfNotHandled()
+            ?.let(onEventUnhandledContent)
     }
 }

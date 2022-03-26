@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">GithubRepos</string>
     <string name="loading_tasks_error">Something went wrong at our end</string>
+    <string name="avatar">avatar</string>
+    <string name="web">Web</string>
+    <string name="image_dot">image dot</string>
+    <string name="fork">fork</string>
+    <string name="project_start_rating">project start rating</string>
+    <string name="material_default_button">Material Default Button</string>
+    <string name="aliean">aliean</string>
+    <string name="something_went_wrong">Something went wrong..</string>
+    <string name="an_alien_is_probably_blocking_your_signal">An alien is probably blocking your signal.</string>
+    <string name="trending">Trending</string>
+    <string name="retry">RETRY</string>
+    <string name="no_internet_icon">no internet icon</string>
+    <string name="ok">Ok</string>
+    <string name="alert">Alert</string>
+    <string name="error">Error</string>
+    <string name="reset_data_error">Local Data clearing failed</string>
+    <string name="clear_cache">Clear cache</string>
 </resources>

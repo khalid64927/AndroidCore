@@ -38,6 +38,12 @@ object Dependencies {
     const val DAGGER_ANDROID = "com.google.dagger:dagger-android:${Versions.DAGGER}"
     const val DAGGER_ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
+    // HILT
+    const val HILT_ANDROID = "com.google.dagger:hilt-android:${Versions.DAGGER}"
+    const val HILT_COMPILER = "com.google.dagger:hilt-compiler${Versions.DAGGER}"
+    // Testing
+    const val HILT_ANDROID_TESTING = "com.google.dagger:hilt-android-testing${Versions.DAGGER}"
+
     const val CRASHLYTICS                = "com.crashlytics.sdk.android:crashlytics:2.10.1"
     // kapt here
     const val DAGGER_ANDROID_PROCESSOR   = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
