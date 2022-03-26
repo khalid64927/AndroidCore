@@ -121,8 +121,7 @@ open class Utility {
         testImplementation(Dependencies.CR_TEST)
         testImplementation(Dependencies.MULTIDEXTEST)
         testImplementation(Dependencies.KLUENT)
-        testImplementation(Dependencies.MOKITO_ANDROID)
-        testImplementation(Dependencies.MOKITO_KOTLIN)
+        testImplementation(Dependencies.MOCKK)
         testImplementation(Dependencies.CR_TEST_DEBUG)
         testImplementation(Dependencies.CR_TEST)
 
@@ -252,9 +251,9 @@ open class Utility {
         androidTestImplementation(Dependencies.TEST_RULES)
         androidTestImplementation(Dependencies.JUNIT_EXT)
         androidTestImplementation(Dependencies.ARCH_CORE_TESTING)
-        androidTestImplementation(Dependencies.MOKITO_CORE)
         androidTestImplementation(Dependencies.SWIPEX)
         androidTestImplementation(Dependencies.MULTIDEXTEST)
+        androidTestImplementation(Dependencies.MOCKK)
 
         addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")

@@ -22,15 +22,12 @@ import com.khalid.hamid.githubrepos.db.GithubDb
 import com.khalid.hamid.githubrepos.db.RepoDao
 import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.utilities.AppExecutors
-import com.khalid.hamid.githubrepos.utilities.AppViewModelProvider
 import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -63,7 +60,6 @@ class AppModule {
     fun provideRepoDao(db: GithubDb): RepoDao {
         return db.getRepoDao()
     }
-
 
     @Singleton
     @Provides

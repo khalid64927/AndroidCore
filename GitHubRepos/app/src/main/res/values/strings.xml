@@ -13,7 +13,7 @@
     <string name="trending">Trending</string>
     <string name="retry">RETRY</string>
     <string name="no_internet_icon">no internet icon</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="alert">Alert</string>
     <string name="error">Error</string>
     <string name="reset_data_error">Local Data clearing failed</string>

@@ -102,6 +102,7 @@ object Dependencies {
     const val KLUENT                     = "org.amshove.kluent:kluent:1.68"
     const val MOKITO_ANDROID             = "org.mockito:mockito-android:4.3.1"
     const val MOKITO_KOTLIN              = "com.nhaarman.mockitokotlin2:mockito-kotlin:4.0.0"
+    const val MOCKK                      = "io.mockk:mockk:1.12.3"
 
     // JDK 9
     const val jaxbApi                    = "javax.xml.bind:jaxb-api:2.3.1"

@@ -19,7 +19,6 @@ package com.khalid.hamid.githubrepos.ui
 import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingComponent
 import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
@@ -61,7 +60,7 @@ class RepoFragment : BaseFragment() {
         val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
         val adapter = RepoAdapter(FragmentDataBindingComponent(this), executors) {
-            //no-op
+            // no-op
         }
         this.adapter = adapter
         v.repoList.adapter = this.adapter
