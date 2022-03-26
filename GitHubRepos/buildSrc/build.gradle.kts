@@ -23,8 +23,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
-    implementation ("org.owasp:dependency-check-gradle:7.0.0")
-    // TODO: migrate to hilt :
+    implementation ("org.owasp:dependency-check-gradle:7.0.1")
     implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
 }
 
