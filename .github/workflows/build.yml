@@ -11,18 +11,22 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
 
       - name: Run Spotless
         run: cd GitHubRepos && ./gradlew app:spotlessCheck
 
       - name: Run Lint
-        run: cd GitHubRepos && ./gradlew app:lintProdDebug
+        run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
       - name: Run Tests
         run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
+
+      # TODO: fix OSS errors
+      #- name: OSS Scan
+      #  run: cd GitHubRepos && ./gradlew dependencyCheckAnalyze --info
 
 

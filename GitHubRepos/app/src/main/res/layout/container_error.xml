@@ -30,8 +30,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Material Default Button"
-        android:onClick="@{() -> callback.fetchFromRepote()}"
+        android:text="@string/material_default_button"
+        android:onClick="@{() -> callback.fetchFromRepo()}"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.46"
@@ -46,7 +46,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nointernet_connection" />
+        app:srcCompat="@drawable/nointernet_connection"
+        android:contentDescription="@string/aliean" />
 
     <TextView
         android:id="@+id/textView"
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Something went wrong.."
+        android:text="@string/something_went_wrong"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -65,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="An alien is probably blocking your signal."
+        android:text="@string/an_alien_is_probably_blocking_your_signal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />

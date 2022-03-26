@@ -25,9 +25,10 @@ import com.khalid.hamid.githubrepos.vo.Repositories
  */
 @Database(
     entities = [
-    Repositories::class],
+        Repositories::class
+    ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class GithubDb : RoomDatabase() {
 

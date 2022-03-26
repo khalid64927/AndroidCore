@@ -18,16 +18,12 @@ package com.khalid.hamid.githubrepos
 
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
-import com.khalid.hamid.githubrepos.di.AppInjector
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-class GithubApp : MultiDexApplication(), HasAndroidInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+@HiltAndroidApp
+class GithubApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -36,7 +32,5 @@ class GithubApp : MultiDexApplication(), HasAndroidInjector {
         } else {
             Timber.plant(CrashReportingTree())
         }
-        AppInjector.init(this)
     }
-    override fun androidInjector() = dispatchingAndroidInjector
 }

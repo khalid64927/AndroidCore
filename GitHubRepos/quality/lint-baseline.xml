@@ -590,4 +590,97 @@
             line="5"/>
     </issue>
 
+    <issue
+        id="UnusedResources"
+        message="Explanation for issues of type UnusedResources:
+               Unused resources make applications larger and slow down builds.
+               The unused resource check can ignore tests. If you want to include
+               resources that are only referenced from tests, consider packaging them in a
+               test source set instead.
+               You can include test sources in the unused resource check by setting the
+               system property lint.unused-resources.include-tests=true, and to exclude
+               them (usually for performance reasons), use
+               lint.unused-resources.exclude-tests=true.">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="9"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="Explanation for issues of type UnusedResources:
+               Unused resources make applications larger and slow down builds.
+               The unused resource check can ignore tests. If you want to include
+               resources that are only referenced from tests, consider packaging them in a
+               test source set instead.
+               You can include test sources in the unused resource check by setting the
+               system property lint.unused-resources.include-tests=true, and to exclude
+               them (usually for performance reasons), use
+               lint.unused-resources.exclude-tests=true.">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="10"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="Explanation for issues of type UnusedResources:
+               Unused resources make applications larger and slow down builds.
+               The unused resource check can ignore tests. If you want to include
+               resources that are only referenced from tests, consider packaging them in a
+               test source set instead.
+               You can include test sources in the unused resource check by setting the
+               system property lint.unused-resources.include-tests=true, and to exclude
+               them (usually for performance reasons), use
+               lint.unused-resources.exclude-tests=true.">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="16"/>
+    </issue>
+
+    <issue
+        id="SyntheticAccessor"
+        message="Explanation for issues of type SyntheticAccessor:
+               A private inner class which is accessed from the outer class will force the
+               compiler to insert a synthetic accessor; this means that you are causing
+               extra overhead. This is not important in small projects, but is important
+               for large apps running up against the 64K method handle limit, and
+               especially for libraries where you want to make sure your library is as
+               small as possible for the cases where your library is used in an app
+               running up against the 64K limit.">
+        <location
+            file="src/main/java/com/khalid/hamid/githubrepos/utilities/FragmentViewLifecycleDelegate.kt"
+            line="56"/>
+    </issue>
+
+    <issue
+        id="UnusedIds"
+        message="Explanation for issues of type UnusedIds:
+               This resource id definition appears not to be needed since it is not
+               referenced from anywhere. Having id definitions, even if unused, is not
+               necessarily a bad idea since they make working on layouts and menus easier,
+               so there is not a strong reason to delete these.
+               The unused resource check can ignore tests. If you want to include
+               resources that are only referenced from tests, consider packaging them in a
+               test source set instead.
+               You can include test sources in the unused resource check by setting the
+               system property lint.unused-resources.include-tests=true, and to exclude
+               them (usually for performance reasons), use
+               lint.unused-resources.exclude-tests=true.">
+        <location
+            file="src/main/res/layout/layout_loader.xml"
+            line="4"/>
+    </issue>
+
+    <issue
+        id="ButtonCase"
+        message="Explanation for issues of type ButtonCase:
+            The standard capitalization for OK/Cancel dialogs is OK and Cancel. To
+            ensure that your dialogs use the standard strings, you can use the resource
+            strings @android:string/ok and @android:string/cancel.">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="16"/>
+    </issue>
+
 </issues>

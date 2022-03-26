@@ -24,11 +24,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.exclude
-import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.register
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
@@ -40,6 +37,8 @@ import java.io.File
 open class Utility {
     private val implementation            = "implementation"
     private val kapt                      = "kapt"
+    private val kaptTest                  = "kaptTest"
+    private val kaptAndroidTest           = "kaptAndroidTest"
     private val api                       = "api"
     private val compileOnly               = "compileOnly"
     private val testImplementation        = "testImplementation"
@@ -52,22 +51,26 @@ open class Utility {
 
         if(isApp){
             apply(plugin = "com.android.application")
-            // TODO: add in demo
-            //apply(plugin = "com.google.gms.google-services")
+
+            // TODO: add in demo : apply(plugin = "com.google.gms.google-services")
         } else {
             apply(plugin = "com.android.library")
             apply(plugin = "org.gradle.maven-publish")
         }
         apply(plugin = "kotlin-android")
-        apply(plugin = "kotlin-android-extensions")
+        //apply(plugin = "com.google.devtools.ksp")
         apply(plugin = "kotlin-kapt")
-
         apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
-        apply(plugin = "androidx.navigation.safeargs")
-        apply(plugin = "com.diffplug.gradle.spotless")
+        apply(plugin = "androidx.navigation.safeargs.kotlin")
+        apply(plugin = "com.diffplug.spotless")
+        apply(plugin = "org.owasp.dependencycheck")
+
+        if(isApp){
+            apply(plugin = "dagger.hilt.android.plugin")
+        }
     }
 
-    var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
+    private var lintExclusion = mutableListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
         "IconExpectedSize",
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
         "NewerVersionAvailable", "GradleDependency", // For reproducible builds
@@ -81,15 +84,15 @@ open class Utility {
     }
 
     fun LintOptions.disableLint(){
-        println(" size is "+ext.lintExclusionRules.size)
+        pln(" size is "+ext.lintExclusionRules.size)
         if(ext.lintExclusionRules.isEmpty()){
             lintExclusion.addAll(ext.lintExclusionRules)
         }
-        println(" size is "+lintExclusion.size)
+        pln(" size is "+lintExclusion.size)
         try{
             lintExclusion.forEach {
-                disable.add(it)
-                severityOverrides.put(it, 5)
+                //disable.add(it)
+                //severityOverrides.put(it, 5)
             }
 
         }catch (e : Exception){
@@ -98,8 +101,8 @@ open class Utility {
     }
 
     fun LintOptions.disableThis(rule : String){
-        disable.add("")
-        severityOverrides
+        //disable.add("")
+        //severityOverrides
     }
     fun DependencyHandler.unitTest() {
         testImplementation(Dependencies.JUNIT)
@@ -118,17 +121,18 @@ open class Utility {
         testImplementation(Dependencies.CR_TEST)
         testImplementation(Dependencies.MULTIDEXTEST)
         testImplementation(Dependencies.KLUENT)
-        testImplementation(Dependencies.MOKITO_ANDROID)
-        testImplementation(Dependencies.MOKITO_KOTLIN)
+        testImplementation(Dependencies.MOCKK)
         testImplementation(Dependencies.CR_TEST_DEBUG)
         testImplementation(Dependencies.CR_TEST)
 
-        //
+        //TODO: check if you need JDK9 deps. JDK9()
+    }
+
+    fun DependencyHandler.JDK9(){
         compileOnly(Dependencies.jdk9Deps)
         kapt(Dependencies.jaxbApi)
         kapt(Dependencies.jaxbCore)
         kapt(Dependencies.jaxbImpl)
-
     }
 
     /**
@@ -166,12 +170,20 @@ open class Utility {
         implementation(Dependencies.ANNOTATIONS)
     }
 
+    @Deprecated(
+            message = "Use KSP instead for all kotlin annotation " +
+                    "processing url:https://github.com/google/ksp")
     fun KaptExtension.configureKapt(){
         correctErrorTypes = true
+        arguments {
+            arg("-Xjvm-default", "all")
+            arg("dagger.validateTransitiveComponentDependencies", "DISABLED")
+        }
+        //jvmTarget = "11"
         javacOptions {
             // Increase the max count of errors from annotation processors.
             // Default is 100.
-            option("-Xmaxerrs", 500)
+            option("-Xmaxerrs", 1000)
         }
     }
 
@@ -180,21 +192,21 @@ open class Utility {
         variants: DomainObjectSet<out BaseVariant>,
         options: JacocoOptions
     ) {
-        println("configureJacoco 1")
+        pln("configureJacoco 1")
         variants.all {
             val variantName = name
-            println("configureJacoco 1$variantName")
-            val isDebuggable = this.buildType.isDebuggable
+            pln("configureJacoco 1$variantName")
+            val isDebuggable = true
             if (!isDebuggable) {
                 project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
-                println("configureJacoco 2$isDebuggable")
+                pln("configureJacoco 2$isDebuggable")
                 return@all
             }
-            println("configureJacoco 33")
+            pln("configureJacoco 33")
             project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
                 dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
                 val coverageSourceDirs = "src/main/java"
-                println("configureJacoco 3")
+                pln("configureJacoco 3")
 
                 val javaClasses = project
                     .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -224,7 +236,7 @@ open class Utility {
 
                 reports.xml.isEnabled = true
                 reports.html.isEnabled = true
-                println("configureJacoco 4")
+                pln("configureJacoco 4")
             }
         }
     }
@@ -239,18 +251,16 @@ open class Utility {
         androidTestImplementation(Dependencies.TEST_RULES)
         androidTestImplementation(Dependencies.JUNIT_EXT)
         androidTestImplementation(Dependencies.ARCH_CORE_TESTING)
-        androidTestImplementation(Dependencies.MOKITO_CORE)
         androidTestImplementation(Dependencies.SWIPEX)
         androidTestImplementation(Dependencies.MULTIDEXTEST)
+        androidTestImplementation(Dependencies.MOCKK)
 
-
-
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE, {
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
             exclude(group = "com.android.support", module = "support-annotations")
             exclude(group = "com.google.code.findbugs", module = "jsr305")
-        })
-        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE,
-            { exclude(group = "net.bytebuddy") })
+        }
+        addConfigurationWithExclusion("androidTestImplementation",Dependencies.MOKITO_CORE
+        ) { exclude(group = "net.bytebuddy") }
     }
 
     @Suppress("UNUSED_PARAMETER")
@@ -265,7 +275,7 @@ open class Utility {
     fun DependencyHandler.room(){
         implementation(Dependencies.ROOM_RUNTIME)
         implementation(Dependencies.ROOM_TESTING)
-        kapt(Dependencies.ROOM_COMPILER)
+        //ksp(Dependencies.ROOM_COMPILER)
         implementation(Dependencies.ROOM_KTX)
     }
 
@@ -296,6 +306,14 @@ open class Utility {
 
     private fun DependencyHandler.kapt(dependencyName: String){
         addConfiguration(kapt,dependencyName)
+    }
+
+    private fun DependencyHandler.kaptAndroidTest(dependencyName: String){
+        addConfiguration(kaptAndroidTest,dependencyName)
+    }
+
+    private fun DependencyHandler.kaptTest(dependencyName: String){
+        addConfiguration(kaptTest,dependencyName)
     }
 
     private fun DependencyHandler.testImplementation(dependencyName: String){
@@ -335,5 +353,9 @@ open class Utility {
         dependencyConfiguration: Action<ExternalModuleDependency>
     ): ExternalModuleDependency = addDependencyTo(
         this, configurationName, dependencyNotation, dependencyConfiguration
-    ) as ExternalModuleDependency
+    )
+}
+
+inline fun pln(msg: String){
+    //println(msg)
 }

@@ -19,10 +19,10 @@ package com.khalid.hamid.gojekgithubrepos.utilities
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import org.junit.runner.Description
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
-import org.junit.runner.Description
 
 /**
  * A Junit rule that registers Architecture Components' background threads as an Espresso idling

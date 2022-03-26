@@ -49,7 +49,8 @@ object EspressoTestUtil {
                         // traverse all views, if any is a progress bar, replace its animation
                         traverseViews(v)
                     }
-                }, true
+                },
+                true
             )
     }
 

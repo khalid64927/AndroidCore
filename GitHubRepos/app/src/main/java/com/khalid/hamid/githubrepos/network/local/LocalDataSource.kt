@@ -16,22 +16,20 @@
 
 package com.khalid.hamid.githubrepos.network.local
 
-import com.khalid.hamid.githubrepos.db.RepoDao
 import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.Result.Success
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.vo.Repositories
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * This will always fetch data from database
  *
  */
 open class LocalDataSource @Inject constructor(
-    private val repoDao: RepoDao,
     private val pref: Prefs
 ) : BaseDataSource {
 
@@ -61,12 +59,13 @@ open class LocalDataSource @Inject constructor(
     suspend fun saveData(list: List<Repositories>) {
         Timber.d(" saveData ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
         pref.cachedTime = System.currentTimeMillis().toString()
-        repoDao.insertRepos(list)
+        // repoDao.insertRepos(list)
     }
 
     suspend fun getRepos(): List<Repositories> {
         Timber.d("getRepos ${EspressoIdlingResource.countingIdlingResource.getCounterVal()}")
-        return repoDao.getRepoList()
+        // return repoDao.getRepoList()
+        return emptyList()
     }
 
     override suspend fun fetchRepos(): Result<List<Repositories>> {

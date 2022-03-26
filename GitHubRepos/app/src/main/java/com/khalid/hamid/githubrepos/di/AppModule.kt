@@ -26,14 +26,16 @@ import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class])
+@Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
+
     @Singleton
     @Provides
     fun provideGithubService(): GitHubService {
@@ -57,12 +59,6 @@ class AppModule {
     @Provides
     fun provideRepoDao(db: GithubDb): RepoDao {
         return db.getRepoDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideDispatcher(): CoroutineDispatcher {
-        return Dispatchers.IO
     }
 
     @Singleton

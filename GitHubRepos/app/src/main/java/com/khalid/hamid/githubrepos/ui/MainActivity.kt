@@ -17,35 +17,17 @@
 package com.khalid.hamid.githubrepos.ui
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.khalid.hamid.githubrepos.R
-import com.khalid.hamid.githubrepos.core.contentView
-import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    private val binding2 by contentView<MainActivity, FragmentRepoBinding>(
-        R.layout.fragment_repo
-    )
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.d("onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Timber.d("onCreateOptionsMenu")
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 }

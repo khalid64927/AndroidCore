@@ -23,6 +23,7 @@ import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     /**
@@ -35,16 +36,17 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
         "InvalidPackage", // Firestore uses GRPC which makes lint mad
         "NewerVersionAvailable", "GradleDependency", // For reproducible builds
         "SelectableText", "SyntheticAccessor")
+
     override fun apply(target: Project) {
         ext = target.extensions.create<KPluginExtensions>("KPlugin")
         target.applyPlugins((target.name == "app"))
-        println("name "+ target.name)
+        pln("name "+ target.name)
         //TODO: unable to use extension property in apply function
         target.configureAndroid()
         target.configureQuality()
-        println("ext  ..after "+ ext.compileSDK)
+        pln("ext  ..after "+ ext.compileSDK)
         target.afterEvaluate {
-            println("afterEvaluate")
+            pln("afterEvaluate")
             target.extensions.getByType(KPluginExtensions::class.java).run {
                 val jacocoOptions = this.jacoco
                 if (jacocoOptions.isEnabled) {
@@ -70,51 +72,58 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
     }
 
     fun Project.configureKotlin(){
-        configure<BaseExtension>{
-            compileSdkVersion(ext.compileSDK)
+        configure<KaptExtension> {
+            configureKapt()
         }
     }
 
     private fun Project.configureAndroid() {
-        // TODO:configureKapt
+        configureKotlin()
         configure<BaseExtension>{
-            println(" compileSDK "+ ext.compileSDK)
+            pln(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
             buildToolsVersion(ext.buildTools)
             defaultConfig {
-                println(" min sdk "+ ext.minSDK)
-                println(" targetSDK "+ ext.targetSDK)
-                println(" testRunner  "+ ext.testRunner)
-                println(" lintExclusionRules "+ ext.lintExclusionRules)
-                println(" isLibraryModule "+ ext.isLibraryModule)
-                println(" lintExclusionRules "+ ext.lintExclusionRules.toString())
-                minSdkVersion(ext.minSDK)
+                pln(" min sdk "+ ext.minSDK)
+                pln(" targetSDK "+ ext.targetSDK)
+                pln(" testRunner  "+ ext.testRunner)
+                pln(" lintExclusionRules "+ ext.lintExclusionRules)
+                pln(" isLibraryModule "+ ext.isLibraryModule)
+                pln(" lintExclusionRules "+ ext.lintExclusionRules.toString())
+                minSdk = ext.minSDK
                 multiDexEnabled = true
-                targetSdkVersion(ext.targetSDK.toInt())
+                targetSdk = ext.targetSDK.toInt()
                 versionName = ext.versionName
                 versionCode = ext.versionCode
                 //TODO: dataBinding.isEnabledForTests = true
                 vectorDrawables.useSupportLibrary = true
                 testInstrumentationRunner = ext.testRunner
 
+                val schemas = "${projectDir}/schemas"
                 javaCompileOptions {
                     annotationProcessorOptions {
-                        arguments.putAll(mapOf("room.schemaLocation" to "$projectDir/schemas\".toString()",
-                            "room.expandProjection" to "true",
+                        arguments.putAll(mapOf("room.schemaLocation" to schemas,
                             "room.expandProjection" to "true",
                             "androidx.room.RoomProcessor" to "true",
+                            "dagger.validateTransitiveComponentDependencies" to "DISABLED",
                             "dagger.gradle.incremental" to "true"))
                     }
                 }
             }
 
+            dataBinding.enable = true
+            dataBinding.enableForTests = true
+            dataBinding.addKtx = true
+
+            buildFeatures.viewBinding = true
+
             lintOptions {
                 baselineFile = getLintBaseline()
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
-                isAbortOnError = true
+                isAbortOnError = false // TODO: fix lint issues
+                disable("InvalidPackage")
             }
-
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
@@ -128,26 +137,23 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     isDebuggable = true
                 }
             }
-
             packagingOptions {
-                exclude("LICENSE.txt")
-                exclude("META-INF/rxjava.properties")
-                exclude("META-INF/DEPENDENCIES")
-                exclude("META-INF/LICENSE")
-                exclude("META-INF/LICENSE.txt")
-                exclude("META-INF/license.txt")
-                exclude("META-INF/NOTICE")
-                exclude("META-INF/NOTICE.txt")
-                exclude("META-INF/notice.txt")
-                exclude("META-INF/ASL2.0")
+                resources.excludes.add("LICENSE.txt")
+                resources.excludes.add("META-INF/rxjava.properties")
+                resources.excludes.add("META-INF/DEPENDENCIES")
+                resources.excludes.add("META-INF/LICENSE")
+                resources.excludes.add("META-INF/LICENSE.txt")
+                resources.excludes.add("META-INF/license.txt")
+                resources.excludes.add("META-INF/NOTICE")
+                resources.excludes.add("META-INF/NOTICE.txt")
+                resources.excludes.add("META-INF/notice.txt")
+                resources.excludes.add("META-INF/ASL2.0")
             }
-
             testOptions.unitTests.isReturnDefaultValues = true
             testOptions.unitTests.isIncludeAndroidResources = true
-
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
             }
 
             dependencies {

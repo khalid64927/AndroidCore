@@ -1,20 +1,14 @@
 import com.dependencies.Dependencies
+import com.dependencies.pln
+
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
+    // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
 }
-System.out.println("after plugin")
-kapt {
-    correctErrorTypes = true
-    javacOptions {
-        // Increase the max count of errors from annotation processors.
-        // Default is 100.
-        option("-Xmaxerrs", 500)
-    }
-}
-
+pln("after plugin")
 
 KPlugin {
-    System.out.println("KPlugin Ext app...")
+    pln("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
     compileSDK = "32"
@@ -32,38 +26,29 @@ KPlugin {
 spotless {
     kotlin {
         target ("**/*.kt")
-        ktlint("0.35.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+        ktlint("0.44.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
             licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
     }
 }
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
-    System.out.println("android block...")
-    compileSdkVersion(29)
-    // TODO: new config
-    /*buildFeatures {
-        dataBinding = true
-        viewBinding = false
-
-    }*/
-
-    dataBinding {
-        isEnabledForTests = true
-        isEnabled = true
-    }
-    /*viewBinding {
-        isEnabled = true
-    }*/
+    pln("android block...")
+    namespace = "com.khalid.hamid.githubrepos"
+    buildFeatures.dataBinding = true
+    dataBinding.enable = true
+    dataBinding.enableForTests = true
+    dataBinding.addKtx = true
+    buildFeatures.viewBinding = true
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
-    flavorDimensions("default")
+    flavorDimensions.add("default")
     productFlavors {
         create("mock") {
             applicationId = "com.khalid.hamid.githubrepos"
@@ -75,6 +60,9 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.HILT_ANDROID)
+    kapt(Dependencies.HILT_ANDROID_COMPILER)
+
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.V7)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
@@ -84,12 +72,12 @@ dependencies {
     implementation(Dependencies.CR_CORE)
     implementation(Dependencies.CR_ANDROID)
 
-
     implementation(Dependencies.DAGGER_RUNTIME)
     api(Dependencies.DAGGER_ANDROID)
     implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
     kapt(Dependencies.DAGGER_COMPILER)
+
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)
@@ -98,11 +86,10 @@ dependencies {
     implementation(Dependencies.LD_KTX)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.LC_VM_KTX)
-    // Rx Java
-    implementation(Dependencies.RX_ANDROID)
     // Room component
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
+    // TODO:
     kapt(Dependencies.ROOM_COMPILER)
     implementation(Dependencies.ROOM_KTX)
 
@@ -136,5 +123,5 @@ dependencies {
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
 }
 
-System.out.println("script end")
+pln("script end")
 

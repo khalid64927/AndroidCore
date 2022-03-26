@@ -17,8 +17,8 @@
 package com.khalid.hamid.githubrepos.ui
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.khalid.hamid.githubrepos.core.BaseViewModel
 import com.khalid.hamid.githubrepos.network.BaseRepository
 import com.khalid.hamid.githubrepos.network.Resource
 import com.khalid.hamid.githubrepos.network.Result
@@ -27,12 +27,14 @@ import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.EspressoIdlingResource
 import com.khalid.hamid.githubrepos.vo.Repositories
-import javax.inject.Inject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
-class RepoViewModel@Inject constructor(val repository: BaseRepository) : ViewModel() {
+@HiltViewModel
+class RepoViewModel@Inject constructor(val repository: BaseRepository) : BaseViewModel() {
     val _items = MutableLiveData<Resource<List<Repositories>>>().apply { value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait") }
     // here we are getting from DB if not then network
     fun getRepoList() {

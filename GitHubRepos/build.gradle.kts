@@ -2,20 +2,14 @@ import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        //google()
-        maven {
-            url = uri("https://maven.google.com")
-        }
-        jcenter()
-        maven {
-            url = uri("https://maven.fabric.io/public")
-        }
+        mavenCentral()
+        google()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         // Add the Google Services plugin (check for v3.1.2 or higher).
         classpath ("com.google.gms:google-services:4.3.3")
     }
@@ -24,9 +18,10 @@ buildscript {
 }
 
 allprojects {
+    apply(plugin = "org.owasp.dependencycheck")
     repositories {
+        mavenCentral()
         google()
-        jcenter()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
@@ -56,4 +51,17 @@ allprojects {
 
 }
 
-
+/**
+ * TODO: move this to configureOSSScan in ProjectBuildTask
+ * Configuring Dependency Check plugin
+ * 1. Maximum allowed vulnerabilities are no more than 7
+ * 2. Report is generated at app/builds/reports/ in HTML format
+ * ./gradlew dependencycheckAnalyze --info
+*/
+configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+    format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+    outputDirectory = "${project.buildDir}/reports"
+    failBuildOnCVSS = 7f
+}
+// TODO: add dep update plugin
+// https://github.com/ben-manes/gradle-versions-plugin

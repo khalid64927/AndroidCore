@@ -2,14 +2,16 @@ import com.dependencies.Dependencies
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
-
 }
 kapt {
     correctErrorTypes = true
+    arguments {
+        arg("-Xjvm-default", "compatibility")
+    }
 }
 
 KPlugin {
-    System.out.println("Library ... ")
+    println("Library ... ")
     isLibraryModule = false
     minSDK = 19
     compileSDK = "32"
@@ -38,8 +40,6 @@ dependencies {
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)
     implementation(Dependencies.LC_RUNTIME)
-    // Rx Java
-    implementation(Dependencies.RX_ANDROID)
     // Room component
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
@@ -67,7 +67,7 @@ dependencies {
     kapt(Dependencies.ROOM_COMPILER)
     kapt(Dependencies.LC_COMPILER)
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
-    //kapt(Dependencies.DAGGER_COMPILER)
+    kapt(Dependencies.DAGGER_COMPILER)
     kapt(Dependencies.GLIDE_COMPILER)
 
 }

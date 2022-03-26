@@ -19,83 +19,74 @@ package com.khalid.hamid.githubrepos.ui
 import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingComponent
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
+import com.khalid.hamid.githubrepos.core.BaseFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentRepoBinding
-import com.khalid.hamid.githubrepos.di.Injectable
 import com.khalid.hamid.githubrepos.network.Status
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.*
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @OpenForTesting
-class RepoFragment : Fragment(), Injectable {
+@AndroidEntryPoint
+class RepoFragment : BaseFragment() {
 
     @Inject
     lateinit var executors: AppExecutors
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     @Inject
     lateinit var app: Application
+
+    override val mLayout = R.layout.fragment_repo
+
+    override fun getPageName(): String = this::class.java.simpleName
+
     private var adapter by autoCleared<RepoAdapter>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    var binding by autoCleared<FragmentRepoBinding>()
-    val repoViewModel: RepoViewModel by viewModels {
-        viewModelFactory
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    private var v by fragmentViewLifecycleDelegate<FragmentRepoBinding>({
+        getFragmentBinding()
+    })
+
+    lateinit var repoViewModel: RepoViewModel
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        repoViewModel = getViewModel()
+        v.lifecycleOwner = viewLifecycleOwner
+
         val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
-        val adapter = RepoAdapter(dataBindingComponent, executors) { repositories -> }
+        val adapter = RepoAdapter(FragmentDataBindingComponent(this), executors) {
+            // no-op
+        }
         this.adapter = adapter
-        binding.repoList.adapter = this.adapter
-        binding.repoList.addItemDecoration(decorator)
-        binding.callback = object : RetryListener {
-            override fun fetchFromRepote() {
+        v.repoList.adapter = this.adapter
+        v.repoList.addItemDecoration(decorator)
+        v.callback = object : RetryListener {
+            override fun fetchFromRepo() {
                 repoViewModel.getRepoList()
             }
         }
-        binding.forceRefresh = object : ForceRefresh {
+        v.forceRefresh = object : ForceRefresh {
             override fun refresh() {
                 repoViewModel.forcedRefresh()
             }
         }
-        repoLiveData.observe(viewLifecycleOwner, Observer { repositories ->
-            binding.resource = repositories
+        repoLiveData.observe(
+            viewLifecycleOwner
+        ) { repositories ->
+            v.resource = repositories
             this.adapter.submitList(repositories.data)
             when (repositories.status) {
                 Status.SUCCESS -> Timber.d("success %s", repositories.data.toString())
                 Status.ERROR -> Timber.d("error ")
                 Status.LOADING -> Timber.d("loading ")
             }
-        })
+        }
         repoViewModel.getRepoList()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        val dataBinding = DataBindingUtil.inflate<FragmentRepoBinding>(
-            inflater,
-            R.layout.fragment_repo,
-            container,
-            false
-        )
-        Timber.d("onCreateView")
-        setHasOptionsMenu(true)
-        binding = dataBinding
-        return binding.repoRoot
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -104,7 +95,7 @@ class RepoFragment : Fragment(), Injectable {
             // sort adapter by stars
             R.id.menu_sort_star -> true
             else -> false
-    }
+        }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

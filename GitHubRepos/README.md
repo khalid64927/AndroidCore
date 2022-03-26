@@ -4,10 +4,10 @@
 *Uses MVVM + Clean code Architecture
 *Uses Co-routines for network calls
 *Uses LiveData for UI update
-* Built on Android Studio 4.0 Canary 3 build
-* Android SDK 29
-* Gradle 5.6.1
-* Android Gradle Plugin 1.3.60-eap-25
+* Built on Android Studio Dolphin | 2021.3.1 Canary 5
+* Android SDK 32
+* Gradle 7.4-all
+* Android Gradle Plugin 7.3.0-alpha07
 
 
 ### Functionality
@@ -58,6 +58,17 @@ The project uses [MockWebServer][mockwebserver] and Fake implementations
 ## Jacoco
 run "jacocoPRODDEBUGReport"
 
+## Security
+Once gradle plugin applied, run following gradle task to check dependencies:
+
+```
+gradle dependencyCheckAnalyze --info
+```
+
+The reports will be generated automatically under `build/reports` directory.
+
+If your project includes multiple sub-projects, the report will be generated for each sub-project in their own `build/reports`.
+
 
 ### Libraries
 * [Android Support Library][support-lib]
@@ -69,6 +80,7 @@ run "jacocoPRODDEBUGReport"
 * [Timber][timber] for logging
 * [espresso][espresso] for UI tests
 * [mockito][mockito] for mocking in tests
+* [Dependency Security Chek][dependencyCheck] To run OSS scan on third party libraries and generate report
 
 ## Refernces
 
