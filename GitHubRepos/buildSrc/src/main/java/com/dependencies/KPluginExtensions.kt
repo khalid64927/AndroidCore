@@ -17,6 +17,11 @@ open class KPluginExtensions {
     var lintBaseLineFilePath = ""
     var lintExclusionRules : List<String> = emptyList()
     var checkstylePath = ""
+    /**
+     * provide class path to your all open annotation in your source code
+     * Ex: com.khalid.hamid.githubrepos.testing.OpenClass
+    */
+    var openAnnotationPath = "com.khalid.hamid.githubrepos.testing.OpenClass"
 
 
     open val jacoco: JacocoOptions = JacocoOptions()
@@ -27,7 +32,6 @@ open class KPluginExtensions {
 
 open class JacocoOptions {
     open var isEnabled: Boolean = true
-
     open var excludes: ArrayList<String> = arrayListOf()
     open var dependentTasklist: ArrayList<String> = arrayListOf()
     open fun excludes(vararg excludes: String) {

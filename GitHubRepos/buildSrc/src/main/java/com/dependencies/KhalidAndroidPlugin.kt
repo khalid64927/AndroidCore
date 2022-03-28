@@ -25,60 +25,58 @@ import org.gradle.kotlin.dsl.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
-open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
+open class KhalidAndroidPlugin : Plugin<Project> {
+
+    lateinit var ext: KPluginExtensions
+
+
     /**
      * Determines if a Project is the 'library' module
      */
     val Project.isLibrary get() = name == "app"
     private val Project.configDir get() = "$rootDir/quality"
-    private var lintExclusionRules = arrayListOf("ObsoleteLintCustomCheck", // ButterKnife will fix this in v9.0
-        "IconExpectedSize",
-        "InvalidPackage", // Firestore uses GRPC which makes lint mad
-        "NewerVersionAvailable", "GradleDependency", // For reproducible builds
-        "SelectableText", "SyntheticAccessor")
 
     override fun apply(target: Project) {
-        ext = target.extensions.create<KPluginExtensions>("KPlugin")
-        target.applyPlugins((target.name == "app"))
+        if(target.properties.entries.contains("enableBuildLogs")){
+            PluginConstants.enableBuildLogs = true
+        } else {
+            println("========================================================================")
+            println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
+            println("========================================================================")
+        }
+        ext = target.extensions.create("KPlugin")
+        applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
-        //TODO: unable to use extension property in apply function
-        target.configureAndroid()
-        target.configureQuality()
+        configureAndroid(target)
+        configureQuality(target)
+        configureSpotless(target)
         pln("ext  ..after "+ ext.compileSDK)
-        target.afterEvaluate {
-            pln("afterEvaluate")
-            target.extensions.getByType(KPluginExtensions::class.java).run {
-                val jacocoOptions = this.jacoco
-                if (jacocoOptions.isEnabled) {
-                    // Setup jacoco tasks to generate coverage report for this module.
-                    target.plugins.apply(JacocoPlugin::class.java)
-                    target.plugins.all {
-                        when (this) {
-                            is LibraryPlugin -> {
-                                target.extensions.getByType(LibraryExtension::class.java).run {
-                                    configureJacoco(target, libraryVariants, jacocoOptions)
-                                }
-                            }
-                            is AppPlugin -> {
-                                target.extensions.getByType(AppExtension::class.java).run {
-                                    configureJacoco(target, applicationVariants, jacocoOptions)
-                                }
-                            }
-                        }
-                    }
-                }
+    }
+
+    private fun configureAllOpen(project: Project) = project.run {
+        try {
+            if(ext.openAnnotationPath.isEmpty()){
+                throw java.lang.IllegalStateException(" missing openAnnotationPath value")
             }
+            val allOpenExt = extensions.getByName("allOpen") as org.jetbrains.kotlin.allopen.gradle.AllOpenExtension
+            allOpenExt.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
+        }catch (e: Exception){
+            e.printStackTrace()
         }
     }
 
-    fun Project.configureKotlin(){
+    private fun configureKotlin(project: Project) = project.run {
         configure<KaptExtension> {
             configureKapt()
         }
     }
 
-    private fun Project.configureAndroid() {
-        configureKotlin()
+    private fun configureAndroid(project: Project) {
+        configureKotlin(project)
+        configureAndroidDefaults(project)
+    }
+
+    private fun configureAndroidDefaults(project: Project) = project.run {
         configure<BaseExtension>{
             pln(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
@@ -95,10 +93,8 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 targetSdk = ext.targetSDK.toInt()
                 versionName = ext.versionName
                 versionCode = ext.versionCode
-                //TODO: dataBinding.isEnabledForTests = true
                 vectorDrawables.useSupportLibrary = true
                 testInstrumentationRunner = ext.testRunner
-
                 val schemas = "${projectDir}/schemas"
                 javaCompileOptions {
                     annotationProcessorOptions {
@@ -110,15 +106,12 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                     }
                 }
             }
-
             dataBinding.enable = true
             dataBinding.enableForTests = true
             dataBinding.addKtx = true
-
             buildFeatures.viewBinding = true
-
             lintOptions {
-                baselineFile = getLintBaseline()
+                baselineFile = getLintBaseline(project, ext)
                 isCheckAllWarnings = true
                 isWarningsAsErrors = true
                 isAbortOnError = false // TODO: fix lint issues
@@ -161,15 +154,43 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
                 UITest()
             }
         }
+
     }
 
-    // TODO: add checkstyle
-    private fun Project.configureQuality() {
-        apply(plugin = "checkstyle")
+    private fun configureQuality(target: Project) = target.run {
+        val project = this
+        configureCheckStyle(target)
+        // set jacoco config
+        afterEvaluate {
+            pln("afterEvaluate")
+            extensions.getByType(KPluginExtensions::class.java).run {
+                val jacocoOptions = this.jacoco
+                if (jacocoOptions.isEnabled) {
+                    // Setup jacoco tasks to generate coverage report for this module.
+                    plugins.apply(JacocoPlugin::class.java)
+                    plugins.all {
+                        when (this) {
+                            is LibraryPlugin -> {
+                                extensions.getByType(LibraryExtension::class.java).run {
+                                    configureJacoco(project, libraryVariants, jacocoOptions)
+                                }
+                            }
+                            is AppPlugin -> {
+                                extensions.getByType(AppExtension::class.java).run {
+                                    configureJacoco(project, applicationVariants, jacocoOptions)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    private fun configureCheckStyle(target: Project) = target.run {
+        apply(plugin = "checkstyle")
         configure<CheckstyleExtension> { toolVersion = "8.10.1" }
         tasks.named("check").configure { dependsOn("checkstyle") }
-
         tasks.register<Checkstyle>("checkstyle") {
             var path = ext.checkstylePath
             if(path.isEmpty()){
@@ -182,11 +203,4 @@ open class KhalidAndroidPlugin : Plugin<Project>, Utility() {
             classpath = files()
         }
     }
-
-    // TODO: publish plugin
-    internal fun Project.configurePlugins() {
-        plugins.apply("com.android.library")
-        plugins.apply("org.gradle.maven-publish") // or anything else, that you would like to load
-    }
-
 }
