@@ -23,14 +23,6 @@ KPlugin {
     }
 }
 
-spotless {
-    kotlin {
-        target ("**/*.kt")
-        ktlint("0.44.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
-            licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
-    }
-}
-
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     pln("android block...")
