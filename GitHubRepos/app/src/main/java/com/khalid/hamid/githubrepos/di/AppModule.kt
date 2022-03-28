@@ -28,20 +28,23 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
+    const val TIME_OUT_INTERVAL: Long = 60
 
     @Singleton
     @Provides
-    fun provideGithubService(): GitHubService {
+    fun provideGithubService(okHttpClient: OkHttpClient): GitHubService {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
             .create(GitHubService::class.java)
     }

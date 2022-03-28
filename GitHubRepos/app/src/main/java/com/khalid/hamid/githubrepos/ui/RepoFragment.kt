@@ -50,13 +50,13 @@ class RepoFragment : BaseFragment() {
         getFragmentBinding()
     })
 
-    lateinit var repoViewModel: RepoViewModel
-
+    // repoViewModel is initialised in BaseFragment's onViewCreated
+    private var repoViewModel by fragmentViewLifecycleDelegate<RepoViewModel>({
+        getViewModel()
+    })
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        repoViewModel = getViewModel()
         v.lifecycleOwner = viewLifecycleOwner
-
         val repoLiveData = repoViewModel._items
         val decorator = SimpleDividerItemDecoration(app)
         val adapter = RepoAdapter(FragmentDataBindingComponent(this), executors) {

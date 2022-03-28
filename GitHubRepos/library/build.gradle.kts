@@ -3,12 +3,6 @@ import com.dependencies.Dependencies
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
 }
-kapt {
-    correctErrorTypes = true
-    arguments {
-        arg("-Xjvm-default", "compatibility")
-    }
-}
 
 KPlugin {
     println("Library ... ")

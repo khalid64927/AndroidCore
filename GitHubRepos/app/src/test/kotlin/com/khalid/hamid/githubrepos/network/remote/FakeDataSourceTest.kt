@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Mohammed Khalid Hamid.
+ * Copyright 2022 Mohammed Khalid Hamid.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,34 +16,34 @@
 
 package com.khalid.hamid.githubrepos.network.remote
 
-import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.khalid.hamid.githubrepos.db.RepoDao
-import com.khalid.hamid.githubrepos.network.BaseDataSource
-import com.khalid.hamid.githubrepos.network.Result
+import com.khalid.hamid.githubrepos.utilities.readTextAndClose
 import com.khalid.hamid.githubrepos.vo.Repositories
-import javax.inject.Inject
+import org.junit.Assert.*
+import org.junit.Test
 
-class FakeDataSource @Inject constructor(private val repoDao: RepoDao, private val appContext: Application) : BaseDataSource {
+class FakeDataSourceTest {
 
-    override suspend fun getRepositories(): Result<List<Repositories>> {
+    data class AllRepos(private val repos: List<Repositories>)
+
+    @Test
+    fun getRepositories() {
         val typeToken = object : TypeToken<List<Repositories>>() {}.type
         val jsonPath = "api-response/repos-khalid.json"
-        val mockJson = appContext.assets.open(jsonPath).bufferedReader().use {
-            it.readText()
-        }
+        var mockJson = javaClass.classLoader?.getResourceAsStream(jsonPath)
+            ?.readTextAndClose()
         val data = Gson().fromJson<List<Repositories>>(mockJson, typeToken)
-        return Result.Success(data)
+        assert(data != null)
     }
 
-    override suspend fun fetchRepos(): Result<List<Repositories>> {
+    @Test
+    fun fetchRepos() {
         val typeToken = object : TypeToken<List<Repositories>>() {}.type
         val jsonPath = "api-response/repos-khalid.json"
-        val mockJson = appContext.assets.open(jsonPath).bufferedReader().use {
-            it.readText()
-        }
+        var mockJson = javaClass.classLoader?.getResourceAsStream(jsonPath)
+            ?.readTextAndClose()
         val data = Gson().fromJson<List<Repositories>>(mockJson, typeToken)
-        return Result.Success(data)
+        assert(data != null)
     }
 }

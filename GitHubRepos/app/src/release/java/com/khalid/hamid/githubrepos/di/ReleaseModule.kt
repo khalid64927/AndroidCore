@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Mohammed Khalid Hamid.
+ * Copyright 2022 Mohammed Khalid Hamid.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,26 @@
 
 package com.khalid.hamid.githubrepos.di
 
-import android.app.Application
-import com.khalid.hamid.githubrepos.db.RepoDao
-import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.remote.FakeDataSource
+import com.khalid.hamid.githubrepos.di.AppModule.TIME_OUT_INTERVAL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RepositoryModule {
+class ReleaseModule {
 
-    @Singleton
     @Provides
-    fun provideRepository(repoDao: RepoDao, application: Application): BaseRepository {
-        return BaseRepository(FakeDataSource(repoDao, application))
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            connectTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+                .writeTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
+        }.build()
     }
 }
