@@ -4,10 +4,10 @@
 *Uses MVVM + Clean code Architecture
 *Uses Co-routines for network calls
 *Uses LiveData for UI update
-* Built on Android Studio 4.0 Canary 3 build
-* Android SDK 29
-* Gradle 5.6.1
-* Android Gradle Plugin 1.3.60-eap-25
+* Built on Android Studio Dolphin | 2021.3.1 Canary 5
+* Android SDK 32
+* Gradle 7.4-all
+* Android Gradle Plugin 7.3.0-alpha07
 
 
 ### Functionality
