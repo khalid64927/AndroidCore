@@ -56,23 +56,9 @@ inline fun applyPlugins(isApp : Boolean, project: Project) = project.run {
     if(isApp){
         apply(plugin = "dagger.hilt.android.plugin")
     }
-    applyDynatrace()
 }
 
-inline fun Project.applyDynatrace(){
-    apply(plugin = "com.dynatrace.instrumentation")
-    /*dynatrace {
-        configurations {
-            sampleConfig {
-                autoStart {
-                    applicationId '9c5f66f9-b4d1-48e0-a09d-74756392aa19'
-                    beaconUrl 'https://bf93215wen.bf.dynatrace.com/mbeacon'
-                }
-            }
-        }
-    }*/
 
-}
 
 inline fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = project.run {
     val defaultLintFile = file("$rootDir/quality/lint-baseline.xml")
