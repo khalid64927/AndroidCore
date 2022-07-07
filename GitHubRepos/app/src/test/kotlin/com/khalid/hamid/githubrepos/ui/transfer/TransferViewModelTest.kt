@@ -20,32 +20,29 @@ import com.khalid.hamid.githubrepos.network.BaseRepository
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
 class TransferViewModelTest : BaseUnitTest() {
 
     lateinit var subject: TransferViewModel
 
-    @Mock
+    @MockK
     lateinit var baseRepository: BaseRepository
 
-    @Mock
+    @MockK
     lateinit var perf: Prefs
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-
+    override fun before() {
+        super.before()
         val data = Data("111", "", "test")
         val payees = PayeeResponse(listOf(data), "success")
         runBlockingTest {
-            Mockito.`when`(baseRepository.payees()).thenReturn(Result.Success(payees))
+            coEvery { baseRepository.payees() } returns Result.Success(payees)
         }
         subject = TransferViewModel(baseRepository, perf)
     }
@@ -54,8 +51,8 @@ class TransferViewModelTest : BaseUnitTest() {
     fun `verify InvalidPayee`() = runBlockingTest {
         // Given
         val loginReq = TransferRequest("123", 22, "test")
-        val loginResponse: TransferResponse = Mockito.mock(TransferResponse::class.java)
-        Mockito.`when`(baseRepository.transfer(loginReq)).thenReturn(Result.Success(loginResponse))
+        val loginResponse: TransferResponse = mockk()
+        coEvery { baseRepository.transfer(loginReq) } returns Result.Success(loginResponse)
 
         // When
         subject.transfer("test", "22", "test")
@@ -69,8 +66,8 @@ class TransferViewModelTest : BaseUnitTest() {
     fun `verify transfer success`() = runBlockingTest {
         // Given
         val loginReq = TransferRequest("111", 22, "test")
-        val loginResponse: TransferResponse = Mockito.mock(TransferResponse::class.java)
-        Mockito.`when`(baseRepository.transfer(loginReq)).thenReturn(Result.Success(loginResponse))
+        val loginResponse: TransferResponse = mockk()
+        coEvery { baseRepository.transfer(loginReq) } returns Result.Success(loginResponse)
 
         // When
         subject.transfer("test", "22", "test")
@@ -84,8 +81,8 @@ class TransferViewModelTest : BaseUnitTest() {
     fun `verify transfer failed`() = runBlockingTest {
         // Given
         val loginReq = TransferRequest("111", 22, "test")
-        val loginResponse: TransferResponse = Mockito.mock(TransferResponse::class.java)
-        Mockito.`when`(baseRepository.transfer(loginReq)).thenReturn(Result.Failure(Exception("")))
+        val loginResponse: TransferResponse = mockk()
+        coEvery { baseRepository.transfer(loginReq) } returns Result.Failure(Exception(""))
 
         // When
         subject.transfer("test", "22", "test")

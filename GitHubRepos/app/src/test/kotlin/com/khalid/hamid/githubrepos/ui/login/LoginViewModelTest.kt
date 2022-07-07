@@ -20,30 +20,25 @@ import com.khalid.hamid.githubrepos.network.BaseRepository
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
-import okhttp3.mockwebserver.MockWebServer
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
 class LoginViewModelTest : BaseUnitTest() {
-    private lateinit var mockWebServer: MockWebServer
 
     lateinit var subject: LoginViewModel
 
-    @Mock
+    @MockK
     lateinit var baseRepository: BaseRepository
 
-    @Mock
+    @MockK
     lateinit var perf: Prefs
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
+    override fun before() {
+        super.before()
         subject = LoginViewModel(baseRepository, perf)
     }
 
@@ -51,8 +46,8 @@ class LoginViewModelTest : BaseUnitTest() {
     fun `verify login success`() = runBlockingTest {
         // Given
         val loginReq = LoginRequest("test", "asdasd")
-        val loginResponse: LoginResponse = mock(LoginResponse::class.java)
-        `when`(baseRepository.login(loginReq)).thenReturn(Result.Success(loginResponse))
+        val loginResponse: LoginResponse = mockk()
+        coEvery { baseRepository.login(loginReq) } returns Result.Success(loginResponse)
 
         // When
         subject.login("test", "asdasd")
@@ -66,7 +61,7 @@ class LoginViewModelTest : BaseUnitTest() {
     fun `verify login failure`() = runBlockingTest {
         // Given
         val loginReq = LoginRequest("test", "asdasd")
-        `when`(baseRepository.login(loginReq)).thenReturn(Result.Failure(Exception("")))
+        coEvery { baseRepository.login(loginReq) } returns Result.Failure(Exception(""))
 
         // When
         subject.login("test", "asdasd")

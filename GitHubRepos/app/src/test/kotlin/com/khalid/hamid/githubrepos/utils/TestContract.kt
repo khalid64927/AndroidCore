@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.network.remote
+package com.khalid.hamid.githubrepos.utils
 
-class FakeDataSourceTest {
-    // TODO
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Before
+
+interface TestContract {
+    var mockWebServer: MockWebServer
+    @Before
+    fun before()
+
+    @After
+    fun after()
 }

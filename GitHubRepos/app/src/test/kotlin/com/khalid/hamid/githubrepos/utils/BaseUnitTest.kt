@@ -16,15 +16,26 @@
 
 package com.khalid.hamid.githubrepos.utils
 
+import androidx.annotation.CallSuper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import io.mockk.MockKAnnotations
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.Before
 import org.junit.Rule
+import org.mockito.MockitoAnnotations
 
-open class BaseUnitTest {
+open class BaseUnitTest : TestContract {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
+
+    val exceptions = mutableListOf<Throwable>()
+    val customCaptor = CoroutineExceptionHandler { ctx, throwable ->
+        exceptions.add(throwable) // add proper synchronization if the test is multithreaded
+    }
 
     // Tell JUnit to force tests to be executed synchronously
     @Rule
@@ -34,6 +45,24 @@ open class BaseUnitTest {
     /**
      * Convenience method to call runBlockingTest with mainCoroutineRule's scope
      */
-    fun runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
-        mainCoroutineRule.runBlockingTest(block)
+    fun runBlockingTest(block: suspend TestScope.() -> Unit) =
+        mainCoroutineRule.scope.runTest { block() }
+
+    override var mockWebServer = MockWebServer()
+
+    @CallSuper
+    @Before
+    override fun before() {
+        MockKAnnotations.init(this)
+        MockitoAnnotations.openMocks(this)
+        mockWebServer.run {
+            start()
+        }
+    }
+
+    override fun after() {
+        mockWebServer.run {
+            shutdown()
+        }
+    }
 }

@@ -20,34 +20,31 @@ import com.khalid.hamid.githubrepos.network.BaseRepository
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
-import org.junit.Before
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
 class BalanceViewModelTest : BaseUnitTest() {
 
     lateinit var subject: BalanceViewModel
 
-    @Mock
+    @MockK
     lateinit var baseRepository: BaseRepository
 
-    @Mock
+    @MockK
     lateinit var perf: Prefs
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
+    override fun before() {
+        super.before()
     }
 
     @Test
     fun `verify transactions are displayed`() = runBlockingTest {
-        val response = mock(BalanceResponse::class.java)
+        val response = mockk<BalanceResponse>()
         runBlockingTest {
-            Mockito.`when`(baseRepository.balance()).thenReturn(Result.Success(response))
+            coEvery { baseRepository.balance() } returns Result.Success(response)
         }
         subject = BalanceViewModel(baseRepository, perf)
 
@@ -57,7 +54,7 @@ class BalanceViewModelTest : BaseUnitTest() {
     @Test
     fun `verify transactions are not displayed`() = runBlockingTest {
         runBlockingTest {
-            Mockito.`when`(baseRepository.balance()).thenReturn(Result.Failure(Exception("")))
+            coEvery { baseRepository.balance() } returns Result.Failure(Exception(""))
         }
         subject = BalanceViewModel(baseRepository, perf)
         assert((subject.balanceEventLiveData.value is BalanceNotAvailable))

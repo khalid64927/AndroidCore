@@ -16,26 +16,25 @@
 
 package com.khalid.hamid.githubrepos.utils
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import kotlin.coroutines.ContinuationInterceptor
 
 /**
  * This will help in integration testing
  *
 */
 @ExperimentalCoroutinesApi
-class MainCoroutineRule : TestWatcher(), TestCoroutineScope by TestCoroutineScope() {
+class MainCoroutineRule : TestWatcher() {
+
+    val dispatcher = StandardTestDispatcher()
+    val scope = TestScope(dispatcher)
 
     override fun starting(description: Description?) {
         super.starting(description)
-        Dispatchers.setMain(this.coroutineContext[ContinuationInterceptor] as CoroutineDispatcher)
+        Dispatchers.setMain(dispatcher)
     }
 
     override fun finished(description: Description?) {

@@ -16,6 +16,8 @@
 
 package com.khalid.hamid.githubrepos.network.remote
 
+import android.app.Application
+import com.google.gson.Gson
 import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
@@ -27,36 +29,55 @@ import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
 import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
 import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
 import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
+import com.khalid.hamid.githubrepos.utilities.runSafe
 import com.khalid.hamid.githubrepos.vo.GitRepos
 import javax.inject.Inject
 
-class FakeDataSource @Inject constructor() : BaseDataSource {
+class FakeDataSource @Inject constructor(val context: Application) : BaseDataSource {
+    val gson = Gson()
+
+    private inline fun <reified T> parse(jsonPath: String): T? {
+        var response: T? = null
+        runSafe {
+            val jsonString = context.assets.open(jsonPath)
+                .bufferedReader()
+                .use { it.readText() }
+            response = gson.fromJson(jsonString, T::class.java)
+        }
+        return response
+    }
 
     override suspend fun fetchRepos(): Result<GitRepos> {
-        return Result.Failure(Exception("Fake !"))
+        return Result.Failure(Exception("Error"))
     }
 
     override suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse> {
-        TODO("Not yet implemented")
+        val response = parse<RegisterResponse>("mocks/register.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 
     override suspend fun login(loginRequest: LoginRequest): Result<LoginResponse> {
-        TODO("Not yet implemented")
+        val response = parse<LoginResponse>("mocks/login.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 
     override suspend fun balance(): Result<BalanceResponse> {
-        TODO("Not yet implemented")
+        val response = parse<BalanceResponse>("mocks/balance.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 
     override suspend fun transactions(): Result<TransactionResponse> {
-        TODO("Not yet implemented")
+        val response = parse<TransactionResponse>("mocks/transaction.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 
     override suspend fun payees(): Result<PayeeResponse> {
-        TODO("Not yet implemented")
+        val response = parse<PayeeResponse>("mocks/payee.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 
     override suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse> {
-        TODO("Not yet implemented")
+        val response = parse<TransferResponse>("mocks/transfer.json")
+        return if (response == null) Result.Failure(Exception("Error")) else Result.Success(response)
     }
 }
