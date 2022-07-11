@@ -85,7 +85,9 @@ class TransferViewModel @Inject constructor(
         if (!validateDescription(description)) {
             _transferEventLiveData.value = InvalidDescription("")
         }
-        val accountNo = payeeList?.data?.find { it.name.equals(payeeSelected, ignoreCase = true) }?.accountNo ?: ""
+        val accountNo = payeeList?.data
+            ?.find { it.name.equals(payeeSelected, ignoreCase = true) }
+            ?.accountNo ?: ""
         launchAsyncAPI {
             baseRepository.transfer(TransferRequest(accountNo, amount.toInt(), description))
                 .onError {

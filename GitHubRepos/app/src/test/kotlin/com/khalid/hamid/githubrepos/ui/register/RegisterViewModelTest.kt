@@ -21,10 +21,12 @@ import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.junit.Assert
 import org.junit.Test
+import org.mockito.kotlin.any
 import java.lang.Exception
 
 class RegisterViewModelTest : BaseUnitTest() {
@@ -34,11 +36,14 @@ class RegisterViewModelTest : BaseUnitTest() {
     @MockK
     lateinit var baseRepository: BaseRepository
 
-    @MockK
+    @MockK(relaxed = true)
     lateinit var perf: Prefs
 
     override fun before() {
         super.before()
+        every { perf.accessToken } returns ""
+        every { perf.accountNumber } returns ""
+        every { perf.clearAllValues() } returns any()
         subject = RegisterViewModel(baseRepository, perf)
     }
 
@@ -47,6 +52,7 @@ class RegisterViewModelTest : BaseUnitTest() {
         // Given
         val req = RegisterRequest("test", "asdasd")
         val res: RegisterResponse = mockk()
+        every { res.token } returns ""
         coEvery { baseRepository.register(req) } returns Result.Success(res)
 
         // When
@@ -54,7 +60,7 @@ class RegisterViewModelTest : BaseUnitTest() {
 
         // Then
         val event = subject.registerEventLiveData.value
-        Assert.assertTrue(event is RegisterSuccess)
+        Assert.assertTrue(event is Registered)
     }
 
     @Test

@@ -36,26 +36,17 @@ class BalanceViewModelTest : BaseUnitTest() {
     @MockK
     lateinit var perf: Prefs
 
-    override fun before() {
-        super.before()
-    }
-
     @Test
     fun `verify transactions are displayed`() = runBlockingTest {
         val response = mockk<BalanceResponse>()
-        runBlockingTest {
-            coEvery { baseRepository.balance() } returns Result.Success(response)
-        }
+        coEvery { baseRepository.balance() } returns Result.Success(response)
         subject = BalanceViewModel(baseRepository, perf)
-
         assert((subject.balanceEventLiveData.value is BalanceAvailable))
     }
 
     @Test
     fun `verify transactions are not displayed`() = runBlockingTest {
-        runBlockingTest {
-            coEvery { baseRepository.balance() } returns Result.Failure(Exception(""))
-        }
+        coEvery { baseRepository.balance() } returns Result.Failure(Exception(""))
         subject = BalanceViewModel(baseRepository, perf)
         assert((subject.balanceEventLiveData.value is BalanceNotAvailable))
     }

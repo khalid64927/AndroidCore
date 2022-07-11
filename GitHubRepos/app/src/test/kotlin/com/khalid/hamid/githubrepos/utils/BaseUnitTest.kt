@@ -19,9 +19,8 @@ package com.khalid.hamid.githubrepos.utils
 import androidx.annotation.CallSuper
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
@@ -32,21 +31,21 @@ open class BaseUnitTest : TestContract {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    val exceptions = mutableListOf<Throwable>()
-    val customCaptor = CoroutineExceptionHandler { ctx, throwable ->
-        exceptions.add(throwable) // add proper synchronization if the test is multithreaded
-    }
-
     // Tell JUnit to force tests to be executed synchronously
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
     /**
-     * Convenience method to call runBlockingTest with mainCoroutineRule's scope
-     */
-    fun runBlockingTest(block: suspend TestScope.() -> Unit) =
-        mainCoroutineRule.scope.runTest { block() }
+     * TODO: migrate TestCoroutineScope
+     *  fun runBlockingTest(block: suspend TestScope.() -> Unit) =
+     *   mainCoroutineRule.scope.runTest { block() }
+     *
+     *   Convenience method to call runBlockingTest with mainCoroutineRule's scope
+     *   */
+
+    fun runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
+        mainCoroutineRule.runBlockingTest(block)
 
     override var mockWebServer = MockWebServer()
 

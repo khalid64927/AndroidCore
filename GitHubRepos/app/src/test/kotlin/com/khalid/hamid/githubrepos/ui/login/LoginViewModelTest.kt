@@ -34,7 +34,7 @@ class LoginViewModelTest : BaseUnitTest() {
     @MockK
     lateinit var baseRepository: BaseRepository
 
-    @MockK
+    @MockK(relaxed = true)
     lateinit var perf: Prefs
 
     override fun before() {
@@ -46,7 +46,7 @@ class LoginViewModelTest : BaseUnitTest() {
     fun `verify login success`() = runBlockingTest {
         // Given
         val loginReq = LoginRequest("test", "asdasd")
-        val loginResponse: LoginResponse = mockk()
+        val loginResponse: LoginResponse = mockk(relaxed = true)
         coEvery { baseRepository.login(loginReq) } returns Result.Success(loginResponse)
 
         // When

@@ -52,8 +52,8 @@ class TransferViewModelTest : BaseUnitTest() {
         // Given
         val loginReq = TransferRequest("123", 22, "test")
         val loginResponse: TransferResponse = mockk()
+        subject.payeeList = null
         coEvery { baseRepository.transfer(loginReq) } returns Result.Success(loginResponse)
-
         // When
         subject.transfer("test", "22", "test")
 
