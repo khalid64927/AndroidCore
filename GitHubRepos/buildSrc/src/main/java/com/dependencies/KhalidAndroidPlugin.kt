@@ -37,7 +37,7 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        if(target.properties.entries.contains("enableBuildLogs")){
+        if(target.properties["enableBuildLogs"] is Boolean){
             PluginConstants.enableBuildLogs = true
         } else {
             println("========================================================================")
