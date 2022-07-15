@@ -17,7 +17,6 @@
 package com.khalid.hamid.githubrepos.di
 
 import android.app.Application
-import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
@@ -61,17 +60,16 @@ class DebugModule {
 
     @Provides
     @Singleton
-    fun providesChuckerInterceptor(context: Application): ChuckerInterceptor{
+    fun providesChuckerInterceptor(context: Application): ChuckerInterceptor {
         val chuckerCollector = ChuckerCollector(
-            context = context,  // Context on which you are
+            context = context, // Context on which you are
             showNotification = true, // Boolean for showing Notification, set to true to show and false otherwise
-            retentionPeriod = RetentionManager.Period.ONE_WEEK  // Period taken to retain the collected data, can be an hour, day or week
+            retentionPeriod = RetentionManager.Period.ONE_WEEK // Period taken to retain the collected data, can be an hour, day or week
         )
         return ChuckerInterceptor.Builder(context)
             .collector(chuckerCollector)
             .maxContentLength(250000L)
             .alwaysReadResponseBody(true)
             .build()
-
     }
 }

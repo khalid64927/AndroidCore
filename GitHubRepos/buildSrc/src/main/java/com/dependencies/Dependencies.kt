@@ -20,6 +20,7 @@ object Versions {
     const val SPOTLESS = "6.3.0"
     const val NAV_SAFE_ARG = "2.4.1"
     const val DAGGER = "2.41"
+    const val KASPRESSO = "1.4.1"
 }
 
 object Dependencies {
@@ -102,7 +103,7 @@ object Dependencies {
     const val CRASH                      = "com.google.firebase:firebase-crashlytics:17.0.0-beta03"
     const val KLUENT                     = "org.amshove.kluent:kluent:1.68"
     const val MOKITO_ANDROID             = "org.mockito:mockito-android:4.3.1"
-    const val MOKITO_KOTLIN              = "com.nhaarman.mockitokotlin2:mockito-kotlin:4.0.0"
+    const val MOKITO_KOTLIN              = "org.mockito.kotlin:mockito-kotlin:4.0.0"
     const val MOCKK                      = "io.mockk:mockk:1.12.3"
 
     // JDK 9
@@ -110,6 +111,11 @@ object Dependencies {
     const val jaxbCore                   = "com.sun.xml.bind:jaxb-core:2.3.0.1"
     const val jaxbImpl                   = "com.sun.xml.bind:jaxb-impl:2.3.2"
     const val jdk9Deps                   = "com.github.pengrad:jdk9-deps:1.0"
+
+    // Kaspresso
+    const val kaspresso                  = "com.kaspersky.android-components:kaspresso:${Versions.KASPRESSO}"
+    const val kaspressoAS                = "com.kaspersky.android-components:kaspresso-allure-support:${Versions.KASPRESSO}"
+    const val kaspressoCompose           = "com.kaspersky.android-components:kaspresso-compose-support:${Versions.KASPRESSO}"
 
 
 }

@@ -190,9 +190,15 @@ inline fun DependencyHandler.UITest(){
     androidTestImplementation(Dependencies.SWIPEX)
     androidTestImplementation(Dependencies.MULTIDEXTEST)
     androidTestImplementation(Dependencies.MOCKK)
+    // kaspresso
+    androidTestImplementation(Dependencies.kaspresso)
+    androidTestImplementation(Dependencies.kaspressoAS)
+    androidTestImplementation(Dependencies.kaspressoCompose)
+
+
     // TODO: migrate mockito to mockK
-    testImplementation(Dependencies.MOKITO_ANDROID)
-    testImplementation(Dependencies.MOKITO_KOTLIN)
+    //testImplementation(Dependencies.MOKITO_ANDROID)
+    //testImplementation(Dependencies.MOKITO_KOTLIN)
 
     addConfigurationWithExclusion("androidTestImplementation",Dependencies.ESPRESSO_CORE) {
         exclude(group = "com.android.support", module = "support-annotations")

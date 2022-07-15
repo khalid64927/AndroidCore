@@ -1,12 +1,11 @@
-
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
 }
 
 repositories {
-    mavenCentral()
     google()
+    mavenCentral()
     maven{
         url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
     }
@@ -22,7 +21,7 @@ object GlobalVersions {
 dependencies {
     implementation(dependencyNotation = "com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
     implementation(dependencyNotation = "org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
-    implementation(dependencyNotation = "com.android.tools.build:gradle:7.3.0-alpha07")
+    implementation(dependencyNotation = "com.android.tools.build:gradle:7.4.0-alpha08")
     implementation(dependencyNotation = "org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation(dependencyNotation = "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
     implementation (dependencyNotation = "com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
@@ -39,4 +38,6 @@ gradlePlugin {
         }
     }
 }
+
+
 

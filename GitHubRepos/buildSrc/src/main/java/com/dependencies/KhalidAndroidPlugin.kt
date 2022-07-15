@@ -37,7 +37,7 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        if(target.properties.entries.contains("enableBuildLogs")){
+        if(target.properties["enableBuildLogs"] is Boolean){
             PluginConstants.enableBuildLogs = true
         } else {
             println("========================================================================")
@@ -50,7 +50,17 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         configureAndroid(target)
         configureQuality(target)
         configureSpotless(target)
+        target.configureGlobalTasks()
         pln("ext  ..after "+ ext.compileSDK)
+    }
+
+    private fun Project.configureGlobalTasks() {
+        tasks.register<ProjectBuildTask>("spotless")
+        tasks.register<ProjectBuildTask>("unitTest")
+        tasks.register<ProjectBuildTask>("uiTest")
+        tasks.register<ProjectBuildTask>("allTests")
+        tasks.register<ProjectBuildTask>("depCheck")
+        tasks.register<ProjectBuildTask>("sonar")
     }
 
     private fun configureAllOpen(project: Project) = project.run {
@@ -152,6 +162,21 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             dependencies {
                 unitTest()
                 UITest()
+            }
+
+            sourceSets {
+                val sharedResTestDir = "src/sharedTest/resources"
+                val sharedUnitTestSrc = listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/test/kotlin")
+                val sharedUITestSrc = listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/androidTest/kotlin")
+                this.getByName("androidTest"){
+                    java.srcDirs(sharedUITestSrc)
+                    resources.srcDirs(sharedResTestDir)
+                }
+
+                this.getByName("test"){
+                    java.srcDirs(sharedUnitTestSrc)
+                    resources.srcDirs(sharedResTestDir)
+                }
             }
         }
 
