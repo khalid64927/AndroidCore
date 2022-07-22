@@ -281,15 +281,15 @@ abstract class BaseFragment :
                     when (asyncState.status) {
                         State.SUCCESS -> {
                             hideLoader()
-//                                if (asyncState.msg.equalsIgnoreCase("pageload")) {
-//                                    onPageLoaded()
-//                                }
                         }
                         State.FAILED -> {
                             hideLoader()
                         }
                         State.RUNNING -> {
                             showLoader()
+                        }
+                        else -> {
+                            hideLoader()
                         }
                     }
                 }
