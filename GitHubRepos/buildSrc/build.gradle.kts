@@ -23,7 +23,7 @@ object GlobalVersions {
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
-    implementation("com.android.tools.build:gradle:7.4.0-alpha05")
+    implementation("com.android.tools.build:gradle:7.4.0-alpha08")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
