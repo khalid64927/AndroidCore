@@ -46,15 +46,16 @@ inline fun applyPlugins(isApp : Boolean, project: Project) = project.run {
         apply(plugin = "org.gradle.maven-publish")
     }
     apply(plugin = "kotlin-android")
-    //apply(plugin = "com.google.devtools.ksp")
+    //TODO: migrate to KSP: apply(plugin = "com.google.devtools.ksp")
     apply(plugin = "kotlin-kapt")
     apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
     apply(plugin = "androidx.navigation.safeargs.kotlin")
     apply(plugin = "com.diffplug.spotless")
-    apply(plugin = "org.owasp.dependencycheck")
     if(isApp){
         apply(plugin = "dagger.hilt.android.plugin")
     }
+    apply(plugin = "org.owasp.dependencycheck")
+    apply(plugin = "com.github.ben-manes.versions")
 }
 
 inline fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = project.run {
