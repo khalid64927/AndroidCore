@@ -16,10 +16,10 @@ object Versions {
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.4-alpha04"
     const val TESTX = "1.4.1-alpha04"
-    const val KOTLIN = "1.6.10"
+    const val KOTLIN = "1.7.10"
     const val SPOTLESS = "6.3.0"
     const val NAV_SAFE_ARG = "2.4.1"
-    const val DAGGER = "2.41"
+    const val DAGGER = "2.43"
 }
 
 object Dependencies {
