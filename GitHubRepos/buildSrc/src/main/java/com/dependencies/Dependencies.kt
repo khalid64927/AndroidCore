@@ -11,14 +11,15 @@ object Versions {
     const val MAX_SDK = 2
     const val LIFECYCLE = "2.6.0-alpha01"
     const val ROOM = "2.5.0-alpha02"
-    const val FRAGMENT = "1.6.0-alpha05"
+    const val FRAGMENT = "1.5.0"
     const val NAV = "2.5.0" // NAV_SAFE_ARG
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.4-alpha07"
     const val TESTX = "1.4.1-alpha04"
+    const val ESPRESSO = "3.5.0-alpha07"
     const val KOTLIN = "1.7.10"
-    const val SPOTLESS = "6.3.0"
-    const val NAV_SAFE_ARG = "2.4.1"
+    const val SPOTLESS = "6.8.0"
+    const val NAV_SAFE_ARG = "2.5.0"
     const val DAGGER = "2.43"
 }
 
@@ -62,10 +63,10 @@ object Dependencies {
     const val GLIDE_RUNTIME              = "com.github.bumptech.glide:glide:4.13.2"
     const val GLIDE_COMPILER             = "com.github.bumptech.glide:compiler:4.13.2"
     const val JUNIT                      = "junit:junit:4.13.2"
-    const val ESP_IDL                    = "androidx.test.espresso:espresso-idling-resource:3.5.0-alpha07"
-    const val ESP_CONTRIBUTE             = "androidx.test.espresso:espresso-contrib:3.5.0-alpha07"
-    const val ESP_INTENTS                = "androidx.test.espresso:espresso-intents:3.5.0-alpha07"
-    const val ESPRESSO_CORE              = "androidx.test.espresso:espresso-core:3.5.0-alpha07"
+    const val ESP_IDL                    = "androidx.test.espresso:espresso-idling-resource:${Versions.ESPRESSO}"
+    const val ESP_CONTRIBUTE             = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
+    const val ESP_INTENTS                = "androidx.test.espresso:espresso-intents:${Versions.ESPRESSO}"
+    const val ESPRESSO_CORE              = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
     const val MOKITO_CORE                = "org.mockito:mockito-core:4.6.1"
     const val MOKITO_ALL                 = "org.mockito:mockito-all:2.0.2-beta"
     const val MOKITO_INLINE              = "org.mockito:mockito-inline:4.6.1"
@@ -118,7 +119,7 @@ object GradlePlugins {
     const val DEPENDENCY_SCAN            = "org.owasp:dependency-check-gradle:7.0.0"
     const val SPOTLESS                   = "com.diffplug.spotless:spotless-plugin-gradle:${Versions.SPOTLESS}"
     const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.NAV_SAFE_ARG}"
-    const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.3.72"
+    const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.7.10"
     const val AGP                        = "com.android.tools.build:gradle:7.1.2"
     const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 }
