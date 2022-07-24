@@ -15,6 +15,7 @@
  */
 package com.dependencies
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.android.build.gradle.*
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
@@ -51,6 +52,31 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         configureQuality(target)
         configureSpotless(target)
         pln("ext  ..after "+ ext.compileSDK)
+    }
+
+    /**
+     * TODO: move this to configureOSSScan in ProjectBuildTask
+     * Configuring Dependency Check plugin
+     * 1. Maximum allowed vulnerabilities are no more than 7
+     * 2. Report is generated at app/builds/reports/ in HTML format
+     * ./gradlew dependencycheckAnalyze --info
+     */
+    private fun configureOSSScan(project: Project) = project.run {
+        configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+            val format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+            outputDirectory = "${project.buildDir}/reports"
+            failBuildOnCVSS = 7f
+        }
+    }
+
+    private fun configureDepUpdate(project: Project) = project.run {
+        tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+            // optional parameters
+            checkForGradleUpdate = true
+            outputFormatter = "html"
+            outputDir = "build/dependencyUpdates"
+            reportfileName = "report"
+        }
     }
 
     private fun configureAllOpen(project: Project) = project.run {

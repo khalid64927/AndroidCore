@@ -14,11 +14,9 @@ buildscript {
         classpath ("com.google.gms:google-services:4.3.10")
     }
 
-
 }
 
 allprojects {
-    apply(plugin = "org.owasp.dependencycheck")
     repositories {
         mavenCentral()
         google()
@@ -32,7 +30,6 @@ allprojects {
         resolutionStrategy.force("org.antlr:antlr4-tool:4.7.1")
     }
 
-
     task<Exec>("createHooks") {
         doFirst {
             if (Os.isFamily(Os.FAMILY_WINDOWS)) {
@@ -43,25 +40,6 @@ allprojects {
                 println("FAMILY_UNIX")
                 commandLine ("${project.rootDir}/scripts/create-symlink.sh")
             }
-
         }
-
     }
-
-
 }
-
-/**
- * TODO: move this to configureOSSScan in ProjectBuildTask
- * Configuring Dependency Check plugin
- * 1. Maximum allowed vulnerabilities are no more than 7
- * 2. Report is generated at app/builds/reports/ in HTML format
- * ./gradlew dependencycheckAnalyze --info
-*/
-configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
-    format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
-    outputDirectory = "${project.buildDir}/reports"
-    failBuildOnCVSS = 7f
-}
-// TODO: add dep update plugin
-// https://github.com/ben-manes/gradle-versions-plugin

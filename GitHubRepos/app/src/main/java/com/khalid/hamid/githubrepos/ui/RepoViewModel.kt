@@ -36,6 +36,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RepoViewModel@Inject constructor(val repository: BaseRepository) : BaseViewModel() {
     val _items = MutableLiveData<Resource<List<Repositories>>>().apply { value = Resource<List<Repositories>>(Status.LOADING, emptyList(), "wait") }
+
     // here we are getting from DB if not then network
     fun getRepoList() {
         Timber.d("getRepos :: ${Thread.currentThread().getName()}")
