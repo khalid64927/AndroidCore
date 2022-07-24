@@ -76,17 +76,20 @@ fun configureSpotless(project: Project) = project.run {
         }
     }
 }
-fun configureOWASPLibCheck(project: Project) = project.run {
-    configure<DependencyCheckPlugin> {
-        val format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
-        /**
-         * TODO: FIXME
-        analyzers {
-            retirejs {
-                // Repository version locked due to https://github.com/jeremylong/DependencyCheck/issues/4695
-                retireJsUrl = 'https://raw.githubusercontent.com/RetireJS/retire.js/33b4076ce87f3898b81af4fc1770a7b65aa54bcb/repository/jsrepository.json'
-            }
-        }*/
+
+/**
+ * TODO: move this to configureOSSScan in ProjectBuildTask
+ * Configuring Dependency Check plugin
+ * 1. Maximum allowed vulnerabilities are no more than 7
+ * 2. Report is generated at app/builds/reports/ in HTML format
+ */
+fun configureOSSScan(project: Project) = project.run {
+    configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+        format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+        outputDirectory = "${project.buildDir}/reports"
+        failBuildOnCVSS = 7f
+        // Repository version locked due to https://github.com/jeremylong/DependencyCheck/issues/4695
+        analyzers.retirejs.retireJsUrl = "https://raw.githubusercontent.com/RetireJS/retire.js/33b4076ce87f3898b81af4fc1770a7b65aa54bcb/repository/jsrepository.json"
     }
 }
 
