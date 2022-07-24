@@ -12,6 +12,7 @@ import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
+import org.owasp.dependencycheck.gradle.DependencyCheckPlugin
 import java.io.File
 
 /**
@@ -73,6 +74,22 @@ fun configureSpotless(project: Project) = project.run {
             ktlint.editorConfigOverride(mapOf("disabled_rules" to "no-wildcard-imports"))
             licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
         }
+    }
+}
+
+/**
+ * TODO: move this to configureOSSScan in ProjectBuildTask
+ * Configuring Dependency Check plugin
+ * 1. Maximum allowed vulnerabilities are no more than 7
+ * 2. Report is generated at app/builds/reports/ in HTML format
+ */
+fun configureOSSScan(project: Project) = project.run {
+    configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+        format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+        outputDirectory = "${project.buildDir}/reports"
+        failBuildOnCVSS = 7f
+        // Repository version locked due to https://github.com/jeremylong/DependencyCheck/issues/4695
+        analyzers.retirejs.retireJsUrl = "https://raw.githubusercontent.com/RetireJS/retire.js/33b4076ce87f3898b81af4fc1770a7b65aa54bcb/repository/jsrepository.json"
     }
 }
 
