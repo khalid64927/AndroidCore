@@ -5,8 +5,8 @@ plugins {
 }
 
 repositories {
-    gradlePluginPortal()
     mavenCentral()
+    gradlePluginPortal()
     google()
     maven{
         url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.8.0")
-    implementation ("org.owasp:dependency-check-gradle:7.1.1")
+    implementation ("org.owasp:dependency-check-gradle:7.1.0")
     implementation ("com.github.ben-manes:gradle-versions-plugin:0.42.0")
     implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
 }

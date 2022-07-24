@@ -1,6 +1,13 @@
 name: Android CI Build
 
-on: pull_request
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -21,6 +28,9 @@ jobs:
 
       - name: Run Tests
         run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
+
+      - name: Code Coverage Summary
+        uses: irongut/CodeCoverageSummary@v1.2.0
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
