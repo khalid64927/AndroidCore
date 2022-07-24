@@ -108,6 +108,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver, Observable {
     fun navigateTo(navigationDirections: NavDirections) {
         _navigateToLiveEvent.postValue(Event(CustomNavDirection.NativeNavDirection(navigationDirections)))
     }
+
     // Direct id navigation method. Non type-safe, should prefer to use NavDirections instead
     fun navigateTo(@IdRes destId: Int) {
         _navigateToLiveEvent.postValue(

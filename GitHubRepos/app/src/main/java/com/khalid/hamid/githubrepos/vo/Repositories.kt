@@ -24,7 +24,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "repo_table")
 data class Repositories @JvmOverloads constructor(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id_column") var id: Int = 0,
+    @ColumnInfo(name = "id_column")
+    var id: Int = 0,
     @ColumnInfo(name = "author_column") var author: String = "",
     @ColumnInfo(name = "avatar_column") var avatar: String = "",
     @ColumnInfo(name = "description_column") var description: String = "",

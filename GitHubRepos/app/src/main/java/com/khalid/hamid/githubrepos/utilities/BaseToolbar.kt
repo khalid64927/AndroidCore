@@ -52,7 +52,9 @@ class DefaultToolbar : BaseToolbar()
 class ToolbarWithUp : BaseToolbar(showHomeIcon = true)
 class ToolbarOnlyLogo : BaseToolbar(
     // TODO: change ic_launcher_background
-    showHomeIcon = false, iconDrawableRes = R.drawable.ic_launcher_background, showOverflow = false
+    showHomeIcon = false,
+    iconDrawableRes = R.drawable.ic_launcher_background,
+    showOverflow = false
 )
 
 // No need overflow menu when nav drawer is available

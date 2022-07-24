@@ -117,7 +117,8 @@ interface ViewUtils {
     fun CardView.setCardElevation(@DimenRes elevationRes: Int) {
         context.resources.run {
             val dimension = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, getDimension(elevationRes),
+                TypedValue.COMPLEX_UNIT_DIP,
+                getDimension(elevationRes),
                 context.resources.displayMetrics
             )
             cardElevation = dimension

@@ -33,7 +33,7 @@ class DebugModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)

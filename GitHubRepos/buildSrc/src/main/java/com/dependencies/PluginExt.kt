@@ -65,11 +65,12 @@ inline fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = pr
     return file(lintBaseLineFilePath)
 }
 
-inline fun configureSpotless(project: Project) = project.run {
+fun configureSpotless(project: Project) = project.run {
     configure<SpotlessExtension>{
         kotlin {
             target ("**/*.kt")
-            ktlint("0.44.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+            val ktlint = ktlint("0.46.1")
+            ktlint.editorConfigOverride(mapOf("disabled_rules" to "no-wildcard-imports"))
             licenseHeaderFile(project.rootProject.file("scripts/copyright.kt"))
         }
     }

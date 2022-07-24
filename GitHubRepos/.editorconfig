@@ -1,0 +1,4 @@
+[*.{kt,kts, java, xml, gradle, md}]
+#disabled_rules=no-wildcard-imports
+# disabling wild card import check
+# At the moment spotless doesn't honor exclusions // https://github.com/diffplug/spotless/issues/142
