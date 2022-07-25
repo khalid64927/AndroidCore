@@ -2,6 +2,7 @@ package com.dependencies
 
 import org.gradle.api.Action
 
+// TODO: not yet working
 open class KPluginExtensions {
 
     var modules = listOf<String>()
@@ -17,7 +18,7 @@ open class KPluginExtensions {
     var lintBaseLineFilePath = ""
     var lintExclusionRules : List<String> = emptyList()
     var checkstylePath = ""
-    /**
+    /** TODO: not yet working
      * provide class path to your all open annotation in your source code
      * Ex: com.khalid.hamid.githubrepos.testing.OpenClass
     */

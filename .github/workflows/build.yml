@@ -20,7 +20,7 @@ jobs:
         run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
       - name: Run Tests
-        run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
+        run: cd GitHubRepos && ./gradlew jacocoTestReport
 
       - name: Code Coverage Summary
         uses: irongut/CodeCoverageSummary@v1.2.0
