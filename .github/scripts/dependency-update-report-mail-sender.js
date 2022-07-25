@@ -7,7 +7,7 @@ module.exports = ({ }) => {
         port: 587,
         secureConnection: false,
         auth: {
-            user: `${process.env.MAIL_USERNAME}`, 
+            user: `${process.env.MAIL_USERNAME}`,
             pass: `${process.env.MAIL_PASSWORD}`
         },
         tls: {
@@ -23,7 +23,7 @@ module.exports = ({ }) => {
         },
         to: 'khalid64927@gmail.com', // Use your main account to get the email
         subject: 'Dependency update report of GitHubRepos ¯\\_(ツ)_/¯',
-        text: `${report}`
+        text: `${report}`,
         attachments : [
         {   // utf-8 string as an attachment
                 filename: 'report.html',
