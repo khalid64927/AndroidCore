@@ -15,7 +15,7 @@ module.exports = ({ }) => {
         }
     });
     console.log("Current directory:", __dirname);
-    const report = require('fs').readFileSync('../GitHubRepos/app/build/dependencyUpdates/report.html', 'utf8')
+    const report = require('fs').readFileSync('../GitHubRepos/app/GitHubRepos/app/build.gradle.kts', 'utf8')
 
     const mailOptions = {
         from: {
@@ -27,8 +27,8 @@ module.exports = ({ }) => {
         text: `${report}`,
         attachments : [
         {   // utf-8 string as an attachment
-                filename: 'report.html',
-                path: '../GitHubRepos/app/build/dependencyUpdates/report.html'
+                filename: 'build.gradle.kts',
+                path: '../GitHubRepos/app/GitHubRepos/app/build.gradle.kts'
             }
         ]
     };
