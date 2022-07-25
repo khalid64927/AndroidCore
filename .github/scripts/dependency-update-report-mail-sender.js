@@ -16,7 +16,7 @@ module.exports = ({ }) => {
     });
     path = require('path')
     console.log("Current directory:", __dirname);
-    let reqPath = path.join(__dirname, '../../GitHubRepos/app/GitHubRepos/app/build.gradle.kts')
+    let reqPath = path.join(__dirname, '../../GitHubRepos/app/build.gradle.kts')
     console.log("reqPath :", reqPath);
     const report = require('fs').readFileSync(reqPath)
 
