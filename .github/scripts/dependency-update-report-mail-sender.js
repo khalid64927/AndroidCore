@@ -14,8 +14,11 @@ module.exports = ({ }) => {
             ciphers: 'SSLv3'
         }
     });
+    path = require('path')
     console.log("Current directory:", __dirname);
-    const report = require('fs').readFileSync('../../GitHubRepos/app/GitHubRepos/app/build.gradle.kts', 'utf8')
+    let reqPath = path.join(__dirname, '../../GitHubRepos/app/GitHubRepos/app/build.gradle.kts')
+    console.log("reqPath :", reqPath);
+    const report = require('fs').readFileSync(reqPath)
 
     const mailOptions = {
         from: {
@@ -28,7 +31,7 @@ module.exports = ({ }) => {
         attachments : [
         {   // utf-8 string as an attachment
                 filename: 'build.gradle.kts',
-                path: '../../GitHubRepos/app/GitHubRepos/app/build.gradle.kts'
+                path: reqPath
             }
         ]
     };
