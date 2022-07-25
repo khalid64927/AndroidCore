@@ -15,13 +15,10 @@
  */
 package com.dependencies
 
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.android.build.gradle.*
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.quality.Checkstyle
-import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
@@ -30,7 +27,6 @@ open class KhalidAndroidPlugin : Plugin<Project> {
 
     lateinit var ext: KPluginExtensions
 
-
     /**
      * Determines if a Project is the 'library' module
      */
@@ -38,9 +34,17 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        if(target.properties.entries.contains("enableBuildLogs")){
+        var enableLogging: Boolean = target.properties["enableBuildLogs"]?.run {
+            return if(this !is String){
+                return@run false
+            } else return@run this.equals("true", ignoreCase = true)
+        } ?: false
+        println("enableLogging :: $enableLogging")
+
+        if(enableLogging){
             PluginConstants.enableBuildLogs = true
         } else {
+            PluginConstants.enableBuildLogs = false
             println("========================================================================")
             println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
             println("========================================================================")
@@ -48,37 +52,17 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         ext = target.extensions.create("KPlugin")
         applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
-        configureAndroid(target)
-        configureQuality(target)
-        configureSpotless(target)
+        target.configureAndroid()
+        target.configureCheckStyle()
+        target.configureJacocoInProject()
+        target.configureSpotless()
+        target.configureOSSScan()
+        target.configureDepUpdate()
         pln("ext  ..after "+ ext.compileSDK)
     }
 
-    /**
-     * TODO: move this to configureOSSScan in ProjectBuildTask
-     * Configuring Dependency Check plugin
-     * 1. Maximum allowed vulnerabilities are no more than 7
-     * 2. Report is generated at app/builds/reports/ in HTML format
-     * ./gradlew dependencycheckAnalyze --info
-     */
-    private fun configureOSSScan(project: Project) = project.run {
-        configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
-            val format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
-            outputDirectory = "${project.buildDir}/reports"
-            failBuildOnCVSS = 7f
-        }
-    }
 
-    private fun configureDepUpdate(project: Project) = project.run {
-        tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
-            // optional parameters
-            checkForGradleUpdate = true
-            outputFormatter = "html"
-            outputDir = "build/dependencyUpdates"
-            reportfileName = "report"
-        }
-    }
-
+    // TODO: check do we need this
     private fun configureAllOpen(project: Project) = project.run {
         try {
             if(ext.openAnnotationPath.isEmpty()){
@@ -91,18 +75,18 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         }
     }
 
-    private fun configureKotlin(project: Project) = project.run {
+    private fun Project.configureKotlin() {
         configure<KaptExtension> {
             configureKapt()
         }
     }
 
-    private fun configureAndroid(project: Project) {
-        configureKotlin(project)
-        configureAndroidDefaults(project)
+    private fun Project.configureAndroid() {
+        configureKotlin()
+        configureAndroidDefaults()
     }
 
-    private fun configureAndroidDefaults(project: Project) = project.run {
+    private fun Project.configureAndroidDefaults() {
         configure<BaseExtension>{
             pln(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
@@ -183,9 +167,8 @@ open class KhalidAndroidPlugin : Plugin<Project> {
 
     }
 
-    private fun configureQuality(target: Project) = target.run {
+    private fun Project.configureJacocoInProject() {
         val project = this
-        configureCheckStyle(target)
         // set jacoco config
         afterEvaluate {
             pln("afterEvaluate")
@@ -198,35 +181,18 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                         when (this) {
                             is LibraryPlugin -> {
                                 extensions.getByType(LibraryExtension::class.java).run {
-                                    configureJacoco(project, libraryVariants, jacocoOptions)
+                                    configureJacoco(libraryVariants, jacocoOptions)
                                 }
                             }
                             is AppPlugin -> {
                                 extensions.getByType(AppExtension::class.java).run {
-                                    configureJacoco(project, applicationVariants, jacocoOptions)
+                                    configureJacoco(applicationVariants, jacocoOptions)
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-
-    private fun configureCheckStyle(target: Project) = target.run {
-        apply(plugin = "checkstyle")
-        configure<CheckstyleExtension> { toolVersion = "8.10.1" }
-        tasks.named("check").configure { dependsOn("checkstyle") }
-        tasks.register<Checkstyle>("checkstyle") {
-            var path = ext.checkstylePath
-            if(path.isEmpty()){
-                path = "${project.configDir}/checkstyle.xml"
-            }
-            configFile = file(path)
-            source("src")
-            include("**/*.java")
-            exclude("**/gen/**")
-            classpath = files()
         }
     }
 }

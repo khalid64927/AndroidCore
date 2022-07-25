@@ -1,6 +1,10 @@
 name: Android CI Build
 
-on: pull_request
+on:
+  pull_request:
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -19,14 +23,17 @@ jobs:
       - name: Run Lint
         run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
-      - name: Run Tests
-        run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
+      - name: Run Jacoco
+        run: cd GitHubRepos && ./gradlew jacocoTestReport
+
+#      TODO: add sonar scan plugin
+#      - name: Code Coverage Summary
+#        uses: irongut/CodeCoverageSummary@v1.2.0
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
-      # TODO: fix OSS errors
-      #- name: OSS Scan
-      #  run: cd GitHubRepos && ./gradlew dependencyCheckAnalyze --info
+      - name: OSS Scan
+        run: cd GitHubRepos && ./gradlew app:dependencyCheckAnalyze --info
 
 

@@ -2,14 +2,19 @@ package com.dependencies
 
 import com.android.build.gradle.api.BaseVariant
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.gradle.api.Action
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.plugins.quality.CheckstyleExtension
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 import java.io.File
@@ -37,7 +42,7 @@ object PluginConstants {
     var enableBuildLogs = false
 }
 
-inline fun applyPlugins(isApp : Boolean, project: Project) = project.run {
+fun applyPlugins(isApp : Boolean, project: Project) = project.run {
     if(isApp){
         apply(plugin = "com.android.application")
         // TODO: add in demo : apply(plugin = "com.google.gms.google-services")
@@ -56,16 +61,18 @@ inline fun applyPlugins(isApp : Boolean, project: Project) = project.run {
     }
     apply(plugin = "org.owasp.dependencycheck")
     apply(plugin = "com.github.ben-manes.versions")
+    apply(plugin = "org.gradle.jacoco")
+
 }
 
-inline fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = project.run {
+fun getLintBaseline(project: Project, ext: KPluginExtensions) : File = project.run {
     val defaultLintFile = file("$rootDir/quality/lint-baseline.xml")
     val lintBaseLineFilePath = ext.lintBaseLineFilePath
     if(lintBaseLineFilePath.isEmpty()) return defaultLintFile
     return file(lintBaseLineFilePath)
 }
 
-fun configureSpotless(project: Project) = project.run {
+fun Project.configureSpotless() {
     configure<SpotlessExtension>{
         kotlin {
             target ("**/*.kt")
@@ -76,6 +83,33 @@ fun configureSpotless(project: Project) = project.run {
     }
 }
 
+/**
+ * TODO: move this to configureOSSScan in ProjectBuildTask
+ * Configuring Dependency Check plugin
+ * 1. Maximum allowed vulnerabilities are no more than 7
+ * 2. Report is generated at app/builds/reports/ in HTML format
+ */
+fun Project.configureOSSScan() {
+    configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+        format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
+        outputDirectory = "${project.buildDir}/reports"
+        // TODO: acceptable number is 7
+        failBuildOnCVSS = 8.0f
+        // Repository version locked due to https://github.com/jeremylong/DependencyCheck/issues/4695
+        analyzers.retirejs.retireJsUrl = "https://raw.githubusercontent.com/RetireJS/retire.js/33b4076ce87f3898b81af4fc1770a7b65aa54bcb/repository/jsrepository.json"
+    }
+}
+
+fun Project.configureDepUpdate() {
+
+    tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+        // optional parameters
+        checkForGradleUpdate = true
+        outputFormatter = "html"
+        outputDir = "build/dependencyUpdates"
+        reportfileName = "report"
+    }
+}
 
 /**
  * ========================================================================================
@@ -224,23 +258,26 @@ inline fun KaptExtension.configureKapt(){
     }
 }
 
-inline fun configureJacoco(
-    project: Project,
+/**
+ * TODO: add UI test in coverage report, right now only unit test are covered
+*/
+fun Project.configureJacoco(
     variants: DomainObjectSet<out BaseVariant>,
     options: JacocoOptions
-) = project.run {
+) {
     pln("configureJacoco 1")
+    val jacocoTestReport = tasks.create("jacocoTestReport")
     variants.all {
         val variantName = name
         pln("configureJacoco 1$variantName")
-        val isDebuggable = true
+        val isDebuggable = buildType.name.contains("debug", ignoreCase = true)
         if (!isDebuggable) {
             project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
             pln("configureJacoco 2$isDebuggable")
             return@all
         }
         pln("configureJacoco 33")
-        project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
+        val reportTask = project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
             dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
             val coverageSourceDirs = "src/main/java"
             pln("configureJacoco 3")
@@ -273,6 +310,37 @@ inline fun configureJacoco(
             reports.html.required.set(true)
             pln("configureJacoco 4")
         }
+        jacocoTestReport.dependsOn(reportTask)
+    }
+    tasks.withType<Test>().configureEach {
+        configure<JacocoTaskExtension> {
+            // Required for JaCoCo + Robolectric
+            // https://github.com/robolectric/robolectric/issues/2230
+            // TODO: Consider removing if not we don't add Robolectric
+            isIncludeNoLocationClasses = true
+
+            // Required for JDK 11 with the above
+            // https://github.com/gradle/gradle/issues/5184#issuecomment-391982009
+            excludes = listOf("jdk.internal.*")
+        }
+    }
+}
+
+/**
+ * This Static analysis tool is for Java Code style cheking
+ * for Kotlin we already have Spotless (using ktlint underneath)
+* */
+fun Project.configureCheckStyle() {
+    apply(plugin = "checkstyle")
+    configure<CheckstyleExtension> { toolVersion = "8.10.1" }
+    tasks.named("check").configure { dependsOn("checkstyle") }
+    tasks.register<Checkstyle>("checkstyle") {
+        val path = "${rootDir}/quality/checkstyle.xml"
+        configFile = file(path)
+        source("src")
+        include("**/*.java")
+        exclude("**/gen/**")
+        classpath = files()
     }
 }
 /**
