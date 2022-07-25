@@ -14,6 +14,7 @@ module.exports = ({ }) => {
             ciphers: 'SSLv3'
         }
     });
+    console.log("Current directory:", __dirname);
     const report = require('fs').readFileSync('../GitHubRepos/app/build/dependencyUpdates/report.html', 'utf8')
 
     const mailOptions = {
