@@ -15,6 +15,9 @@ jobs:
         run: cd GitHubRepos && ./gradlew app:dependencyUpdates
 
       - name: Log dependency update report
+        run: ls
+
+      - name: Log dependency update report
         run: cat app/build/dependencyUpdates/report.txt
 
       - name: 💌 Send email report
