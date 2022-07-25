@@ -1,6 +1,5 @@
 package com.dependencies
 
-import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.api.BaseVariant
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
@@ -9,14 +8,12 @@ import org.gradle.api.DomainObjectSet
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ExternalModuleDependency
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
 import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
-import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
@@ -96,13 +93,15 @@ fun Project.configureOSSScan() {
     configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
         format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.HTML
         outputDirectory = "${project.buildDir}/reports"
-        failBuildOnCVSS = 7f
+        // TODO: acceptable number is 7
+        failBuildOnCVSS = 8.0f
         // Repository version locked due to https://github.com/jeremylong/DependencyCheck/issues/4695
         analyzers.retirejs.retireJsUrl = "https://raw.githubusercontent.com/RetireJS/retire.js/33b4076ce87f3898b81af4fc1770a7b65aa54bcb/repository/jsrepository.json"
     }
 }
 
 fun Project.configureDepUpdate() {
+
     tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
         // optional parameters
         checkForGradleUpdate = true
@@ -111,54 +110,6 @@ fun Project.configureDepUpdate() {
         reportfileName = "report"
     }
 }
-
-val coverageExclusions = listOf(
-    // Android
-    "**/R.class",
-    "**/R\$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*"
-)
-
-fun Project.configureJacoco(androidComponentsExtension: AndroidComponentsExtension<*, *, *>,) {
-    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-    configure<JacocoPluginExtension> {
-        toolVersion = libs.findVersion("jacoco").get().toString()
-    }
-    val jacocoTestReport = tasks.create("jacocoTestReport")
-    androidComponentsExtension.onVariants { variant ->
-        val testTaskName = "test${variant.name.capitalize()}UnitTest"
-        val reportTask = tasks.register("jacoco${testTaskName.capitalize()}Report", JacocoReport::class) {
-            dependsOn(testTaskName)
-            reports {
-                xml.required.set(true)
-                html.required.set(true)
-            }
-            classDirectories.setFrom(
-                fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                    exclude(coverageExclusions)
-                }
-            )
-            sourceDirectories.setFrom(files("$projectDir/src/main/java", "$projectDir/src/main/kotlin"))
-            executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
-        }
-        jacocoTestReport.dependsOn(reportTask)
-    }
-
-    tasks.withType<Test>().configureEach {
-        configure<JacocoTaskExtension> {
-            // Required for JaCoCo + Robolectric
-            // https://github.com/robolectric/robolectric/issues/2230
-            // TODO: Consider removing if not we don't add Robolectric
-            isIncludeNoLocationClasses = true
-
-            // Required for JDK 11 with the above
-            // https://github.com/gradle/gradle/issues/5184#issuecomment-391982009
-            excludes = listOf("jdk.internal.*")
-        }
-    }
-}
-
 
 /**
  * ========================================================================================

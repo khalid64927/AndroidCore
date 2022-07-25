@@ -25,7 +25,10 @@ open class KPluginExtensions {
     var openAnnotationPath = "com.khalid.hamid.githubrepos.testing.OpenClass"
 
 
+
+
     open val jacoco: JacocoOptions = JacocoOptions()
+
     open fun jacoco(action: Action<JacocoOptions>) {
         action.execute(jacoco)
     }
@@ -33,9 +36,16 @@ open class KPluginExtensions {
 
 open class JacocoOptions {
     open var isEnabled: Boolean = true
-    open var excludes: ArrayList<String> = arrayListOf()
+    val coverageExclusions = mutableListOf(
+        // Android
+        "**/R.class",
+        "**/R\$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*"
+    )
+    open var excludes: MutableList<String> = coverageExclusions
     open var dependentTasklist: ArrayList<String> = arrayListOf()
-    open fun excludes(vararg excludes: String) {
+    open fun excludes(excludes: List<String>) {
         this.excludes.addAll(excludes)
     }
     open fun dependsOnTasks(vararg dependentTasks : String){

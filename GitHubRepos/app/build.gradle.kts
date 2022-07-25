@@ -18,9 +18,6 @@ KPlugin {
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
-    jacoco{
-        excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")
-    }
 }
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")

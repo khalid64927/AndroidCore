@@ -19,7 +19,7 @@ jobs:
       - name: Run Lint
         run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
-      - name: Run Tests
+      - name: Run Jacoco
         run: cd GitHubRepos && ./gradlew jacocoTestReport
 
       - name: Code Coverage Summary
@@ -28,8 +28,7 @@ jobs:
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
-      # TODO: fix OSS errors
-      #- name: OSS Scan
-      #  run: cd GitHubRepos && ./gradlew dependencyCheckAnalyze --info
+      - name: OSS Scan
+        run: cd GitHubRepos && ./gradlew app:dependencyCheckAnalyze --info
 
 
