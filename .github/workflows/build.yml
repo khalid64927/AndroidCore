@@ -22,8 +22,9 @@ jobs:
       - name: Run Jacoco
         run: cd GitHubRepos && ./gradlew jacocoTestReport
 
-      - name: Code Coverage Summary
-        uses: irongut/CodeCoverageSummary@v1.2.0
+#      TODO: add sonar report
+#      - name: Code Coverage Summary
+#        uses: irongut/CodeCoverageSummary@v1.2.0
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
