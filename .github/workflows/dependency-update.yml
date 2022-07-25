@@ -14,23 +14,8 @@ jobs:
       - name: Check Dependency Updates
         run: cd GitHubRepos && ./gradlew app:dependencyUpdates
 
-      - name: Check files One
-        run: ls
-
-      - name: Check files Two
-        run: cd GitHubRepos && ls
-
-      - name: Check files Three
-        run: cd GitHubRepos/app && ls
-
-      - name: Check files Four
-        run: cd GitHubRepos/app/build && ls
-
-      - name: Check files Five
-        run: cd GitHubRepos/app/build/dependencyUpdates && ls
-
       - name: Log dependency update report
-        run: cat GitHubRepos/app/build/dependencyUpdates/report.txt
+        run: cat GitHubRepos/app/build/dependencyUpdates/report.html
 
       - name: 💌 Send email report
         if: ${{ github.event_name == 'schedule' }}
