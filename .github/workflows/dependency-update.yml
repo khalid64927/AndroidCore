@@ -11,14 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Check Dependency Updates
-        run: cd GitHubRepos && ./gradlew app:dependencyUpdates
-
       - name: Log dependency update report
-        run: cat app/build/dependencyUpdates/report.txt
+        run: cat GitHubRepos/app/build/dependencyUpdates/report.html
 
       - name: 💌 Send email report
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
         uses: actions/github-script@v3
         env:
           MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
