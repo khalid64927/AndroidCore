@@ -10,10 +10,13 @@ jobs:
       # Removed some steps for brevity
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Check Dependency Updates
-        run: ./gradlew dependencyUpdates
+        run: cd GitHubRepos && ./gradlew app:dependencyUpdates
+
       - name: Log dependency update report
         run: cat app/build/dependencyUpdates/report.txt
+
       - name: 💌 Send email report
         if: ${{ github.event_name == 'schedule' }}
         uses: actions/github-script@v3
