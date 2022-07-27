@@ -33,10 +33,6 @@ jobs:
       - name: Run Jacoco
         run: cd GitHubRepos && ./gradlew jacocoTestReport
 
-#      TODO: add sonar scan plugin
-#      - name: Code Coverage Summary
-#        uses: irongut/CodeCoverageSummary@v1.2.0
-
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
