@@ -9,9 +9,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -32,10 +34,6 @@ jobs:
 
       - name: Run Jacoco
         run: cd GitHubRepos && ./gradlew jacocoTestReport
-
-#      TODO: add sonar scan plugin
-#      - name: Code Coverage Summary
-#        uses: irongut/CodeCoverageSummary@v1.2.0
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
