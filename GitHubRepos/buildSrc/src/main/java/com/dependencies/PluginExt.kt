@@ -116,7 +116,7 @@ fun Project.configureDepUpdate() {
  * common deps extension functions start
  * ========================================================================================
  */
-inline fun DependencyHandler.unitTest() {
+fun DependencyHandler.unitTest() {
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.JUNIT_EXT)
     testImplementation(Dependencies.MOCKWEBSERVER)
@@ -140,7 +140,7 @@ inline fun DependencyHandler.unitTest() {
     //TODO: check if you need JDK9 deps. JDK9()
 }
 
-inline fun DependencyHandler.JDK9(){
+fun DependencyHandler.JDK9(){
     compileOnly(Dependencies.jdk9Deps)
     kapt(Dependencies.jaxbApi)
     kapt(Dependencies.jaxbCore)
@@ -162,7 +162,7 @@ inline fun DependencyHandler.JDK9(){
  * 12. ANNOTATIONS
  *
  */
-inline fun DependencyHandler.commonAndroidLibs(){
+fun DependencyHandler.commonAndroidLibs(){
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.V7)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
@@ -192,14 +192,14 @@ inline fun DependencyHandler.dagger(){
 }
 
 @Suppress("UNUSED_PARAMETER")
-inline fun DependencyHandler.room(){
+fun DependencyHandler.room(){
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_TESTING)
     //ksp(Dependencies.ROOM_COMPILER)
     implementation(Dependencies.ROOM_KTX)
 }
 
-inline fun DependencyHandler.lifeCycle(){
+fun DependencyHandler.lifeCycle(){
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)
@@ -207,7 +207,7 @@ inline fun DependencyHandler.lifeCycle(){
     kapt(Dependencies.LC_COMPILER)
 }
 
-inline fun DependencyHandler.UITest(){
+fun DependencyHandler.UITest(){
     androidTestImplementation(Dependencies.RECYCLER_VIEW)
     androidTestImplementation(Dependencies.CARD_VIEW)
     androidTestImplementation(Dependencies.GOOGLE_MATERIAL)
@@ -265,22 +265,18 @@ fun Project.configureJacoco(
     variants: DomainObjectSet<out BaseVariant>,
     options: JacocoOptions
 ) {
-    pln("configureJacoco 1")
+    pln("configureJacoco")
     val jacocoTestReport = tasks.create("jacocoTestReport")
     variants.all {
         val variantName = name
-        pln("configureJacoco 1$variantName")
         val isDebuggable = buildType.name.contains("debug", ignoreCase = true)
         if (!isDebuggable) {
             project.logger.info("Skipping Jacoco for $name because it is not debuggable.")
-            pln("configureJacoco 2$isDebuggable")
             return@all
         }
-        pln("configureJacoco 33")
         val reportTask = project.tasks.register<JacocoReport>("jacoco${variantName.capitalize()}Report") {
             dependsOn(project.tasks["test${variantName.capitalize()}UnitTest"])
             val coverageSourceDirs = "src/main/java"
-            pln("configureJacoco 3")
 
             val javaClasses = project
                 .fileTree("${project.buildDir}/intermediates/javac/$variantName") {
@@ -308,7 +304,6 @@ fun Project.configureJacoco(
             additionalSourceDirs.setFrom(coverageSourceDirs)
             reports.xml.required.set(true)
             reports.html.required.set(true)
-            pln("configureJacoco 4")
         }
         jacocoTestReport.dependsOn(reportTask)
     }

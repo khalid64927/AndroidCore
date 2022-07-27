@@ -34,22 +34,18 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        var enableLogging: Boolean = target.properties["enableBuildLogs"]?.run {
-            return if(this !is String){
-                return@run false
-            } else return@run this.equals("true", ignoreCase = true)
-        } ?: false
-        println("enableLogging :: $enableLogging")
+        PluginConstants.enableBuildLogs = target.hasProperty("enableBuildLogs") &&
+                    (target.property("enableBuildLogs") as String).
+                    equals("true", ignoreCase = true)
 
-        if(enableLogging){
-            PluginConstants.enableBuildLogs = true
+        if(PluginConstants.enableBuildLogs){
+            pln(" Build logs are enabled")
         } else {
-            PluginConstants.enableBuildLogs = false
             println("========================================================================")
             println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
             println("========================================================================")
         }
-        ext = target.extensions.create("KPlugin")
+        ext = target.extensions.create(KPluginExtensions.name, KPluginExtensions::class)
         applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
         target.configureAndroid()

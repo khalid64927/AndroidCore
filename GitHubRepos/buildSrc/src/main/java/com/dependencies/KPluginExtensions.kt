@@ -5,6 +5,10 @@ import org.gradle.api.Action
 // TODO: not yet working
 open class KPluginExtensions {
 
+    companion object {
+        const val name = "KPlugin"
+    }
+
     var modules = listOf<String>()
     var isLibraryModule = false
     var exclusions = ""
