@@ -54,7 +54,7 @@ abstract class BaseFragment :
     @Inject
     lateinit var pickerViewModelProvider: AppViewModelProvider
 
-    open fun getPageName(): String? = this::class.java.simpleName
+    abstract fun getPageName(): String?
 
     lateinit var mContext: Context
     var appCompatActivity: AppCompatActivity? = null
@@ -254,7 +254,9 @@ abstract class BaseFragment :
                     is CustomNavDirection.NativeNavDirection -> {
                         if (navDir.result != null) {
                             navigateWithResult(
-                                navDir.navDirections, navDir.result.first, navDir.result.second
+                                navDir.navDirections,
+                                navDir.result.first,
+                                navDir.result.second
                             )
                         } else {
                             findNavController().safeNavigate(

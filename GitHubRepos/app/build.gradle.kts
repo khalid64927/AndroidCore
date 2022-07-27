@@ -11,16 +11,14 @@ KPlugin {
     pln("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "32"
-    targetSDK = "32"
+    compileSDK = "33"
+    targetSDK = "33"
+    buildTools = "33.0.0"
     versionCode = 10
     versionName = "1.1"
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
     lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
     checkstylePath = "$rootDir/quality/checkstyle.xml"
-    jacoco{
-        excludes("app:testProdDebugUnitDebug","app:connectedProdDebugAndroidTest")
-    }
 }
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
@@ -63,7 +61,6 @@ dependencies {
     implementation(Dependencies.CRASH)
     implementation(Dependencies.CR_CORE)
     implementation(Dependencies.CR_ANDROID)
-    implementation("com.dynatrace.agent:agent-android:8.231.2.1007")
 
     implementation(Dependencies.DAGGER_RUNTIME)
     api(Dependencies.DAGGER_ANDROID)
