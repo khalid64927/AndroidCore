@@ -1,17 +1,30 @@
 name: Android CI Build
 
-on: pull_request
+on:
+  pull_request:
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
 
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
 
       - name: Run Spotless
         run: cd GitHubRepos && ./gradlew app:spotlessCheck
@@ -19,14 +32,13 @@ jobs:
       - name: Run Lint
         run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
-      - name: Run Tests
-        run: cd GitHubRepos && ./gradlew app:testProdDebugUnitTest
+      - name: Run Jacoco
+        run: cd GitHubRepos && ./gradlew jacocoTestReport
 
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
-      # TODO: fix OSS errors
-      #- name: OSS Scan
-      #  run: cd GitHubRepos && ./gradlew dependencyCheckAnalyze --info
+      - name: OSS Scan
+        run: cd GitHubRepos && ./gradlew app:dependencyCheckAnalyze --info
 
 
