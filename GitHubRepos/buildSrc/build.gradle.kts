@@ -21,6 +21,7 @@ object GlobalVersions {
 
 
 dependencies {
+    // TODO: replace kapt with KSP
     implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
     implementation("com.android.tools.build:gradle:7.4.0-alpha08")
