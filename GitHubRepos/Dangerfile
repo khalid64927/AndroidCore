@@ -1,0 +1,42 @@
+# Sometimes it's a README fix, or something like that - which isn't relevant for
+# including in a project's CHANGELOG for example
+declared_trivial = github.pr_title.include? "#trivial"
+
+# Make it more obvious that a PR is a work in progress and shouldn't be merged yet
+warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
+
+# Warn when there is a big PR
+warn("Big PR") if git.lines_of_code > 500
+
+# Only focus on changes for the current DIFF from the active PR
+github.dismiss_out_of_range_messages
+
+# Identify if a PR is not yet meant to be merged, by commenting with a warning
+has_wip_label = github.pr_labels.any? { |label| label.include? "Engineers at work" }
+has_wip_title = github.pr_title.include? "[WIP]"
+if has_wip_label || has_wip_title
+	warn("PR is marked as Work in Progress")
+end
+
+# Ensure the PR is not marked as DO NOT MERGE
+fail("PR specifies label DO NOT MERGE") if github.pr_labels.any? { |label| label.include? "DO NOT MERGE" }
+
+
+# Don't let testing shortcuts get into master by accident
+fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
+fail("fit left in tests") if `grep -r fit specs/ `.length > 1
+
+junit_tests_dir = "**/test-results/**/*.xml"
+Dir[junit_tests_dir].each do |file_name|
+  junit.parse file_name
+  junit.report
+end
+
+lint_dir = "**/reports/lint-results.xml"
+Dir[lint_dir].each do |file_name|
+  android_lint.skip_gradle_task = true
+  android_lint.filtering = true
+  android_lint.report_file = file_name
+  android_lint.lint
+end
+
