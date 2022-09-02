@@ -52,9 +52,9 @@ Run below command to build and install
 
 ![alt text](release/Screenshot 2022-02-15 at 10.43.37 PM.png)
 ## Jacoco
-run "jacocoPRODDEBUGReport"
+run "jacocoTestReport"
 ```
-./gradlew app:jacocoPRODDEBUGReport
+./gradlew app:jacocoTestReport
 ```
 
 ## Security
