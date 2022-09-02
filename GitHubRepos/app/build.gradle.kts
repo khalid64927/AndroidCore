@@ -60,7 +60,6 @@ dependencies {
     implementation(Dependencies.CRASH)
     implementation(Dependencies.CR_CORE)
     implementation(Dependencies.CR_ANDROID)
-    implementation("com.dynatrace.agent:agent-android:8.231.2.1007")
 
     implementation(Dependencies.DAGGER_RUNTIME)
     api(Dependencies.DAGGER_ANDROID)

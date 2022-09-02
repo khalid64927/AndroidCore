@@ -10,29 +10,31 @@ object Versions {
     const val BUILD_TOOLS = "29.0.1"
     const val MAX_SDK = 2
     const val LIFECYCLE = "2.6.0-alpha01"
-    const val ROOM = "2.5.0-alpha02"
-    const val FRAGMENT = "1.5.0"
-    const val NAV = "2.5.0-rc02" // NAV_SAFE_ARG
+    const val ROOM = "2.5.0-alpha03"
+    const val FRAGMENT = "1.6.0-alpha02"
+    const val NAV = "2.5.1" // NAV_SAFE_ARG
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.4-alpha07"
-    const val TESTX = "1.4.1-alpha04"
+    const val TESTX = "1.5.0-alpha02"
     const val ESPRESSO = "3.5.0-alpha07"
-    const val KOTLIN = "1.7.10"
+    const val KOTLIN = "1.7.20-Beta"
     const val SPOTLESS = "6.8.0"
     const val NAV_SAFE_ARG = "2.5.0-rc02"
-    const val DAGGER = "2.43"
+    const val DAGGER = "2.43.2"
     const val KASPRESSO = "1.4.1"
+    const val MOKITO = "4.7.0"
+
 }
 
 object Dependencies {
     val submodules = listOf("submodule1", "submodule2", "submodule3")
-    const val ANNOTATIONS = "androidx.annotation:annotation:1.4.0"
+    const val ANNOTATIONS = "androidx.annotation:annotation:1.5.0-beta01"
     const val MULTIDEX = "androidx.multidex:multidex:2.0.1"
     const val MULTIDEXTEST = "androidx.multidex:multidex-instrumentation:2.0.0"
-    const val V7 = "androidx.appcompat:appcompat:1.6.0-alpha05"
+    const val V7 = "androidx.appcompat:appcompat:1.6.0-beta01"
     const val SWIPEX = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
-    const val GOOGLE_MATERIAL = "com.google.android.material:material:1.7.0-alpha03"
-    const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.3.0-beta01"
+    const val GOOGLE_MATERIAL = "com.google.android.material:material:1.8.0-alpha01"
+    const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.3.0-beta02"
     const val CARD_VIEW = "androidx.cardview:cardview:1.0.0"
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.2.0-alpha03"
     // Add below for Dagger
@@ -68,9 +70,9 @@ object Dependencies {
     const val ESP_CONTRIBUTE             = "androidx.test.espresso:espresso-contrib:${Versions.ESPRESSO}"
     const val ESP_INTENTS                = "androidx.test.espresso:espresso-intents:${Versions.ESPRESSO}"
     const val ESPRESSO_CORE              = "androidx.test.espresso:espresso-core:${Versions.ESPRESSO}"
-    const val MOKITO_CORE                = "org.mockito:mockito-core:4.6.1"
+    const val MOKITO_CORE                = "org.mockito:mockito-core:${Versions.MOKITO}"
     const val MOKITO_ALL                 = "org.mockito:mockito-all:2.0.2-beta"
-    const val MOKITO_INLINE              = "org.mockito:mockito-inline:4.6.1"
+    const val MOKITO_INLINE              = "org.mockito:mockito-inline:${Versions.MOKITO}"
     const val MOCKWEBSERVER              = "com.squareup.okhttp3:mockwebserver:${Versions.OKHTTP_INTERCEPTOR}"
     const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
     const val SHIMMER                    = "com.facebook.shimmer:shimmer:0.5.0"
@@ -88,7 +90,7 @@ object Dependencies {
     const val NAV_RUNTIME_FRAGMENT_KTX   = "androidx.navigation:navigation-fragment-ktx:${Versions.NAV}"
     const val TEST_CORE                  = "androidx.test:core:${Versions.TESTX}"
     const val FRAGMENTKTX                = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
-    const val ACTIVITY_KTX               = "androidx.activity:activity-ktx:1.6.0-alpha01"
+    const val ACTIVITY_KTX               = "androidx.activity:activity-ktx:1.6.0-rc01"
     const val FRAGMENT_TESTING           = "androidx.fragment:fragment-testing:${Versions.FRAGMENT}"
     const val CHUCKER                    = "com.github.chuckerteam.chucker:library:3.5.2"
 
@@ -101,11 +103,11 @@ object Dependencies {
     const val CR_CORE                    = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     const val CR_ANDROID                 = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     const val CR_TEST_DEBUG              = "org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.6.4"
-    const val CRASH                      = "com.google.firebase:firebase-crashlytics:18.2.11"
+    const val CRASH                      = "com.google.firebase:firebase-crashlytics:18.2.13"
     const val KLUENT                     = "org.amshove.kluent:kluent:1.68"
-    const val MOKITO_ANDROID             = "org.mockito:mockito-android:4.6.1"
+    const val MOKITO_ANDROID             = "org.mockito:mockito-android:${Versions.MOKITO}"
     const val MOKITO_KOTLIN              = "com.nhaarman.mockitokotlin2:mockito-kotlin:4.0.0"
-    const val MOCKK                      = "io.mockk:mockk:1.12.4"
+    const val MOCKK                      = "io.mockk:mockk:1.12.7"
 
     // JDK 9
     const val jaxbApi                    = "javax.xml.bind:jaxb-api:2.3.1"

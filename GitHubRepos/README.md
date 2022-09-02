@@ -4,10 +4,10 @@
 *Uses MVVM + Clean code Architecture
 *Uses Co-routines for network calls
 *Uses LiveData for UI update
-* Built on Android Studio Dolphin | 2021.3.1 Canary 5
+* Built on Android Studio Electric Eel | 2022.1.1 Canary 10
 * Android SDK 32
-* Gradle 7.4-all
-* Android Gradle Plugin 7.3.0-alpha07
+* Gradle 7.5.1-all
+* Android Gradle Plugin 7.4.0-alpha10
 
 
 ### Functionality
@@ -53,17 +53,33 @@ Run below command to build and install
 ![alt text](release/Screenshot 2022-02-15 at 10.43.37 PM.png)
 ## Jacoco
 run "jacocoPRODDEBUGReport"
+```
+./gradlew app:jacocoPRODDEBUGReport
+```
 
 ## Security
 Once gradle plugin applied, run following gradle task to check dependencies:
 
 ```
-gradle dependencyCheckAnalyze --info
+./gradlew app:dependencyCheckAnalyze --info
 ```
 
 The reports will be generated automatically under `build/reports` directory.
+If your project includes multiple sub-projects, the report will be generated for each sub-project in 
+their own `build/reports`.
 
-If your project includes multiple sub-projects, the report will be generated for each sub-project in their own `build/reports`.
+# Dependency update
+Displays a report of the project dependencies that are
+up-to-date, exceed the latest version found, have upgrades, or failed to be resolved. When a
+dependency cannot be resolved the exception is logged at the info level. To refresh the cache
+(i.e. fetch the new releases/versions of the dependencies), use flag --refresh-dependencies.
+
+url: https://github.com/ben-manes/gradle-versions-plugin
+
+run below command
+```
+./gradlew app:dependencyUpdates -Drevision=release
+```
 
 
 ### Libraries
@@ -76,13 +92,10 @@ If your project includes multiple sub-projects, the report will be generated for
 * [Timber][timber] for logging
 * [espresso][espresso] for UI tests
 * [mockito][mockito] for mocking in tests
-* [Dependency Security Chek][dependencyCheck] To run OSS scan on third party libraries and generate report
+* [Dependency Security Check][dependencyCheck] Dependencies vulnerability check
+* [Dependency Update][dependencyUpdates] To check if dependencies are up-to-date
 
-## Refernces
+## References
 
 * https://github.com/firebase/FirebaseUI-Android
-
-
-
-
 
