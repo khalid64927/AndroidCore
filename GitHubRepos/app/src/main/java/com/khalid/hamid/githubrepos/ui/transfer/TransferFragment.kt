@@ -78,6 +78,9 @@ class TransferFragment : BaseFragment(), TransferActionListener {
                 is InvalidPayee -> {
                     errorMsg = "Incorrect Payee"
                 }
+                else -> {
+                    // no-op
+                }
             }
             v.tvTransferError.visibility = if (showError) View.VISIBLE else View.GONE
             if (showError) v.tvTransferError.text = errorMsg

@@ -19,8 +19,6 @@ import com.android.build.gradle.*
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.quality.Checkstyle
-import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.kotlin.dsl.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
@@ -29,7 +27,6 @@ open class KhalidAndroidPlugin : Plugin<Project> {
 
     lateinit var ext: KPluginExtensions
 
-
     /**
      * Determines if a Project is the 'library' module
      */
@@ -37,32 +34,31 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        if(target.properties["enableBuildLogs"] is Boolean){
-            PluginConstants.enableBuildLogs = true
+        PluginConstants.enableBuildLogs = target.hasProperty("enableBuildLogs") &&
+                    (target.property("enableBuildLogs") as String).
+                    equals("true", ignoreCase = true)
+
+        if(PluginConstants.enableBuildLogs){
+            pln(" Build logs are enabled")
         } else {
             println("========================================================================")
             println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
             println("========================================================================")
         }
-        ext = target.extensions.create("KPlugin")
+        ext = target.extensions.create(KPluginExtensions.name, KPluginExtensions::class)
         applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
-        configureAndroid(target)
-        configureQuality(target)
-        configureSpotless(target)
-        target.configureGlobalTasks()
+        target.configureAndroid()
+        target.configureCheckStyle()
+        target.configureJacocoInProject()
+        target.configureSpotless()
+        target.configureOSSScan()
+        target.configureDepUpdate()
         pln("ext  ..after "+ ext.compileSDK)
     }
 
-    private fun Project.configureGlobalTasks() {
-        tasks.register<ProjectBuildTask>("spotless")
-        tasks.register<ProjectBuildTask>("unitTest")
-        tasks.register<ProjectBuildTask>("uiTest")
-        tasks.register<ProjectBuildTask>("allTests")
-        tasks.register<ProjectBuildTask>("depCheck")
-        tasks.register<ProjectBuildTask>("sonar")
-    }
 
+    // TODO: check do we need this
     private fun configureAllOpen(project: Project) = project.run {
         try {
             if(ext.openAnnotationPath.isEmpty()){
@@ -75,18 +71,18 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         }
     }
 
-    private fun configureKotlin(project: Project) = project.run {
+    private fun Project.configureKotlin() {
         configure<KaptExtension> {
             configureKapt()
         }
     }
 
-    private fun configureAndroid(project: Project) {
-        configureKotlin(project)
-        configureAndroidDefaults(project)
+    private fun Project.configureAndroid() {
+        configureKotlin()
+        configureAndroidDefaults()
     }
 
-    private fun configureAndroidDefaults(project: Project) = project.run {
+    private fun Project.configureAndroidDefaults() {
         configure<BaseExtension>{
             pln(" compileSDK "+ ext.compileSDK)
             compileSdkVersion(ext.compileSDK.toInt())
@@ -108,11 +104,15 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                 val schemas = "${projectDir}/schemas"
                 javaCompileOptions {
                     annotationProcessorOptions {
-                        arguments.putAll(mapOf("room.schemaLocation" to schemas,
-                            "room.expandProjection" to "true",
-                            "androidx.room.RoomProcessor" to "true",
-                            "dagger.validateTransitiveComponentDependencies" to "DISABLED",
-                            "dagger.gradle.incremental" to "true"))
+                        arguments.putAll(
+                            mapOf(
+                                "room.schemaLocation" to schemas,
+                                "room.expandProjection" to "true",
+                                "androidx.room.RoomProcessor" to "true",
+                                "dagger.validateTransitiveComponentDependencies" to "DISABLED",
+                                "dagger.gradle.incremental" to "true"
+                            )
+                        )
                     }
                 }
             }
@@ -130,13 +130,16 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             buildTypes {
                 getByName("release") {
                     isMinifyEnabled = true
-                    if(ext.isLibraryModule){
+                    if (ext.isLibraryModule) {
                         consumerProguardFile("proguard-android.txt")
-                    }else{
-                        proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+                    } else {
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android.txt"),
+                            "proguard-rules.pro"
+                        )
                     }
                 }
-                getByName("debug"){
+                getByName("debug") {
                     isDebuggable = true
                 }
             }
@@ -165,26 +168,30 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             }
 
             sourceSets {
+                val mainSrc = listOf("src/main/kotlin", "src/main/java")
                 val sharedResTestDir = "src/sharedTest/resources"
-                val sharedUnitTestSrc = listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/test/kotlin")
-                val sharedUITestSrc = listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/androidTest/kotlin")
-                this.getByName("androidTest"){
+                val sharedUnitTestSrc =
+                    listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/test/kotlin")
+                val sharedUITestSrc =
+                    listOf("src/sharedTest/java", "src/sharedTest/kotlin", "src/androidTest/kotlin")
+
+                this.getByName("androidTest") {
                     java.srcDirs(sharedUITestSrc)
                     resources.srcDirs(sharedResTestDir)
                 }
-
-                this.getByName("test"){
+                this.getByName("main") {
+                    java.srcDirs(mainSrc)
+                }
+                this.getByName("test") {
                     java.srcDirs(sharedUnitTestSrc)
                     resources.srcDirs(sharedResTestDir)
                 }
             }
         }
-
     }
 
-    private fun configureQuality(target: Project) = target.run {
+    private fun Project.configureJacocoInProject() {
         val project = this
-        configureCheckStyle(target)
         // set jacoco config
         afterEvaluate {
             pln("afterEvaluate")
@@ -197,35 +204,18 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                         when (this) {
                             is LibraryPlugin -> {
                                 extensions.getByType(LibraryExtension::class.java).run {
-                                    configureJacoco(project, libraryVariants, jacocoOptions)
+                                    configureJacoco(libraryVariants, jacocoOptions)
                                 }
                             }
                             is AppPlugin -> {
                                 extensions.getByType(AppExtension::class.java).run {
-                                    configureJacoco(project, applicationVariants, jacocoOptions)
+                                    configureJacoco(applicationVariants, jacocoOptions)
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-
-    private fun configureCheckStyle(target: Project) = target.run {
-        apply(plugin = "checkstyle")
-        configure<CheckstyleExtension> { toolVersion = "8.10.1" }
-        tasks.named("check").configure { dependsOn("checkstyle") }
-        tasks.register<Checkstyle>("checkstyle") {
-            var path = ext.checkstylePath
-            if(path.isEmpty()){
-                path = "${project.configDir}/checkstyle.xml"
-            }
-            configFile = file(path)
-            source("src")
-            include("**/*.java")
-            exclude("**/gen/**")
-            classpath = files()
         }
     }
 }

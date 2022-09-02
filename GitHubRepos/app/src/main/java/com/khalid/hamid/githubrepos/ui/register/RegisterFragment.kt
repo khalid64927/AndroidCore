@@ -77,6 +77,9 @@ class RegisterFragment : BaseFragment(), RegisterActionListener {
                 is Default -> {
                     showError = false
                 }
+                else -> {
+                    // no-op
+                }
             }
             v.tvError.visibility = if (showError) View.VISIBLE else View.GONE
             if (showError) v.tvError.text = errorMsg

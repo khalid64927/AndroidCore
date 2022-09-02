@@ -283,6 +283,9 @@ abstract class BaseFragment :
                         State.RUNNING -> {
                             showLoader()
                         }
+                        else -> {
+                            // no-op
+                        }
                     }
                 }
             }

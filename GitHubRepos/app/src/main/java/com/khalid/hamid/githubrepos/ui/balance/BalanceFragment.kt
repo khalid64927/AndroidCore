@@ -81,6 +81,9 @@ class BalanceFragment : BaseFragment(), BalanceActionListener {
                 is TransactionAvailable -> {
                     buildList(balanceEvent.transactionList)
                 }
+                else -> {
+                    // no-op
+                }
             }
         }
     }
