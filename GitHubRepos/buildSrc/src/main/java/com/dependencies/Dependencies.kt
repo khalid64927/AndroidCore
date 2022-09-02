@@ -98,7 +98,7 @@ object Dependencies {
     const val TEST_KTX_CORE              = "androidx.test:core-ktx:${Versions.TESTX}"
     const val TEST_KTX_JUNIT             = "androidx.test.ext:junit-ktx:${Versions.JUNITX}"
     const val JUNIT_EXT                  = "androidx.test.ext:junit:${Versions.JUNITX}"
-    const val TEST_RULES                 = "androidx.test:rules:${Versions.TESTX}"
+    const val TEST_RULES                 = "androidx.test:rules:1.4.1-alpha07"
     const val CR_TEST                    = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     const val CR_CORE                    = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     const val CR_ANDROID                 = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
