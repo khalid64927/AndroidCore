@@ -11,8 +11,8 @@ KPlugin {
     pln("KPlugin Ext app...")
     isLibraryModule = false
     minSDK = 19
-    compileSDK = "32"
-    targetSDK = "32"
+    compileSDK = "33"
+    targetSDK = "33"
     versionCode = 10
     versionName = "1.1"
     testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
