@@ -30,21 +30,25 @@ class Prefs(context: Context) {
 
     var cachedTime: String
         get() = prefs.getString(CACHED_TIME, "") ?: ""
+
         @SuppressLint("NewApi")
         set(value) = prefs.edit().putString(CACHED_TIME, value).apply()
 
     var accessToken: String
         get() = prefs.getString(ACCESS_TOKEN, "") ?: ""
+
         @SuppressLint("NewApi")
         set(value) = prefs.edit().putString(ACCESS_TOKEN, value).apply()
 
     var accountNumber: String
         get() = prefs.getString(ACCOUNT_NUMBER, "") ?: ""
+
         @SuppressLint("NewApi")
         set(value) = prefs.edit().putString(ACCOUNT_NUMBER, value).apply()
 
     var userName: String
         get() = prefs.getString(USERNAME, "") ?: ""
+
         @SuppressLint("NewApi")
         set(value) = prefs.edit().putString(USERNAME, value).apply()
 

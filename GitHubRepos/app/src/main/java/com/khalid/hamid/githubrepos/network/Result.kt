@@ -109,13 +109,15 @@ fun <T : Any, E : Any> Response<T>.getRetrofitResult(converter: (T) -> E): Resul
 }
 
 inline fun <T : Any> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {
-    if (this is Success)
+    if (this is Success) {
         action(data)
+    }
     return this
 }
 
 inline fun <T : Any> Result<T>.onError(action: (Throwable) -> Unit): Result<T> {
-    if (this is Result.Failure && exception != null)
+    if (this is Result.Failure && exception != null) {
         action(exception)
+    }
     return this
 }

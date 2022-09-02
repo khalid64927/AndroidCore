@@ -22,6 +22,7 @@ import org.junit.Before
 
 interface TestContract {
     var mockWebServer: MockWebServer
+
     @Before
     fun before()
 
