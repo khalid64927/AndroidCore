@@ -106,7 +106,7 @@ object Dependencies {
     const val CRASH                      = "com.google.firebase:firebase-crashlytics:18.2.13"
     const val KLUENT                     = "org.amshove.kluent:kluent:1.68"
     const val MOKITO_ANDROID             = "org.mockito:mockito-android:${Versions.MOKITO}"
-    const val MOKITO_KOTLIN              = "com.nhaarman.mockitokotlin2:mockito-kotlin:4.0.0"
+    const val MOKITO_KOTLIN              = "org.mockito.kotlin:mockito-kotlin:4.0.0"
     const val MOCKK                      = "io.mockk:mockk:1.12.7"
 
     // JDK 9
