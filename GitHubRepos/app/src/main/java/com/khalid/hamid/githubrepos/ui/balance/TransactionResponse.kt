@@ -52,6 +52,7 @@ data class Data(
     // 2022-02-13T14:53:01.630Z
     @SuppressLint("NewApi")
     private val TRANSACTION_TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
     @SuppressLint("NewApi")
     private val TRANSACTION_DATE_FORMAT = DateTimeFormatter.ofPattern("mm MMM yyy")
 

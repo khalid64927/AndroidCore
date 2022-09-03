@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utils
+package com.khalid.hamid.githubrepos
 
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.khalid.hamid.githubrepos.kaspresso.LoginScreen
+import org.junit.Test
+import org.junit.runner.RunWith
 
-interface TestContract {
-    var mockWebServer: MockWebServer
+@RunWith(AndroidJUnit4::class)
+class IntegrationTests {
 
-    @Before
-    fun before()
-
-    @After
-    fun after()
+    @Test
+    fun testLogin() {
+        onScreen<LoginScreen> {
+            loginButton {
+                clicked()
+            }
+        }
+    }
 }

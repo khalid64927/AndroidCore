@@ -109,6 +109,7 @@ fun <T : Any> Fragment.fragmentViewLifecycleDelegate(
     initializer,
     doBeforeClear
 )
+
 /**
  * Creates an [FragmentViewLifecycleDelegate] with custom dismiss dialog action on view destroy.
  */

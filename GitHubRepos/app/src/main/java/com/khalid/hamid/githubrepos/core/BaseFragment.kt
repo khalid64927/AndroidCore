@@ -254,7 +254,9 @@ abstract class BaseFragment :
                     is CustomNavDirection.NativeNavDirection -> {
                         if (navDir.result != null) {
                             navigateWithResult(
-                                navDir.navDirections, navDir.result.first, navDir.result.second
+                                navDir.navDirections,
+                                navDir.result.first,
+                                navDir.result.second
                             )
                         } else {
                             findNavController().safeNavigate(
@@ -282,6 +284,9 @@ abstract class BaseFragment :
                         }
                         State.RUNNING -> {
                             showLoader()
+                        }
+                        else -> {
+                            // no-op
                         }
                     }
                 }

@@ -4,29 +4,31 @@ plugins {
 }
 
 repositories {
-    google()
     mavenCentral()
+    gradlePluginPortal()
+    google()
     maven{
         url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
     }
 }
 
 object GlobalVersions {
-    const val DAGGER = "2.41"
-    const val KOTLIN = "1.6.10"
+    const val DAGGER = "2.43"
 }
 
 
 
 dependencies {
-    implementation(dependencyNotation = "com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
-    implementation(dependencyNotation = "org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
-    implementation(dependencyNotation = "com.android.tools.build:gradle:7.4.0-alpha08")
-    implementation(dependencyNotation = "org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
-    implementation(dependencyNotation = "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
-    implementation (dependencyNotation = "com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
-    implementation (dependencyNotation = "org.owasp:dependency-check-gradle:7.0.1")
-    implementation (dependencyNotation = "com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
+    // TODO: replace kapt with KSP
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin")}")
+    implementation("com.android.tools.build:gradle:7.4.0-alpha10")
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${System.getProperty("kotlin")}")
+    implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-rc02")
+    implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.8.0")
+    implementation ("org.owasp:dependency-check-gradle:7.1.1")
+    implementation ("com.github.ben-manes:gradle-versions-plugin:0.42.0")
+    implementation ("com.google.dagger:hilt-android-gradle-plugin:${GlobalVersions.DAGGER}")
 }
 
 
@@ -38,6 +40,4 @@ gradlePlugin {
         }
     }
 }
-
-
 

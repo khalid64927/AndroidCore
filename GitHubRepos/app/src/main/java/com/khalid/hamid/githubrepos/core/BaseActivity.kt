@@ -32,6 +32,7 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseActivity : AppCompatActivity(), CoroutineScope, ViewUtils {
 
     abstract val layout: Int
+
     // Bundle from intent
     lateinit var bundle: Bundle
 
