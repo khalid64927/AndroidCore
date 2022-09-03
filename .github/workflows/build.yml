@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: APK upload
-          path: ${{github.workspace}}/app/build/outputs/apk
+          path: GitHubRepos/app/build/outputs/apk
 
 
       - name: OSS Scan
@@ -71,4 +71,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
          name: Reports
-         path: ${{github.workspace}}/app/build/reports
+         path: GitHubRepos/app/build/reports
