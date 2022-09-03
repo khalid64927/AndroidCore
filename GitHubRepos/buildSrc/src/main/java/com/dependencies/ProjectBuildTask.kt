@@ -8,7 +8,7 @@ abstract class ProjectBuildTask: DefaultTask() {
 
     @TaskAction
     fun configureOSSScan(){
-        // TODO:
+        runtime.exec("./gradlew app:dependencyCheckAnalyze --info")
     }
 
     @TaskAction
@@ -23,8 +23,8 @@ abstract class ProjectBuildTask: DefaultTask() {
     }
 
     @TaskAction
-    fun runDepCheck(){
-        // TODO:
+    fun runDepUpdates(){
+        runtime.exec("./gradlew app:dependencyUpdates")
     }
 
     @TaskAction
