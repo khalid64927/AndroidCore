@@ -48,14 +48,14 @@ class TransferViewModel @Inject constructor(
     var payeeList: PayeeResponse? = null
     private fun getPayees() {
         launchAsyncAPI {
-            baseRepository.payees().onError {
+            /*baseRepository.payees().onError {
                 Timber.d("onError")
                 _transferEventLiveData.value = GetPayeesFailed(it.localizedMessage)
             }.onSuccess {
                 Timber.d("onSuccess")
                 payeeList = it
                 _transferEventLiveData.value = GetPayeesSuccess(it)
-            }
+            }*/
         }
     }
 
@@ -89,14 +89,14 @@ class TransferViewModel @Inject constructor(
             ?.find { it.name.equals(payeeSelected, ignoreCase = true) }
             ?.accountNo ?: ""
         launchAsyncAPI {
-            baseRepository.transfer(TransferRequest(accountNo, amount.toInt(), description))
+            /*baseRepository.transfer(TransferRequest(accountNo, amount.toInt(), description))
                 .onError {
                     Timber.d("onError")
                     _transferEventLiveData.value = TransferFailed(it.localizedMessage)
                 }.onSuccess {
                     Timber.d("onSuccess")
                     _transferEventLiveData.value = TransferSuccess(it)
-                }
+                }*/
         }
     }
 }

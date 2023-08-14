@@ -15,39 +15,15 @@
  */
 
 package com.khalid.hamid.githubrepos.network
-
 import androidx.annotation.WorkerThread
-import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
-import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
-import com.khalid.hamid.githubrepos.ui.login.LoginRequest
-import com.khalid.hamid.githubrepos.ui.login.LoginResponse
-import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
-import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
-import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
-import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
-import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
-import com.khalid.hamid.githubrepos.vo.GitRepos
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
+
 
 interface BaseDataSource {
+    @WorkerThread
+    suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList>
 
     @WorkerThread
-    suspend fun fetchRepos(): Result<GitRepos>
-
-    @WorkerThread
-    suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse>
-
-    @WorkerThread
-    suspend fun login(loginRequest: LoginRequest): Result<LoginResponse>
-
-    @WorkerThread
-    suspend fun balance(): Result<BalanceResponse>
-
-    @WorkerThread
-    suspend fun transactions(): Result<TransactionResponse>
-
-    @WorkerThread
-    suspend fun payees(): Result<PayeeResponse>
-
-    @WorkerThread
-    suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse>
+    suspend fun fetchProductForCategory(url: String): Result<ProductList>
 }

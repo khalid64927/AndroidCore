@@ -16,41 +16,26 @@
 
 package com.khalid.hamid.githubrepos.network
 
-import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
-import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
-import com.khalid.hamid.githubrepos.ui.login.LoginRequest
-import com.khalid.hamid.githubrepos.ui.login.LoginResponse
-import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
-import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
-import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
-import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
-import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
-import com.khalid.hamid.githubrepos.vo.GitRepos
+import android.telecom.Call
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.Url
 
 interface GitHubService {
+    @GET
+    suspend fun fetchProductCategories(@Url url: String) : Response<ProductCategoriesList>
 
-    @GET("repositories")
-    suspend fun fetchRepos(): Response<GitRepos>
+    @GET
+    suspend fun fetchProductForCategory(@Url url: String) : Response<ProductList>
 
-    @POST("register")
-    suspend fun register(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
+}
 
-    @POST("login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
-    @GET("balance")
-    suspend fun balance(): Response<BalanceResponse>
+object Endpoints {
+    const val BASE_URL = "https://s3-ap-northeast-1.amazonaws.com/m-et/Android/json/"
+    private const val EXT = ".json"
+    const val TIMELINE_CATEGORIES = "${BASE_URL}master${EXT}"
 
-    @GET("payees")
-    suspend fun payees(): Response<PayeeResponse>
-
-    @GET("transactions")
-    suspend fun transactions(): Response<TransactionResponse>
-
-    @POST("transfer")
-    suspend fun transfer(@Body transferRequest: TransferRequest): Response<TransferResponse>
 }

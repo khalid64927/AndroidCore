@@ -19,15 +19,8 @@ package com.khalid.hamid.githubrepos.network.remote
 import com.khalid.hamid.githubrepos.network.GitHubService
 import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.getRetrofitResult
-import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
-import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
-import com.khalid.hamid.githubrepos.ui.login.LoginRequest
-import com.khalid.hamid.githubrepos.ui.login.LoginResponse
-import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
-import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
-import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
-import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
-import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import com.khalid.hamid.githubrepos.vo.GitRepos
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,27 +34,11 @@ class RemoteDataSource @Inject constructor(
         return Result.Failure(Exception(""))
     }
 
-    suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse> {
-        return gitHubService.register(registerRequest).getRetrofitResult { it }
+    suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList> {
+        return gitHubService.fetchProductCategories(url).getRetrofitResult { it }
     }
 
-    suspend fun login(loginRequest: LoginRequest): Result<LoginResponse> {
-        return gitHubService.login(loginRequest).getRetrofitResult { it }
-    }
-
-    suspend fun balance(): Result<BalanceResponse> {
-        return gitHubService.balance().getRetrofitResult { it }
-    }
-
-    suspend fun transactions(): Result<TransactionResponse> {
-        return gitHubService.transactions().getRetrofitResult { it }
-    }
-
-    suspend fun payees(): Result<PayeeResponse> {
-        return gitHubService.payees().getRetrofitResult { it }
-    }
-
-    suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse> {
-        return gitHubService.transfer(transferRequest).getRetrofitResult { it }
+    suspend fun fetchProductForCategory(url: String): Result<ProductList> {
+        return gitHubService.fetchProductForCategory(url).getRetrofitResult { it }
     }
 }

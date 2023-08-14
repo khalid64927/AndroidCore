@@ -67,6 +67,10 @@ dependencies {
     kapt(Dependencies.DAGGER_ANDROID_PROCESSOR)
     kapt(Dependencies.DAGGER_COMPILER)
 
+    // Epoxy
+    implementation(Dependencies.EPOXY)
+    kapt(Dependencies.EPOXY_RUNTIME)
+
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)
     implementation(Dependencies.LC_JAVA8)

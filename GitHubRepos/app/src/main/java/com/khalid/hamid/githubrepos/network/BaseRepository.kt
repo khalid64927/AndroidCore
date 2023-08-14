@@ -17,17 +17,6 @@
 package com.khalid.hamid.githubrepos.network
 
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
-import com.khalid.hamid.githubrepos.ui.balance.BalanceResponse
-import com.khalid.hamid.githubrepos.ui.balance.TransactionResponse
-import com.khalid.hamid.githubrepos.ui.login.LoginRequest
-import com.khalid.hamid.githubrepos.ui.login.LoginResponse
-import com.khalid.hamid.githubrepos.ui.register.RegisterRequest
-import com.khalid.hamid.githubrepos.ui.register.RegisterResponse
-import com.khalid.hamid.githubrepos.ui.transfer.PayeeResponse
-import com.khalid.hamid.githubrepos.ui.transfer.TransferRequest
-import com.khalid.hamid.githubrepos.ui.transfer.TransferResponse
-import com.khalid.hamid.githubrepos.vo.GitRepos
-import timber.log.Timber
 import javax.inject.Singleton
 
 @OpenForTesting
@@ -36,32 +25,7 @@ class BaseRepository(
     private val baseDataSource: BaseDataSource
 ) : BaseDataSource {
 
-    override suspend fun fetchRepos(): Result<GitRepos> {
-        Timber.d("getRepositories")
-        return baseDataSource.fetchRepos()
-    }
+    override suspend fun fetchProductCategories(url: String) = baseDataSource.fetchProductCategories(url)
 
-    override suspend fun register(registerRequest: RegisterRequest): Result<RegisterResponse> {
-        return baseDataSource.register(registerRequest)
-    }
-
-    override suspend fun login(loginRequest: LoginRequest): Result<LoginResponse> {
-        return baseDataSource.login(loginRequest)
-    }
-
-    override suspend fun balance(): Result<BalanceResponse> {
-        return baseDataSource.balance()
-    }
-
-    override suspend fun transactions(): Result<TransactionResponse> {
-        return baseDataSource.transactions()
-    }
-
-    override suspend fun payees(): Result<PayeeResponse> {
-        return baseDataSource.payees()
-    }
-
-    override suspend fun transfer(transferRequest: TransferRequest): Result<TransferResponse> {
-        return baseDataSource.transfer(transferRequest)
-    }
+    override suspend fun fetchProductForCategory(url: String) = baseDataSource.fetchProductForCategory(url)
 }

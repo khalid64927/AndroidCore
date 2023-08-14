@@ -46,7 +46,7 @@ class BalanceViewModel @Inject constructor(
 
     private fun getBalance() {
         launchAsyncAPI {
-            baseRepository.balance()
+            /*baseRepository.balance()
                 .onError {
                     _balanceEventLiveData.value = BalanceNotAvailable(it.localizedMessage)
                     showError(it.localizedMessage)
@@ -64,7 +64,7 @@ class BalanceViewModel @Inject constructor(
                     Timber.d("transactions onSuccess")
                     val transactionList = it.data.groupBy { it.getDateTime() }
                     _balanceEventLiveData.value = TransactionAvailable(transactionList)
-                }
+                }*/
         }
     }
 }

@@ -20,7 +20,8 @@
 
     <navigation
         android:id="@+id/navigation"
-        app:startDestination="@id/loginFragment" >
+        app:startDestination="@id/timelineTabFragment" >
+
         <fragment
             android:id="@+id/loginFragment"
             android:name="com.khalid.hamid.githubrepos.ui.login.LoginFragment"
@@ -43,6 +44,15 @@
                 app:popEnterAnim="@anim/slide_in_left"
                 app:popExitAnim="@anim/slide_out_right"
                 app:popUpTo="@id/loginFragment" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/timelineTabFragment"
+            android:name="com.khalid.hamid.githubrepos.ui.timeline.TimelineFragment"
+            app:popUpTo="@id/timelineTabFragment"
+            app:popUpToInclusive="true"
+            android:label="Timeline">
 
         </fragment>
 

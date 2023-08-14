@@ -17,12 +17,13 @@ object Versions {
     const val JUNITX = "1.1.4-alpha07"
     const val TESTX = "1.5.0-alpha02"
     const val ESPRESSO = "3.5.0-alpha07"
-    const val KOTLIN = "1.7.20-Beta"
+    const val KOTLIN = "1.6.0"
     const val SPOTLESS = "6.8.0"
     const val NAV_SAFE_ARG = "2.5.0-rc02"
-    const val DAGGER = "2.43.2"
+    const val DAGGER = "2.43"
     const val KASPRESSO = "1.4.1"
     const val MOKITO = "4.7.0"
+    const val EPOXY = "3.11.0"
 
 }
 
@@ -93,6 +94,8 @@ object Dependencies {
     const val ACTIVITY_KTX               = "androidx.activity:activity-ktx:1.6.0-rc01"
     const val FRAGMENT_TESTING           = "androidx.fragment:fragment-testing:${Versions.FRAGMENT}"
     const val CHUCKER                    = "com.github.chuckerteam.chucker:library:3.5.2"
+    const val EPOXY                      = "com.airbnb.android:epoxy:${Versions.EPOXY}"
+    const val EPOXY_RUNTIME              = "com.airbnb.android:epoxy-processor:${Versions.EPOXY}"
 
     // testing
     const val TEST_KTX_CORE              = "androidx.test:core-ktx:${Versions.TESTX}"

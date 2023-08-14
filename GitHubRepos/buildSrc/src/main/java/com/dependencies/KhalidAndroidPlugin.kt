@@ -19,7 +19,8 @@ import com.android.build.gradle.*
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
@@ -120,6 +121,7 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             dataBinding.enableForTests = true
             dataBinding.addKtx = true
             buildFeatures.viewBinding = true
+
             lintOptions {
                 baselineFile = getLintBaseline(project, ext)
                 isCheckAllWarnings = true
@@ -162,7 +164,9 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                 targetCompatibility = JavaVersion.VERSION_11
             }
 
-            dependencies {
+
+
+            dependencies.run  {
                 unitTest()
                 UITest()
             }

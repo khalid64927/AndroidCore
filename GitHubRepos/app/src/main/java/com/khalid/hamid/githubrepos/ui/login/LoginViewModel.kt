@@ -79,7 +79,7 @@ class LoginViewModel @Inject constructor(
         }
 
         launchAsyncAPI {
-            baseRepository.login(LoginRequest(username, pwd))
+            /*baseRepository.login(LoginRequest(username, pwd))
                 .onError {
                     _registerEventLiveData.value = LoginFailed(it.localizedMessage)
                     showError(it.localizedMessage)
@@ -92,7 +92,7 @@ class LoginViewModel @Inject constructor(
                     perf.accountNumber = it.accountNo
                     perf.userName = it.username
                     _registerEventLiveData.value = LoginSuccess("")
-                }
+                }*/
             Timber.d("five")
         }
         return true

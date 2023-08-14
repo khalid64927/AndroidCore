@@ -37,4 +37,5 @@
     <string name="clear_cache">Clear cache</string>
     <string name="error">Error</string>
     <string name="reset_data_error">Unable to clear data</string>
+    <string name="viewpager">ViewPager</string>
 </resources>

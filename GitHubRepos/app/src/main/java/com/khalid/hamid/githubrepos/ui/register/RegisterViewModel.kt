@@ -85,7 +85,7 @@ class RegisterViewModel @Inject constructor(
         }
 
         launchAsyncAPI {
-            baseRepository.register(RegisterRequest(username, pwd))
+            /*baseRepository.register(RegisterRequest(username, pwd))
                 .onError {
                     _registerEventLiveData.value = RegisterFailed(it.localizedMessage)
                     showError(it.localizedMessage)
@@ -94,7 +94,7 @@ class RegisterViewModel @Inject constructor(
                     perf.accessToken = it.token
                     Timber.d("toke ${perf.accessToken}")
                     _registerEventLiveData.value = Registered("")
-                }
+                }*/
         }
         return true
     }
