@@ -161,9 +161,9 @@ class MainActivity : BaseActivity(), ToolbarActions {
 
     override fun setOverflowMenuColor(@ColorInt color: Int) {
         binding.singlePageToolbar.overflowIcon?.run {
-            //val icon = DrawableCompat.wrap(this)
-            //DrawableCompat.setTint(icon.mutate(), color)
-            //binding.singlePageToolbar.overflowIcon = icon
+            // val icon = DrawableCompat.wrap(this)
+            // DrawableCompat.setTint(icon.mutate(), color)
+            // binding.singlePageToolbar.overflowIcon = icon
         }
     }
 
@@ -185,7 +185,7 @@ class MainActivity : BaseActivity(), ToolbarActions {
             val icon = DrawableCompat.wrap(this)
             DrawableCompat.setTint(icon.mutate(), color)
             arrowDrawable = icon
-            //binding.singlePageToolbar.navigationIcon = arrowDrawable
+            // binding.singlePageToolbar.navigationIcon = arrowDrawable
         }
     }
 
@@ -194,7 +194,7 @@ class MainActivity : BaseActivity(), ToolbarActions {
     }
 
     override fun setHomeIconVisibility(isVisible: Boolean) {
-        if (!isVisible){}
-            //binding.singlePageToolbar.navigationIcon = null
+        if (!isVisible) {}
+        // binding.singlePageToolbar.navigationIcon = null
     }
 }

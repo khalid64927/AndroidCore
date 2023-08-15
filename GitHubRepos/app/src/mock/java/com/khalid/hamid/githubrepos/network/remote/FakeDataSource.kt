@@ -39,7 +39,6 @@ class FakeDataSource @Inject constructor(val context: Application) : BaseDataSou
         return response
     }
 
-
     override suspend fun fetchProductCategories(url: String): Result<List<ProductCategoriesItem>> {
         TODO("Not yet implemented")
     }

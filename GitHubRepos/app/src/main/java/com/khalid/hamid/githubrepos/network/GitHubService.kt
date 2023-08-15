@@ -16,7 +16,6 @@
 
 package com.khalid.hamid.githubrepos.network
 
-import android.telecom.Call
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import retrofit2.Response
@@ -25,17 +24,14 @@ import retrofit2.http.Url
 
 interface GitHubService {
     @GET
-    suspend fun fetchProductCategories(@Url url: String) : Response<ProductCategoriesList>
+    suspend fun fetchProductCategories(@Url url: String): Response<ProductCategoriesList>
 
     @GET
-    suspend fun fetchProductForCategory(@Url url: String) : Response<ProductList>
-
+    suspend fun fetchProductForCategory(@Url url: String): Response<ProductList>
 }
-
 
 object Endpoints {
     const val BASE_URL = "https://s3-ap-northeast-1.amazonaws.com/m-et/Android/json/"
     private const val EXT = ".json"
-    const val TIMELINE_CATEGORIES = "${BASE_URL}master${EXT}"
-
+    const val TIMELINE_CATEGORIES = "${BASE_URL}master$EXT"
 }

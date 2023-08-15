@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 Mohammed Khalid Hamid.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.khalid.hamid.githubrepos.ui.timeline
 
 import android.os.Bundle
@@ -8,14 +24,13 @@ import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
 import com.khalid.hamid.githubrepos.core.epoxy.MercariDelegate
 import com.khalid.hamid.githubrepos.core.epoxy.MercariProductComponent
-//import com.khalid.hamid.githubrepos.core.epoxy.MercariProductComponent
 import com.khalid.hamid.githubrepos.databinding.FragmentTimelineProductsBinding
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import com.khalid.hamid.githubrepos.utilities.GridSpacingItemDecoration
 import com.khalid.hamid.githubrepos.utilities.ItemDivider
 import com.khalid.hamid.githubrepos.utilities.delegates.fragmentViewLifecycleDelegate
 
-class ProductsTimelineFragment: BaseFragment(), MercariDelegate {
+class ProductsTimelineFragment : BaseFragment(), MercariDelegate {
 
     override val mLayout = R.layout.fragment_timeline_products
 
@@ -45,28 +60,27 @@ class ProductsTimelineFragment: BaseFragment(), MercariDelegate {
 
             vm.getTimelineProducts(categoryUrl)
 
-            vm.productTimelineEventLiveData.observe(viewLifecycleOwner){
-                when(it){
+            vm.productTimelineEventLiveData.observe(viewLifecycleOwner) {
+                when (it) {
                     is ReceivedProductsEvent -> {
                         updateEpoxyRecyclerView(it.productList)
                     }
 
                     is FailedToFetchTimelineProducts -> {
-
                     }
                 }
             }
         }
     }
 
-    private fun updateEpoxyRecyclerView(productList : ProductList){
+    private fun updateEpoxyRecyclerView(productList: ProductList) {
         v.ervProducts.withModels {
             productList.forEach {
-                MercariProductComponent(it).
-                render(this@ProductsTimelineFragment).
-                        forEach {model ->
-                            model.addTo(this)
-                        }
+                MercariProductComponent(it)
+                    .render(this@ProductsTimelineFragment)
+                    .forEach { model ->
+                        model.addTo(this)
+                    }
             }
         }
     }

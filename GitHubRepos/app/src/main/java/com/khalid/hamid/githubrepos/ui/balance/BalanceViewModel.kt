@@ -21,12 +21,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import com.khalid.hamid.githubrepos.core.BaseViewModel
 import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.onError
-import com.khalid.hamid.githubrepos.network.onSuccess
 import com.khalid.hamid.githubrepos.testing.OpenForTesting
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @OpenForTesting

@@ -17,10 +17,8 @@
 package com.khalid.hamid.githubrepos.network.remote
 
 import android.content.Context
-import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 
 class AuthInterceptor(
@@ -31,5 +29,4 @@ class AuthInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(chain.request())
     }
-
 }

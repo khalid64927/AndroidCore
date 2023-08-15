@@ -19,7 +19,6 @@ import androidx.annotation.WorkerThread
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 
-
 interface BaseDataSource {
     @WorkerThread
     suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList>
