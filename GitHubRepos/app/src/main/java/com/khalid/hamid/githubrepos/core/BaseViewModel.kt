@@ -27,6 +27,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.khalid.hamid.githubrepos.utilities.*
+import com.khalid.hamid.githubrepos.utilities.extentions.EspressoIdlingResource
+import com.khalid.hamid.githubrepos.utilities.extentions.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

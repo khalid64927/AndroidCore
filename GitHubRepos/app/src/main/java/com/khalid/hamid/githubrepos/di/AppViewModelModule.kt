@@ -16,7 +16,7 @@
 
 package com.khalid.hamid.githubrepos.di
 
-import com.khalid.hamid.githubrepos.utilities.AppViewModelProvider
+import com.khalid.hamid.githubrepos.utilities.delegates.AppViewModelProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

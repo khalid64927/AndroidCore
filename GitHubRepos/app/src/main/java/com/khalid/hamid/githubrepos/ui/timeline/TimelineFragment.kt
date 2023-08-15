@@ -6,9 +6,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentTimelineBinding
-import com.khalid.hamid.githubrepos.utilities.ToolbarWithUp
-import com.khalid.hamid.githubrepos.utilities.fragmentViewLifecycleDelegate
-import com.khalid.hamid.githubrepos.utilities.withLogo
+import com.khalid.hamid.githubrepos.utilities.toolbar.ToolbarWithUp
+import com.khalid.hamid.githubrepos.utilities.delegates.fragmentViewLifecycleDelegate
+import com.khalid.hamid.githubrepos.utilities.toolbar.DefaultToolbar
+import com.khalid.hamid.githubrepos.utilities.toolbar.withLogo
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -17,7 +18,7 @@ class TimelineFragment : BaseFragment(), TimelineFragmentActions {
 
     override val mLayout = R.layout.fragment_timeline
 
-    override val toolbarConfig = ToolbarWithUp().withLogo()
+    override val toolbarConfig = DefaultToolbar()
 
     private var v by fragmentViewLifecycleDelegate(
         { binding as FragmentTimelineBinding }
@@ -40,8 +41,7 @@ class TimelineFragment : BaseFragment(), TimelineFragmentActions {
             when(it){
                 is ReceivedProducts -> {
                     Timber.d("ReceivedProducts Event ")
-                    buildViewPager()
-
+                    buildViewPager(it)
                 }
                 is FailedToFetchProducts -> {
                     Timber.d("FailedToFetchProducts Event ")
@@ -51,14 +51,13 @@ class TimelineFragment : BaseFragment(), TimelineFragmentActions {
         }
     }
 
-    private fun buildViewPager() {
+    private fun buildViewPager(receivedProducts: ReceivedProducts) {
         activity?.run {
-            val pagerAdapter = PagerAdapter(this)
+            val pagerAdapter = PagerAdapter(this, receivedProducts)
             v.timelinePager.adapter = pagerAdapter
             TabLayoutMediator(v.tablayout, v.timelinePager) { tab, position -> }.attach()
-            v.timelinePager.setCurrentItem(1, false)
+            v.timelinePager.setCurrentItem(0, true)
         }
-
     }
 }
 

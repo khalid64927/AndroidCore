@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.extentions
+
+import com.khalid.hamid.githubrepos.utilities.SimpleCountingIdlingResource
+
 /**
  * Contains a static reference to [IdlingResource], only available in the 'mock' build type.
  */

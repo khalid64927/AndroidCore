@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.delegates
 
 import android.view.View
 import android.widget.ImageView
@@ -28,6 +28,7 @@ import javax.inject.Inject
  * Binding adapters that work with a fragment instance.
  */
 open class FragmentBindingAdapters @Inject constructor(val fragment: Fragment) {
+
     @BindingAdapter("imageUrl")
     fun bindImage(imageView: ImageView, url: String?) {
         Glide.with(fragment).load(url).into(imageView)

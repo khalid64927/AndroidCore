@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.extentions
 
-import androidx.lifecycle.ViewModel
+fun Int?.orZero(): Int = this ?: 0
 
-interface GetViewModelProvider {
-    fun getViewModelFactory(): AppViewModelProvider
-    fun <T : ViewModel> viewModelCreated(viewModel: T)
+/**
+ * Convert server int value where result is mapped to true
+ * when value == 1
+ */
+fun Int.toBoolean(): Boolean = this == 1
+
+fun IntArray.exceptFirst(): IntArray {
+    return this.slice(1 until size)
+        .toIntArray()
 }

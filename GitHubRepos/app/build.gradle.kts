@@ -1,4 +1,5 @@
 import com.dependencies.Dependencies
+import com.dependencies.JDK9
 import com.dependencies.pln
 
 plugins {
@@ -24,15 +25,9 @@ allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
     pln("android block...")
     namespace = "com.khalid.hamid.githubrepos"
-    buildFeatures.dataBinding = true
-    dataBinding.enable = true
-    dataBinding.enableForTests = true
-    dataBinding.addKtx = true
-    buildFeatures.viewBinding = true
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
     }
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
@@ -70,6 +65,10 @@ dependencies {
     // Epoxy
     implementation(Dependencies.EPOXY)
     kapt(Dependencies.EPOXY_RUNTIME)
+    implementation(Dependencies.EPOXY_DATABINDING)
+
+    // Photo View
+    implementation(Dependencies.CHRISBANES_PHOTO)
 
     // Lifecycle component
     implementation(Dependencies.LC_EXTENSION)

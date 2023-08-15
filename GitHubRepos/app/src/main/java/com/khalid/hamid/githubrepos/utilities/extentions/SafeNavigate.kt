@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.extentions
 
 import android.net.Uri
 import android.os.Bundle

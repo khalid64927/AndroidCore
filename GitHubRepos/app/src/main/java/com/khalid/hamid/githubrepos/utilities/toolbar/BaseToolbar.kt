@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.toolbar
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes

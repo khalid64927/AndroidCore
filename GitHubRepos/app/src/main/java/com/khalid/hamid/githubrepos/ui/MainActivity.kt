@@ -24,16 +24,23 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseActivity
 import com.khalid.hamid.githubrepos.databinding.ActivityMainBinding
+import com.khalid.hamid.githubrepos.utilities.extentions.gone
+import com.khalid.hamid.githubrepos.utilities.extentions.visible
+import com.khalid.hamid.githubrepos.utilities.toolbar.ToolbarActions
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), ToolbarActions {
 
     // Common loader dialog for all activities
     private var loaderDialog: Dialog? = null
@@ -113,5 +120,81 @@ class MainActivity : BaseActivity() {
         }
         dialog.setCancelable(cancelable)
         dialog.show()
+    }
+
+    override fun showToolbar() {
+        binding.singlePageToolbar.visible()
+    }
+
+    override fun hideToolbar() {
+        binding.singlePageToolbar.gone()
+    }
+
+    fun setupBottomNav() {
+        // no-op
+    }
+
+    override fun showBottomNavigation() {
+        // no-op
+    }
+
+    override fun hideBottomNavigation() {
+        // no-op
+    }
+
+    override fun hideToolbar(isVisible: Boolean) {
+        if (isVisible) {
+            showToolbar()
+        } else {
+            hideToolbar()
+        }
+    }
+
+    override fun setIcon(@DrawableRes drawableRes: Int?) {
+        if (drawableRes != null) {
+            supportActionBar?.setIcon(drawableRes)
+            supportActionBar?.title = null
+        } else {
+            supportActionBar?.setIcon(null)
+        }
+    }
+
+    override fun setOverflowMenuColor(@ColorInt color: Int) {
+        binding.singlePageToolbar.overflowIcon?.run {
+            //val icon = DrawableCompat.wrap(this)
+            //DrawableCompat.setTint(icon.mutate(), color)
+            //binding.singlePageToolbar.overflowIcon = icon
+        }
+    }
+
+    override fun setTitleTextColor(@ColorInt color: Int) {
+        binding.singlePageToolbar.setTitleTextColor(color)
+    }
+
+    override fun setBackArrowColor(@ColorInt color: Int) {
+        // changing drawable only if back arrow color is white for substitution
+        // since exiting default drawable filter/tint manipulation is not working
+        if (color != ContextCompat.getColor(this, R.color.white)) {
+            return
+        }
+        var arrowDrawable = ContextCompat.getDrawable(
+            this,
+            R.drawable.ic_round_arrow_back_24px
+        )
+        arrowDrawable?.run {
+            val icon = DrawableCompat.wrap(this)
+            DrawableCompat.setTint(icon.mutate(), color)
+            arrowDrawable = icon
+            //binding.singlePageToolbar.navigationIcon = arrowDrawable
+        }
+    }
+
+    override fun setBackgroundColor(color: Int) {
+        binding.singlePageToolbar.setBackgroundColor(color)
+    }
+
+    override fun setHomeIconVisibility(isVisible: Boolean) {
+        if (!isVisible){}
+            //binding.singlePageToolbar.navigationIcon = null
     }
 }

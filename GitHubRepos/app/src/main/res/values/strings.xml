@@ -38,4 +38,8 @@
     <string name="error">Error</string>
     <string name="reset_data_error">Unable to clear data</string>
     <string name="viewpager">ViewPager</string>
+    <string name="like_image">like image</string>
+    <string name="sold_out">sold out</string>
+    <string name="sell">sell</string>
+    <string name="sell_button">sell button</string>
 </resources>

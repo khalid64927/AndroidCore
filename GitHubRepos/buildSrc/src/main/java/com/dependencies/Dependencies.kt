@@ -10,20 +10,22 @@ object Versions {
     const val BUILD_TOOLS = "29.0.1"
     const val MAX_SDK = 2
     const val LIFECYCLE = "2.6.0-alpha01"
-    const val ROOM = "2.5.0-alpha03"
+    const val ROOM = "2.5.2"
     const val FRAGMENT = "1.6.0-alpha02"
     const val NAV = "2.5.1" // NAV_SAFE_ARG
     const val NAV_TESTING = "1.3.0-alpha03"
     const val JUNITX = "1.1.4-alpha07"
     const val TESTX = "1.5.0-alpha02"
     const val ESPRESSO = "3.5.0-alpha07"
-    const val KOTLIN = "1.6.0"
+    //var KOTLIN = System.getProperty("kotlin") ?: "1.9.0" //"1.6.0"
+    val KOTLIN = "1.9.0"
     const val SPOTLESS = "6.8.0"
     const val NAV_SAFE_ARG = "2.5.0-rc02"
-    const val DAGGER = "2.43"
+    const val DAGGER = "2.47"
     const val KASPRESSO = "1.4.1"
     const val MOKITO = "4.7.0"
-    const val EPOXY = "3.11.0"
+    const val EPOXY = "5.1.3" //"3.11.0"
+    const val PHOTO_VIEW = "2.0.0"
 
 }
 
@@ -75,7 +77,7 @@ object Dependencies {
     const val MOKITO_ALL                 = "org.mockito:mockito-all:2.0.2-beta"
     const val MOKITO_INLINE              = "org.mockito:mockito-inline:${Versions.MOKITO}"
     const val MOCKWEBSERVER              = "com.squareup.okhttp3:mockwebserver:${Versions.OKHTTP_INTERCEPTOR}"
-    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
+    var KOTLIN                     = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
     const val SHIMMER                    = "com.facebook.shimmer:shimmer:0.5.0"
     const val LC_RUNTIME                 = "androidx.lifecycle:lifecycle-runtime:${Versions.LIFECYCLE}"
     const val LC_COMPILER                = "androidx.lifecycle:lifecycle-compiler:${Versions.LIFECYCLE}"
@@ -96,6 +98,8 @@ object Dependencies {
     const val CHUCKER                    = "com.github.chuckerteam.chucker:library:3.5.2"
     const val EPOXY                      = "com.airbnb.android:epoxy:${Versions.EPOXY}"
     const val EPOXY_RUNTIME              = "com.airbnb.android:epoxy-processor:${Versions.EPOXY}"
+    const val EPOXY_DATABINDING          = "com.airbnb.android:epoxy-databinding:${Versions.EPOXY}"
+    const val CHRISBANES_PHOTO           = "com.github.chrisbanes:PhotoView:${Versions.PHOTO_VIEW}"
 
     // testing
     const val TEST_KTX_CORE              = "androidx.test:core-ktx:${Versions.TESTX}"
@@ -133,7 +137,7 @@ object GradlePlugins {
     const val NAV_SAFE_ARGS              = "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.NAV_SAFE_ARG}"
     const val ALL_OPEN                   = "org.jetbrains.kotlin:kotlin-allopen:1.7.10"
     const val AGP                        = "com.android.tools.build:gradle:7.1.2"
-    const val KOTLIN                     = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+    var KOTLIN                           = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
 }
 
 object Repos {

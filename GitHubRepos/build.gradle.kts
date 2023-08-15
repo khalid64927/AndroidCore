@@ -4,13 +4,17 @@ import org.apache.tools.ant.taskdefs.condition.Os
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     val DAGGER = "2.47"
-    val KOTLIN = "1.6.0"
+    //var KOTLIN = System.getProperty("kotlin") ?: "1.9.0"
+    val KOTLIN = "1.9.0"
     val GMS = "4.3.15"
     repositories {
         mavenCentral()
         google()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
+        }
+        maven {
+            url = uri("https://www.jitpack.io")
         }
     }
     dependencies {
@@ -29,6 +33,9 @@ allprojects {
         google()
         maven{
             url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
+        }
+        maven {
+            url = uri("https://www.jitpack.io")
         }
     }
 

@@ -39,8 +39,10 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                     (target.property("enableBuildLogs") as String).
                     equals("true", ignoreCase = true)
 
+        pln(" kotlin version ==== ${System.getProperty("kotlin")}")
         if(PluginConstants.enableBuildLogs){
             pln(" Build logs are enabled")
+
         } else {
             println("========================================================================")
             println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
@@ -117,10 +119,20 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                     }
                 }
             }
-            dataBinding.enable = true
+            buildFeatures.run {
+                dataBinding.run {
+                    enable = true
+                    addKtx = true
+                    enableForTests = true
+                }
+                viewBinding = true
+            }
+
+            /*dataBinding.enable = true
             dataBinding.enableForTests = true
             dataBinding.addKtx = true
-            buildFeatures.viewBinding = true
+            buildFeatures.viewBinding = true*/
+
 
             lintOptions {
                 baselineFile = getLintBaseline(project, ext)

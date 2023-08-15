@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.khalid.hamid.githubrepos.utilities
+package com.khalid.hamid.githubrepos.utilities.delegates
 
 interface FragmentViewCallbackProvider {
     var onViewCreatedListeners: MutableList<OnViewCreatedListener>

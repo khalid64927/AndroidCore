@@ -14,10 +14,12 @@
     <color name="colorActionBarTitle">#333333</color>
     <color name="background">#dddddd</color>
     <color name="primaryText">#2b3238</color>
+    <color name="line_color">#efefef</color>
 
     <color name="real_black">#000000</color>
     <color name="colorActionBar">#F5F5F5</color>
     <color name="colorActionBarIcons">#1557bf</color>
     <color name="themeColor">#1557bf</color>
+    <color name="white">#ffffff</color>
 
 </resources>

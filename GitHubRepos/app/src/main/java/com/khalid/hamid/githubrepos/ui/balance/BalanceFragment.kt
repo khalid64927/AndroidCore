@@ -29,7 +29,7 @@ import com.khalid.hamid.githubrepos.databinding.FragmentBalanceBinding
 import com.khalid.hamid.githubrepos.databinding.ViewTransactionBinding
 import com.khalid.hamid.githubrepos.databinding.ViewTransactionBubbleBinding
 import com.khalid.hamid.githubrepos.utilities.Prefs
-import com.khalid.hamid.githubrepos.utilities.fragmentViewLifecycleDelegate
+import com.khalid.hamid.githubrepos.utilities.delegates.fragmentViewLifecycleDelegate
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import javax.inject.Inject

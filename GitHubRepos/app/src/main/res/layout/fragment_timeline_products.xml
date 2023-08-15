@@ -7,11 +7,14 @@
 
         <variable
             name="action"
-            type="com.khalid.hamid.githubrepos.ui.login.LoginActionListener" />
+            type="com.khalid.hamid.githubrepos.ui.timeline.ProductsTimelineFragmentUiActions" />
 
+        <variable
+            name="vm"
+            type="com.khalid.hamid.githubrepos.ui.timeline.ProductsTimelineViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/dimen0"
@@ -19,13 +22,12 @@
         android:background="@color/background"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/viewpager"/>
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/erv_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-
-    </LinearLayout>
+    </FrameLayout>
 
 
 </layout>

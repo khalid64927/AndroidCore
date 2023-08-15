@@ -23,7 +23,7 @@ import androidx.navigation.fragment.findNavController
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
 import com.khalid.hamid.githubrepos.databinding.FragmentRegisterBinding
-import com.khalid.hamid.githubrepos.utilities.fragmentViewLifecycleDelegate
+import com.khalid.hamid.githubrepos.utilities.delegates.fragmentViewLifecycleDelegate
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
