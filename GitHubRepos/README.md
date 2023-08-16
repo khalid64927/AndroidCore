@@ -43,7 +43,7 @@ Run below command to build and install
 ## Screenshots can be found in  [release]
 
 # Demo Finish
-![alt text](release/Screenshot_20230816_130721.png)
+![Screenshot](Screenshot_20230816_130721.png.png?raw=true "Tabbed Page Screen")
 
 ## Jacoco
 run "jacocoTestReport"
