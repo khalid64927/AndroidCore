@@ -16,16 +16,7 @@
 
 package com.khalid.hamid.githubrepos.ui.login
 
-import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
-import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import java.lang.Exception
 
 class LoginViewModelTest : BaseUnitTest() {
 

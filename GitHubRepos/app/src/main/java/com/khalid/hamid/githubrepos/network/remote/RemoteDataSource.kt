@@ -21,8 +21,6 @@ import com.khalid.hamid.githubrepos.network.Result
 import com.khalid.hamid.githubrepos.network.getRetrofitResult
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
-import com.khalid.hamid.githubrepos.vo.GitRepos
-import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
@@ -36,6 +34,4 @@ class RemoteDataSource @Inject constructor(
     suspend fun fetchProductForCategory(url: String): Result<ProductList> {
         return gitHubService.fetchProductForCategory(url).getRetrofitResult { it }
     }
-
-
 }

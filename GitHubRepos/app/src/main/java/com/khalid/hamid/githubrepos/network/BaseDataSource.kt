@@ -30,7 +30,6 @@ interface BaseDataSource {
     @WorkerThread
     suspend fun fetchProductForCategory(url: String): Result<ProductList>
 
-
     @WorkerThread
     suspend fun getProductCategories(): ProductCategoriesList
 
@@ -41,5 +40,4 @@ interface BaseDataSource {
     suspend fun getAllProducts(): ProductList
 
     fun sync()
-
 }

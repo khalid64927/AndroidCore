@@ -62,7 +62,6 @@ object AppModule {
         return AppExecutors()
     }
 
-
     @Singleton
     @Provides
     fun provideDb(app: Application): MercariDB {
@@ -71,7 +70,6 @@ object AppModule {
             .fallbackToDestructiveMigration()
             .build()
     }
-
 
     @Singleton
     @Provides

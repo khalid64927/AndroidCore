@@ -4,21 +4,20 @@
 *Uses MVVM + Clean code Architecture
 *Uses Co-routines for network calls
 *Uses LiveData for UI update
-* Built on Android Studio Electric Eel | 2022.1.1 Canary 10
-* Android SDK 32
-* Gradle 7.5.1-all
-* Android Gradle Plugin 7.4.0-alpha10
+* Built on Android Studio Hedgehog | 2023.1.1 Canary 15
+* Android SDK 33
+* Gradle gradle-8.0-bin
+* Android Gradle Plugin 7.4.1
 
 
 ### Functionality
-App shows has coding assignment for OCBC 
-Has below features
-1. Login
-2. Register user
-3. Show balance
-4. Show transactions
-5. Make transfer
-6. Logout
+This app is code challenge for Mercari
+It has below Features
+1. Upon App launch app will fetch product categories and products in categories
+2. Fetched data is saved Room database
+3. In Main Page (TimelineFragment) Tabbed view pager shows all products per category from database
+4. If Syncing is not completed in main page loading bar is shown until it is completed
+5. Then data is retrieved from DB (DB is single Source of truth)
 
 This has Clean code architecture and has below layers
 1. Repository layer: provides mock and remote interfaces
@@ -44,13 +43,8 @@ Run below command to build and install
 ## Screenshots can be found in  [release]
 
 # Demo Finish
-![alt text](release/Screenshot_20220215_222225.png)
+![alt text](release/Screenshot_20230816_130721.png)
 
-
-![alt text](release/Screenshot 2022-02-15 at 10.43.19 PM.png)
-
-
-![alt text](release/Screenshot 2022-02-15 at 10.43.37 PM.png)
 ## Jacoco
 run "jacocoTestReport"
 ```
@@ -86,6 +80,7 @@ run below command
 * [Android Support Library][support-lib]
 * [Android Architecture Components][arch]
 * [Android Data Binding][data-binding]
+*[EPOXY] [https://github.com/airbnb/epoxy]
 * [Dagger 2][dagger2] for dependency injection
 * [Retrofit][retrofit] for REST api communication
 * [Glide][glide] for image loading
@@ -95,7 +90,4 @@ run below command
 * [Dependency Security Check][dependencyCheck] Dependencies vulnerability check
 * [Dependency Update][dependencyUpdates] To check if dependencies are up-to-date
 
-## References
-
-* https://github.com/firebase/FirebaseUI-Android
 

@@ -42,6 +42,4 @@ class MercariApp : MultiDexApplication() {
         }
         baseRepository.sync()
     }
-
-
 }

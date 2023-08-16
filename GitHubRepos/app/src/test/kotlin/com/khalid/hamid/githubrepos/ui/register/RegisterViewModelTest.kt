@@ -16,18 +16,7 @@
 
 package com.khalid.hamid.githubrepos.ui.register
 
-import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.utilities.Prefs
 import com.khalid.hamid.githubrepos.utils.BaseUnitTest
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import org.junit.Assert
-import org.junit.Test
-import org.mockito.kotlin.any
-import java.lang.Exception
 
 class RegisterViewModelTest : BaseUnitTest() {
 

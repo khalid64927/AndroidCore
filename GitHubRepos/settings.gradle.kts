@@ -1,2 +1,2 @@
-rootProject.name=("MercariCodeChallenge")
+rootProject.name=("GitHubRepos")
 include (":app")

@@ -1,5 +1,4 @@
 import com.dependencies.Dependencies
-import com.dependencies.JDK9
 import com.dependencies.pln
 
 plugins {

@@ -74,7 +74,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver, Observable {
         }
     }
 
-    protected fun launchAsyncAPI(error: (Throwable)-> Unit = {}, block: suspend () -> Unit): Job {
+    protected fun launchAsyncAPI(error: (Throwable) -> Unit = {}, block: suspend () -> Unit): Job {
         return wrapEspressoIdlingResource {
             viewModelScope.launch(
                 CoroutineExceptionHandler { coroutineContext, throwable ->
@@ -84,10 +84,10 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver, Observable {
                     throwable.message?.run {
                         showError(this)
                     }
-                    try{
+                    try {
                         // helper to send error event
                         error(throwable)
-                    }catch (e: Exception){
+                    } catch (e: Exception) {
                         // no-op
                     }
                 }

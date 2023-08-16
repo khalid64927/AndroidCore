@@ -53,7 +53,7 @@ class TimelineViewModel @Inject constructor(
                 val filteredProductResult = productsResult.filter { products -> products.categoryId == categoryName }
                 val productList = ProductList()
                 productList.addAll(filteredProductResult)
-                _mainTimelineEventLiveData.value = ReceivedProducts(categoriesResult,productList)
+                _mainTimelineEventLiveData.value = ReceivedProducts(categoriesResult, productList)
             }
         }
     }

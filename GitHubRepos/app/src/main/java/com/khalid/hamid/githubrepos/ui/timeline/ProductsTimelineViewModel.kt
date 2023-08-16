@@ -34,9 +34,9 @@ class ProductsTimelineViewModel @Inject constructor(
     private val _productTimelineEventLiveData = MutableLiveData<ProductsTimelineEvent>()
 
     fun getTimelineProducts(categoryId: String) {
-        launchAsyncAPI ({
+        launchAsyncAPI({
             _productTimelineEventLiveData.value = FailedToFetchTimelineProducts(it.message)
-        }){
+        }) {
             val products = baseRepository.getProductForCategory(categoryId)
             _productTimelineEventLiveData.value = ReceivedProductsEvent(products)
         }

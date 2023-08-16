@@ -36,12 +36,11 @@ import javax.inject.Singleton
 class BaseRepository @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
-): BaseDataSource {
+) : BaseDataSource {
 
     override var isSyncCompleted = false
     override var isSyncing = false
     var async: Deferred<Unit>? = null
-
 
     override suspend fun getProductCategories(): ProductCategoriesList {
         async?.run {
@@ -50,11 +49,11 @@ class BaseRepository @Inject constructor(
         return localDataSource.getProductCategories()
     }
 
-    override suspend fun getProductForCategory(categoryId: String): ProductList{
+    override suspend fun getProductForCategory(categoryId: String): ProductList {
         return localDataSource.getProductForCategory(categoryId)
     }
 
-    override suspend fun getAllProducts(): ProductList{
+    override suspend fun getAllProducts(): ProductList {
         async?.run {
             await()
         }
@@ -64,30 +63,30 @@ class BaseRepository @Inject constructor(
         return remoteDataSource.fetchProductCategories(url)
     }
 
-    override suspend fun fetchProductForCategory(url: String) : Result<ProductList>{
+    override suspend fun fetchProductForCategory(url: String): Result<ProductList> {
         return remoteDataSource.fetchProductForCategory(url)
     }
 
-
-
     @OptIn(DelicateCoroutinesApi::class)
-    override fun sync(){
-        async = GlobalScope.async(CoroutineExceptionHandler { coroutineContext, throwable ->
-            EspressoIdlingResource.decrement()
-            Timber.e(throwable)
-            throwable.message?.run {
-                isSyncing = false
-                isSyncCompleted = false
+    override fun sync() {
+        async = GlobalScope.async(
+            CoroutineExceptionHandler { coroutineContext, throwable ->
+                EspressoIdlingResource.decrement()
+                Timber.e(throwable)
+                throwable.message?.run {
+                    isSyncing = false
+                    isSyncCompleted = false
+                }
             }
-        }) {
+        ) {
             isSyncing = true
             val categoriesResult = remoteDataSource.fetchProductCategories(Endpoints.TIMELINE_CATEGORIES)
-            if(categoriesResult.succeeded){
+            if (categoriesResult.succeeded) {
                 val categoriesList = (categoriesResult as Result.Success).data
                 localDataSource.insertCategories(categoriesList)
                 categoriesList.forEach { category ->
                     remoteDataSource.fetchProductForCategory(category.data).onSuccess {
-                        it.forEach {product ->
+                        it.forEach { product ->
                             product.categoryId = category.name
                         }
                         localDataSource.insertProducts(it)
@@ -95,7 +94,6 @@ class BaseRepository @Inject constructor(
                 }
                 isSyncing = false
                 isSyncCompleted = false
-
             }
         }
     }

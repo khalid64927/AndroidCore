@@ -69,9 +69,11 @@ class TimelineFragment : BaseFragment(), TimelineFragmentActions {
         activity?.run {
             val pagerAdapter = PagerAdapter(this, receivedProducts.categoriesList)
             v.timelinePager.adapter = pagerAdapter
-            TabLayoutMediator(v.tablayout, v.timelinePager) { tab, position -> tab.setText(
-                tabNameList[position]
-            )}.attach()
+            TabLayoutMediator(v.tablayout, v.timelinePager) { tab, position ->
+                tab.setText(
+                    tabNameList[position]
+                )
+            }.attach()
             v.timelinePager.setCurrentItem(0, true)
         }
     }
