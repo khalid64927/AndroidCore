@@ -16,9 +16,19 @@
 
 package com.khalid.hamid.githubrepos.ui.timeline.dto
 
+import androidx.room.Entity
+import androidx.room.Index
 import com.google.gson.annotations.SerializedName
 
 class ProductCategoriesList() : ArrayList<ProductCategoriesItem>()
+
+@Entity(
+    tableName = "categories",
+    primaryKeys = ["name"],
+    indices = [
+        Index(value = ["name"], unique = true)
+    ]
+)
 data class ProductCategoriesItem(
     @SerializedName("data")
     val `data`: String,

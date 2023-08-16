@@ -65,15 +65,23 @@ class TimelineFragment : BaseFragment(), TimelineFragmentActions {
     }
 
     private fun buildViewPager(receivedProducts: ReceivedProducts) {
+        val tabNameList = receivedProducts.categoriesList.map { it.name }
         activity?.run {
-            val pagerAdapter = PagerAdapter(this, receivedProducts)
+            val pagerAdapter = PagerAdapter(this, receivedProducts.categoriesList)
             v.timelinePager.adapter = pagerAdapter
-            TabLayoutMediator(v.tablayout, v.timelinePager) { tab, position -> }.attach()
+            TabLayoutMediator(v.tablayout, v.timelinePager) { tab, position -> tab.setText(
+                tabNameList[position]
+            )}.attach()
             v.timelinePager.setCurrentItem(0, true)
         }
+    }
+
+    override fun sellProductClicked() {
+        // no-op
     }
 }
 
 interface TimelineFragmentActions {
     // Define user action here
+    fun sellProductClicked()
 }

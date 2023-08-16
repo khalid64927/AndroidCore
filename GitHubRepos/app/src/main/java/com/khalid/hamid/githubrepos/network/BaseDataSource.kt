@@ -20,9 +20,26 @@ import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 
 interface BaseDataSource {
+
+    var isSyncing: Boolean
+    var isSyncCompleted: Boolean
+
     @WorkerThread
     suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList>
 
     @WorkerThread
     suspend fun fetchProductForCategory(url: String): Result<ProductList>
+
+
+    @WorkerThread
+    suspend fun getProductCategories(): ProductCategoriesList
+
+    @WorkerThread
+    suspend fun getProductForCategory(categoryId: String): ProductList
+
+    @WorkerThread
+    suspend fun getAllProducts(): ProductList
+
+    fun sync()
+
 }

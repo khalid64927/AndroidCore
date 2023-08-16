@@ -20,8 +20,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.khalid.hamid.githubrepos.core.BaseViewModel
 import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.onError
-import com.khalid.hamid.githubrepos.network.onSuccess
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -35,22 +33,20 @@ class ProductsTimelineViewModel @Inject constructor(
         get() = _productTimelineEventLiveData
     private val _productTimelineEventLiveData = MutableLiveData<ProductsTimelineEvent>()
 
-    fun getTimelineProducts(url: String) {
-        launchAsyncAPI {
-            baseRepository.fetchProductForCategory(url)
-                .onSuccess {
-                    _productTimelineEventLiveData.value = ReceivedProductsEvent(it)
-                }.onError {
-                    _productTimelineEventLiveData.value = FailedToFetchTimelineProducts()
-                }
+    fun getTimelineProducts(categoryId: String) {
+        launchAsyncAPI ({
+            _productTimelineEventLiveData.value = FailedToFetchTimelineProducts(it.message)
+        }){
+            val products = baseRepository.getProductForCategory(categoryId)
+            _productTimelineEventLiveData.value = ReceivedProductsEvent(products)
         }
     }
 }
 
 sealed class ProductsTimelineEvent
-data class ReceivedProductsEvent(
+internal data class ReceivedProductsEvent(
     val productList: ProductList
 ) : ProductsTimelineEvent()
-data class FailedToFetchTimelineProducts(
+internal data class FailedToFetchTimelineProducts(
     val message: String? = "Failed to fetch products"
 ) : ProductsTimelineEvent()

@@ -23,31 +23,6 @@
         app:startDestination="@id/timelineTabFragment" >
 
         <fragment
-            android:id="@+id/loginFragment"
-            android:name="com.khalid.hamid.githubrepos.ui.login.LoginFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"
-            android:label="Login">
-
-            <action android:id="@+id/action_loginFragment_to_registerFragment"
-                app:destination="@id/registerFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:popUpTo="@id/loginFragment" />
-
-            <action android:id="@+id/action_loginFragment_to_balanceFragment"
-                app:destination="@id/balanceFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right"
-                app:popUpTo="@id/loginFragment" />
-
-        </fragment>
-
-        <fragment
             android:id="@+id/timelineTabFragment"
             android:name="com.khalid.hamid.githubrepos.ui.timeline.TimelineFragment"
             app:popUpTo="@id/timelineTabFragment"
@@ -56,50 +31,7 @@
 
         </fragment>
 
-        <fragment
-            android:id="@+id/registerFragment"
-            android:name="com.khalid.hamid.githubrepos.ui.register.RegisterFragment"
-            android:label="Register User">
 
-            <action android:id="@+id/action_registerFragment_to_balanceFragment"
-                app:destination="@id/balanceFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popExitAnim="@anim/slide_out_right" />
-        </fragment>
-
-        <fragment
-            android:id="@+id/balanceFragment"
-            android:name="com.khalid.hamid.githubrepos.ui.balance.BalanceFragment"
-            app:popUpToInclusive="true"
-            android:label="Account Balance">
-
-            <action
-                android:id="@+id/action_balanceFragment_to_transferFragment"
-                app:destination="@id/transferFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popUpTo="@id/balanceFragment"
-                app:popUpToInclusive="true"
-                app:popExitAnim="@anim/slide_out_right" />
-            <action
-                android:id="@+id/action_balanceFragment_to_loginFragment"
-                app:destination="@id/loginFragment"
-                app:enterAnim="@anim/slide_in_right"
-                app:exitAnim="@anim/slide_out_left"
-                app:popEnterAnim="@anim/slide_in_left"
-                app:popUpTo="@id/balanceFragment"
-                app:popExitAnim="@anim/slide_out_right"
-                app:popUpToInclusive="true" />
-        </fragment>
-
-        <fragment
-            android:id="@+id/transferFragment"
-            android:name="com.khalid.hamid.githubrepos.ui.transfer.TransferFragment"
-            android:label="Transfer">
-        </fragment>
     </navigation>
 
 </navigation>

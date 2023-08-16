@@ -17,8 +17,11 @@
 package com.khalid.hamid.githubrepos.di
 
 import android.app.Application
+import androidx.room.Room
+import com.khalid.hamid.githubrepos.db.MercariDB
+import com.khalid.hamid.githubrepos.db.ProductCategoriesDao
+import com.khalid.hamid.githubrepos.db.ProductDao
 import com.khalid.hamid.githubrepos.network.GitHubService
-import com.khalid.hamid.githubrepos.network.remote.AuthInterceptor
 import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.Constants
 import com.khalid.hamid.githubrepos.utilities.Prefs
@@ -49,12 +52,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAuthInterceptor(context: Application, pref: Prefs): AuthInterceptor {
-        return AuthInterceptor(context, pref)
-    }
-
-    @Singleton
-    @Provides
     fun providePref(context: Application): Prefs {
         return Prefs(context)
     }
@@ -63,5 +60,28 @@ object AppModule {
     @Provides
     fun provideExecutors(): AppExecutors {
         return AppExecutors()
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideDb(app: Application): MercariDB {
+        return Room
+            .databaseBuilder(app, MercariDB::class.java, "mercariDB")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesProductCategoriesDao(db: MercariDB): ProductCategoriesDao {
+        return db.getProductCategoriesDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesProductDao(db: MercariDB): ProductDao {
+        return db.getProductDao()
     }
 }

@@ -16,16 +16,26 @@
 
 package com.khalid.hamid.githubrepos.network
 
+import com.khalid.hamid.githubrepos.network.local.LocalDataSource
 import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import javax.inject.Inject
 
 /**
  * This will return data from either DB or get from network
 */
-class RepositoryImple @Inject constructor(
-    private val remoteDataSource: RemoteDataSource
-) : BaseDataSource {
-    override suspend fun fetchProductCategories(url: String) = remoteDataSource.fetchProductCategories(url)
+class RepositoryImple constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
+)  {
 
-    override suspend fun fetchProductForCategory(url: String) = remoteDataSource.fetchProductForCategory(url)
+    /*override var isSyncing = false
+    override suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList> {
+        remoteDataSource.fetchProductCategories(url)
+    }
+
+    override suspend fun fetchProductForCategory(url: String) : Result<ProductList>{
+        remoteDataSource.fetchProductForCategory(url)
+    }*/
 }

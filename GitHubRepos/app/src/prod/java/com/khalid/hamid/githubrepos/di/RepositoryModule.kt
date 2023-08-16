@@ -18,6 +18,7 @@ package com.khalid.hamid.githubrepos.di
 
 import com.khalid.hamid.githubrepos.network.BaseRepository
 import com.khalid.hamid.githubrepos.network.RepositoryImple
+import com.khalid.hamid.githubrepos.network.local.LocalDataSource
 import com.khalid.hamid.githubrepos.network.remote.RemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -31,7 +32,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRepository(remoteDataSource: RemoteDataSource): BaseRepository {
-        return BaseRepository(RepositoryImple(remoteDataSource))
+    fun provideRepository(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource): BaseRepository {
+        return BaseRepository(remoteDataSource, localDataSource)
     }
 }

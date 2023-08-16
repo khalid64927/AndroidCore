@@ -58,7 +58,7 @@ class ProductsTimelineFragment : BaseFragment(), MercariDelegate {
                 v.ervProducts.addItemDecoration(gridDecoration)
             }
 
-            vm.getTimelineProducts(categoryUrl)
+            vm.getTimelineProducts(categoryName)
 
             vm.productTimelineEventLiveData.observe(viewLifecycleOwner) {
                 when (it) {

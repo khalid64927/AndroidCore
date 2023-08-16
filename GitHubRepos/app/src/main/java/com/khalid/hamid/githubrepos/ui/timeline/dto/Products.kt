@@ -16,9 +16,19 @@
 
 package com.khalid.hamid.githubrepos.ui.timeline.dto
 
+import androidx.room.Entity
+import androidx.room.Index
 import com.google.gson.annotations.SerializedName
 
 class ProductList() : ArrayList<ProductsItem>()
+
+@Entity(
+    tableName = "products",
+    primaryKeys = ["id"],
+    indices = [
+        Index(value = ["id"], unique = true)
+    ]
+)
 data class ProductsItem(
     @SerializedName("id")
     val id: String,
@@ -33,5 +43,6 @@ data class ProductsItem(
     @SerializedName("price")
     val price: Int,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    var categoryId: String = ""
 )

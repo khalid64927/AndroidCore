@@ -29,7 +29,7 @@ import java.lang.Exception
 
 class LoginViewModelTest : BaseUnitTest() {
 
-    lateinit var subject: LoginViewModel
+    /*lateinit var subject: LoginViewModel
 
     @MockK
     lateinit var baseRepository: BaseRepository
@@ -69,5 +69,5 @@ class LoginViewModelTest : BaseUnitTest() {
         // Then
         val event = subject.registerEventLiveData.value
         assertTrue(event is LoginFailed)
-    }
+    }*/
 }

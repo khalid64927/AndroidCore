@@ -21,7 +21,6 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
 import com.khalid.hamid.githubrepos.di.AppModule.TIME_OUT_INTERVAL
-import com.khalid.hamid.githubrepos.network.remote.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +38,6 @@ class DebugModule {
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        authInterceptor: AuthInterceptor,
         chuckerInterceptor: ChuckerInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {
@@ -47,7 +45,6 @@ class DebugModule {
                 .readTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
                 .writeTimeout(TIME_OUT_INTERVAL, TimeUnit.SECONDS)
             addInterceptor(httpLoggingInterceptor)
-            addInterceptor(authInterceptor)
             addInterceptor(chuckerInterceptor)
         }.build()
     }

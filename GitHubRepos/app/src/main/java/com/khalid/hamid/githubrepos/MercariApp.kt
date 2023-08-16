@@ -18,13 +18,21 @@ package com.khalid.hamid.githubrepos
 
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
+import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
-class GithubApp : MultiDexApplication() {
+class MercariApp : MultiDexApplication() {
 
+    @Inject
+    lateinit var baseRepository: BaseRepository
+
+    @Inject
+    lateinit var appExecutors: AppExecutors
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
@@ -32,5 +40,8 @@ class GithubApp : MultiDexApplication() {
         } else {
             Timber.plant(CrashReportingTree())
         }
+        baseRepository.sync()
     }
+
+
 }

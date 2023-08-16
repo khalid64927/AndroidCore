@@ -20,9 +20,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.khalid.hamid.githubrepos.core.BaseViewModel
 import com.khalid.hamid.githubrepos.network.BaseRepository
-import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.network.onError
-import com.khalid.hamid.githubrepos.network.onSuccess
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import com.khalid.hamid.githubrepos.utilities.Prefs
@@ -45,34 +42,28 @@ class TimelineViewModel @Inject constructor(
     }
 
     private fun getTimelineData() {
-        launchAsyncAPI {
+        launchAsyncAPI({
+            _mainTimelineEventLiveData.value = FailedToFetchProducts(it.message)
+        }) {
             baseRepository.run {
-                val categoriesResult = fetchProductCategories("https://s3-ap-northeast-1.amazonaws.com/m-et/Android/json/master.json")
-                if (categoriesResult is Result.Failure) {
-                    Timber.d("Failed to get master data")
-                    // Return failure
-                    return@launchAsyncAPI
-                }
-
-                val categoriesList = (categoriesResult as Result.Success).data
-                Timber.d("categoriesResult $categoriesList")
-                val url = categoriesList.first().data
-                fetchProductForCategory(url).onSuccess {
-                    _mainTimelineEventLiveData.value = ReceivedProducts(categoriesList, it)
-                }.onError {
-                    Timber.d("Failed to get Tab data")
-                    _mainTimelineEventLiveData.value = FailedToFetchProducts(it.message)
-                }
+                Timber.d("launchAsyncAPI")
+                val categoriesResult = getProductCategories()
+                val categoryName = categoriesResult.firstOrNull()?.name ?: ""
+                val productsResult = getAllProducts()
+                val filteredProductResult = productsResult.filter { products -> products.categoryId == categoryName }
+                val productList = ProductList()
+                productList.addAll(filteredProductResult)
+                _mainTimelineEventLiveData.value = ReceivedProducts(categoriesResult,productList)
             }
         }
     }
 }
 
 sealed class TimelineEvent
-data class ReceivedProducts(
+internal data class ReceivedProducts(
     val categoriesList: ProductCategoriesList,
     val productList: ProductList
 ) : TimelineEvent()
-data class FailedToFetchProducts(
+internal data class FailedToFetchProducts(
     val message: String? = "Failed to fetch products"
 ) : TimelineEvent()

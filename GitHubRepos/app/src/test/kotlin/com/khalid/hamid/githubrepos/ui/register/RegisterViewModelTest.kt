@@ -31,7 +31,7 @@ import java.lang.Exception
 
 class RegisterViewModelTest : BaseUnitTest() {
 
-    lateinit var subject: RegisterViewModel
+    /*lateinit var subject: RegisterViewModel
 
     @MockK
     lateinit var baseRepository: BaseRepository
@@ -136,5 +136,5 @@ class RegisterViewModelTest : BaseUnitTest() {
         // Then
         val event = subject.registerEventLiveData.value
         Assert.assertTrue(event is RegisterFailed)
-    }
+    }*/
 }

@@ -39,7 +39,7 @@ open class SafeClickListener(
     }
 }
 
-@BindingAdapter("onSingleClick")
+@BindingAdapter("app:onSingleClick")
 fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
     val safeClickListener = SafeClickListener {
         onSafeClick(it)

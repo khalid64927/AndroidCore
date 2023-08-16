@@ -29,11 +29,6 @@ class RemoteDataSource @Inject constructor(
     private val gitHubService: GitHubService
 ) {
 
-    suspend fun fetchRepos(): Result<GitRepos> {
-        Timber.d("fetchRespos")
-        return Result.Failure(Exception(""))
-    }
-
     suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList> {
         return gitHubService.fetchProductCategories(url).getRetrofitResult { it }
     }
@@ -41,4 +36,6 @@ class RemoteDataSource @Inject constructor(
     suspend fun fetchProductForCategory(url: String): Result<ProductList> {
         return gitHubService.fetchProductForCategory(url).getRetrofitResult { it }
     }
+
+
 }

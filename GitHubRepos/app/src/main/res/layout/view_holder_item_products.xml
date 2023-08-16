@@ -38,6 +38,7 @@
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/productPhoto"
             app:productImage="@{item.photo}"
+            android:adjustViewBounds="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.github.chrisbanes.photoview.PhotoView>
@@ -105,6 +106,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/dimen10"
             tools:text="$ 100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
