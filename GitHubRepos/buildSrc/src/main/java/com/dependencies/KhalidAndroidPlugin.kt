@@ -135,12 +135,6 @@ open class KhalidAndroidPlugin : Plugin<Project> {
                 viewBinding = true
             }
 
-            /*dataBinding.enable = true
-            dataBinding.enableForTests = true
-            dataBinding.addKtx = true
-            buildFeatures.viewBinding = true*/
-
-
             lintOptions {
                 baselineFile = getLintBaseline(project, ext)
                 isCheckAllWarnings = true
