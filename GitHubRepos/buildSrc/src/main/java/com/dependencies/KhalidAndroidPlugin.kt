@@ -16,11 +16,13 @@
 package com.dependencies
 
 import com.android.build.gradle.*
+import com.dependencies.tasks.ProjectBuildTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.register
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
@@ -48,6 +50,9 @@ open class KhalidAndroidPlugin : Plugin<Project> {
             println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
             println("========================================================================")
         }
+        target.run {
+            tasks.register<ProjectBuildTask>("runTask")
+        }
         ext = target.extensions.create(KPluginExtensions.name, KPluginExtensions::class)
         applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
@@ -59,6 +64,8 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         target.configureDepUpdate()
         pln("ext  ..after "+ ext.compileSDK)
     }
+
+
 
 
     // TODO: check do we need this

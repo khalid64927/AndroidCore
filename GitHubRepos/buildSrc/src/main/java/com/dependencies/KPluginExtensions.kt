@@ -12,9 +12,9 @@ open class KPluginExtensions {
     var modules = listOf<String>()
     var isLibraryModule = false
     var exclusions = ""
-    var compileSDK = "33"
-    var buildTools = "33.0.0"
-    var targetSDK = "33"
+    var compileSDK = "34"
+    var buildTools = "34.0.0"
+    var targetSDK = "34"
     var minSDK : Int = 21
     var versionCode : Int = 10
     var versionName = "1.1"
