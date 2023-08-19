@@ -57,18 +57,7 @@ jobs:
       - name: Build
         run: cd GitHubRepos && ./gradlew app:assembleProdDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: APK upload
-          path: GitHubRepos/app/build/outputs/apk
-
-
       - name: OSS Scan
         run: cd GitHubRepos && ./gradlew app:dependencyCheckAnalyze --info
 
-      - name: Upload Test results
-        uses: actions/upload-artifact@v3
-        with:
-         name: Reports
-         path: GitHubRepos/app/build/reports
+
