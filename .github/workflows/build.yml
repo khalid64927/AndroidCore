@@ -28,13 +28,13 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Run Spotless
-        run: cd GitHubRepos && ./gradlew app:spotlessCheck
+        run: cd GitHubRepos && ./gradlew app:spotlessCheck --stacktrace
 
       - name: Run Lint
         run: cd GitHubRepos && ./gradlew app:lintProdDebug --stacktrace
 
       - name: Run Jacoco
-        run: cd GitHubRepos && ./gradlew jacocoTestReport
+        run: cd GitHubRepos && ./gradlew jacocoTestReport --stacktrace
         
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -56,7 +56,7 @@ jobs:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
-        run: cd GitHubRepos && ./gradlew app:assembleProdDebug
+        run: cd GitHubRepos && ./gradlew app:assembleProdDebug --stacktrace
 
       - name: OSS Scan
         run: cd GitHubRepos && ./gradlew app:dependencyCheckAnalyze --info
