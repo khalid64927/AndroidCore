@@ -17,7 +17,7 @@
 package com.khalid.hamid.githubrepos.di
 
 import android.app.Application
-import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.network.remote.FakeDataSource
 import dagger.Module
 import dagger.Provides
@@ -31,7 +31,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideRepository(context: Application): BaseRepository {
-        return BaseRepository(FakeDataSource(context))
+    fun provideRepository(context: Application): BaseDataSource {
+        return FakeDataSource(context)
     }
 }

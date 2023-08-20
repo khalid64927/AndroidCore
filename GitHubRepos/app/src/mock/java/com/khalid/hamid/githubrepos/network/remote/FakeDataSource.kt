@@ -20,13 +20,40 @@ import android.app.Application
 import com.google.gson.Gson
 import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.network.Result
-import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesItem
-import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductsItem
-import com.khalid.hamid.githubrepos.utilities.runSafe
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
+import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
+import com.khalid.hamid.githubrepos.utilities.extentions.runSafe
 import javax.inject.Inject
 
 class FakeDataSource @Inject constructor(val context: Application) : BaseDataSource {
     val gson = Gson()
+
+    override var isSyncCompleted = false
+    override suspend fun fetchProductCategories(url: String): Result<ProductCategoriesList> {
+        return Result.Success(ProductCategoriesList())
+    }
+
+    override suspend fun fetchProductForCategory(url: String): Result<ProductList> {
+        return Result.Success(ProductList())
+    }
+
+    override suspend fun getProductCategories(): ProductCategoriesList {
+        return ProductCategoriesList()
+    }
+
+    override suspend fun getProductForCategory(categoryId: String): ProductList {
+        return ProductList()
+    }
+
+    override suspend fun getAllProducts(): ProductList {
+        return ProductList()
+    }
+
+    override fun sync() {
+        // no-op
+    }
+
+    override var isSyncing = false
 
     private inline fun <reified T> parse(jsonPath: String): T? {
         var response: T? = null
@@ -37,13 +64,5 @@ class FakeDataSource @Inject constructor(val context: Application) : BaseDataSou
             response = gson.fromJson(jsonString, T::class.java)
         }
         return response
-    }
-
-    override suspend fun fetchProductCategories(url: String): Result<List<ProductCategoriesItem>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun fetchProductForCategory(url: String): Result<List<ProductsItem>> {
-        TODO("Not yet implemented")
     }
 }

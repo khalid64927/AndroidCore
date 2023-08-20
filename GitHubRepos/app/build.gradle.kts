@@ -3,26 +3,10 @@ import com.dependencies.pln
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
-    //id("com.google.devtools.ksp") version ("1.9.0-1.0.11")
-}
-pln("after plugin")
-
-KPlugin {
-    pln("KPlugin Ext app...")
-    isLibraryModule = false
-    minSDK = 19
-    compileSDK = "33"
-    targetSDK = "33"
-    versionCode = 10
-    versionName = "1.1"
-    testRunner = "com.khalid.hamid.githubrepos.utilities.AppTestRunner"
-    lintBaseLineFilePath = "$rootDir/quality/lint-baseline.xml"
-    checkstylePath = "$rootDir/quality/checkstyle.xml"
 }
 
 allOpen.annotation("com.khalid.hamid.githubrepos.testing.OpenClass")
 android {
-    pln("android block...")
     namespace = "com.khalid.hamid.githubrepos"
     defaultConfig {
         applicationId = "com.khalid.hamid.githubrepos"
@@ -114,6 +98,3 @@ dependencies {
     implementation(Dependencies.NAV_RUNTIME_FRAGMENT_KTX)
     debugImplementation(Dependencies.CHUCKER)
 }
-
-pln("script end")
-

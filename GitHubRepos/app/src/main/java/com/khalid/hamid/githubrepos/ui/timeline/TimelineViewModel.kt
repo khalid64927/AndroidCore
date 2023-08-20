@@ -19,7 +19,7 @@ package com.khalid.hamid.githubrepos.ui.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.khalid.hamid.githubrepos.core.BaseViewModel
-import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductCategoriesList
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import com.khalid.hamid.githubrepos.utilities.Prefs
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
-    val baseRepository: BaseRepository,
+    val baseDataSource: BaseDataSource,
     val perf: Prefs
 ) : BaseViewModel() {
 
@@ -45,7 +45,7 @@ class TimelineViewModel @Inject constructor(
         launchAsyncAPI({
             _mainTimelineEventLiveData.value = FailedToFetchProducts(it.message)
         }) {
-            baseRepository.run {
+            baseDataSource.run {
                 Timber.d("launchAsyncAPI")
                 val categoriesResult = getProductCategories()
                 val categoryName = categoriesResult.firstOrNull()?.name ?: ""

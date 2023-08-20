@@ -30,7 +30,7 @@
         <ImageView
             android:id="@+id/iv_outOfStock"
             android:src="@drawable/badge_soldout"
-            app:productStatus="@{item.status}"
+            productStatus="@{item.status}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/sold_out" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/iv_like"
             android:textSize="6pt"
-            app:integerData="@{item.numLikes}"
+            integerData="@{item.numLikes}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_like"
             app:layout_constraintStart_toEndOf="@+id/iv_like"
             app:layout_constraintTop_toTopOf="@+id/iv_like"

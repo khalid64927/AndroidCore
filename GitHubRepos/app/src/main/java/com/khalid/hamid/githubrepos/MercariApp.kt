@@ -18,7 +18,7 @@ package com.khalid.hamid.githubrepos
 
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
-import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.hilt.android.HiltAndroidApp
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class MercariApp : MultiDexApplication() {
 
     @Inject
-    lateinit var baseRepository: BaseRepository
+    lateinit var baseDataSource: BaseDataSource
 
     @Inject
     lateinit var appExecutors: AppExecutors
@@ -40,6 +40,6 @@ class MercariApp : MultiDexApplication() {
         } else {
             Timber.plant(CrashReportingTree())
         }
-        baseRepository.sync()
+        baseDataSource.sync()
     }
 }

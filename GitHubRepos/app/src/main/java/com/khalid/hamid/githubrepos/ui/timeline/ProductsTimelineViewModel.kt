@@ -19,14 +19,14 @@ package com.khalid.hamid.githubrepos.ui.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.khalid.hamid.githubrepos.core.BaseViewModel
-import com.khalid.hamid.githubrepos.network.BaseRepository
+import com.khalid.hamid.githubrepos.network.BaseDataSource
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProductsTimelineViewModel @Inject constructor(
-    val baseRepository: BaseRepository
+    val baseDataSource: BaseDataSource
 ) : BaseViewModel() {
 
     val productTimelineEventLiveData: LiveData<ProductsTimelineEvent>
@@ -37,7 +37,7 @@ class ProductsTimelineViewModel @Inject constructor(
         launchAsyncAPI({
             _productTimelineEventLiveData.value = FailedToFetchTimelineProducts(it.message)
         }) {
-            val products = baseRepository.getProductForCategory(categoryId)
+            val products = baseDataSource.getProductForCategory(categoryId)
             _productTimelineEventLiveData.value = ReceivedProductsEvent(products)
         }
     }

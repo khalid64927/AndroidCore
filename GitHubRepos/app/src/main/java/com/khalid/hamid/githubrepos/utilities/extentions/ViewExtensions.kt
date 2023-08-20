@@ -38,7 +38,7 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-@BindingAdapter("app:productImage")
+@BindingAdapter("productImage")
 fun PhotoView.loadSKUImage(imageURL: String?) {
     Glide.with(context)
         .load(imageURL)
@@ -48,17 +48,17 @@ fun PhotoView.loadSKUImage(imageURL: String?) {
         .into(this)
 }
 
-@BindingAdapter("app:productStatus")
+@BindingAdapter("productStatus")
 fun ImageView.checkStatus(value: String) {
     visibility = if (value == "sold_out") View.VISIBLE else View.GONE
 }
 
-@BindingAdapter("app:integerData")
+@BindingAdapter("integerData")
 fun TextView.setIntegerData(value: Int) {
     text = value.toString()
 }
 
-@BindingAdapter("app:productPrice")
+@BindingAdapter("productPrice")
 fun TextView.setPrice(value: Int) {
     val sb = StringBuilder()
     sb.append("$ $value")

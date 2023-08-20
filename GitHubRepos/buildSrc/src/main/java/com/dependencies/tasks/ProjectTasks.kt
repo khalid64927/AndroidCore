@@ -23,9 +23,13 @@ abstract class ProjectBuildTask: DefaultTask() {
     }
 
     @TaskAction
-    fun runTask(taskString: String){
-        logger.quiet("running task ", taskString)
-        when(taskString.lowercase()){
+    fun runAll(taskString: String){
+        logger.quiet("running task ")
+        taskString.checkTask()
+    }
+
+    private fun String.checkTask(){
+        when(this.lowercase()){
             "spotless"  -> runSpotless()
             "sonar" -> runSonar()
             "oss" -> runOSSScan()
@@ -48,11 +52,18 @@ abstract class ProjectBuildTask: DefaultTask() {
         runtime.exec("./gradlew :app:spotlessApply")
     }
 
+    private fun runLint() {
+        pln("runLint")
+        runtime.exec("./gradlew :app:lintProdDebug")
+    }
+
     private fun runSonar() {
-        // TODO:
+        pln("runSonar")
+        runtime.exec("./gradlew jacocoTestReport --stacktrace")
     }
 
     private fun runDepUpdates() {
+        pln("runDepUpdates")
         runtime.exec("./gradlew app:dependencyUpdates")
     }
 
