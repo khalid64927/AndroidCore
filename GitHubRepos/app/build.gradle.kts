@@ -3,7 +3,7 @@ import com.dependencies.pln
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
-    // TODO: add ksp id("com.google.devtools.ksp") version ("1.6.10-1.0.4")
+    //id("com.google.devtools.ksp") version ("1.9.0-1.0.11")
 }
 pln("after plugin")
 

@@ -22,9 +22,9 @@ object GlobalVersions {
 
 dependencies {
     // TODO: replace kapt with KSP
-    implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.4")
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.11")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${GlobalVersions.KOTLIN}")
-    implementation("com.android.tools.build:gradle:7.4.1")
+    implementation("com.android.tools.build:gradle:7.4.2")
     implementation("org.jetbrains.kotlin:kotlin-allopen:${GlobalVersions.KOTLIN}")
     implementation("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-rc02")
     implementation ("com.diffplug.spotless:spotless-plugin-gradle:6.8.0")
