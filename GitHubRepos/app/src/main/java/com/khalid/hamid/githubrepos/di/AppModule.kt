@@ -50,17 +50,6 @@ object AppModule {
             .create(GitHubService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun providePref(context: Application): Prefs {
-        return Prefs(context)
-    }
-
-    @Singleton
-    @Provides
-    fun provideExecutors(): AppExecutors {
-        return AppExecutors()
-    }
 
     @Singleton
     @Provides

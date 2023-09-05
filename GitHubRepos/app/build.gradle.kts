@@ -1,5 +1,4 @@
 import com.dependencies.Dependencies
-import com.dependencies.pln
 
 plugins {
     id("com.khalid.hamid.KhalidAndroidPlugin")
@@ -27,6 +26,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(Dependencies.HILT_ANDROID)
     kapt(Dependencies.HILT_ANDROID_COMPILER)
 

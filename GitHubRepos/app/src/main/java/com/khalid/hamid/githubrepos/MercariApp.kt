@@ -26,13 +26,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MercariApp : MultiDexApplication() {
+class MercariApp : CoreApp() {
 
     @Inject
     lateinit var baseDataSource: BaseDataSource
 
-    @Inject
-    lateinit var appExecutors: AppExecutors
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {

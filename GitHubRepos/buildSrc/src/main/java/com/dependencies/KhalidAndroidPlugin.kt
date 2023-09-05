@@ -37,22 +37,8 @@ open class KhalidAndroidPlugin : Plugin<Project> {
     private val Project.configDir get() = "$rootDir/quality"
 
     override fun apply(target: Project) {
-        PluginConstants.enableBuildLogs = target.hasProperty("enableBuildLogs") &&
-                    (target.property("enableBuildLogs") as String).
-                    equals("true", ignoreCase = true)
-
-        pln(" kotlin version ==== ${System.getProperty("kotlin")}")
-        if(PluginConstants.enableBuildLogs){
-            pln(" Build logs are enabled")
-
-        } else {
-            println("========================================================================")
-            println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
-            println("========================================================================")
-        }
-        target.run {
-            tasks.register<ProjectBuildTask>("runTask")
-        }
+        target.checkEnableLogs()
+        target.setUpTask()
         ext = target.extensions.create(KPluginExtensions.name, KPluginExtensions::class)
         applyPlugins((target.name == "app"), target)
         pln("name "+ target.name)
@@ -65,7 +51,25 @@ open class KhalidAndroidPlugin : Plugin<Project> {
         pln("ext  ..after "+ ext.compileSDK)
     }
 
+    private fun Project.checkEnableLogs(){
+        PluginConstants.enableBuildLogs = hasProperty("enableBuildLogs") &&
+                (property("enableBuildLogs") as String).
+                equals("true", ignoreCase = true)
 
+        pln(" kotlin version ==== ${System.getProperty("kotlin")}")
+        if(PluginConstants.enableBuildLogs){
+            pln(" Build logs are enabled")
+
+        } else {
+            println("========================================================================")
+            println("add enableBuildLogs=true in gradle.properties to print plugin build logs")
+            println("========================================================================")
+        }
+    }
+
+    private fun Project.setUpTask(){
+        tasks.register<ProjectBuildTask>("runTask")
+    }
 
 
     // TODO: check do we need this

@@ -56,9 +56,7 @@ fun applyPlugins(isApp : Boolean, project: Project) = project.run {
     apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
     apply(plugin = "androidx.navigation.safeargs.kotlin")
     apply(plugin = "com.diffplug.spotless")
-    if(isApp){
-        apply(plugin = "dagger.hilt.android.plugin")
-    }
+    apply(plugin = "dagger.hilt.android.plugin")
     apply(plugin = "org.owasp.dependencycheck")
     apply(plugin = "com.github.ben-manes.versions")
     apply(plugin = "org.gradle.jacoco")

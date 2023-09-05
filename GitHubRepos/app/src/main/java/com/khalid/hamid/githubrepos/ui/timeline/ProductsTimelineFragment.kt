@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.khalid.hamid.githubrepos.R
 import com.khalid.hamid.githubrepos.core.BaseFragment
-import com.khalid.hamid.githubrepos.core.epoxy.MercariDelegate
+import com.khalid.hamid.githubrepos.core.epoxy.EpoxyDelegate
 import com.khalid.hamid.githubrepos.core.epoxy.MercariProductComponent
 import com.khalid.hamid.githubrepos.databinding.FragmentTimelineProductsBinding
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductList
@@ -30,7 +30,7 @@ import com.khalid.hamid.githubrepos.utilities.GridSpacingItemDecoration
 import com.khalid.hamid.githubrepos.utilities.ItemDivider
 import com.khalid.hamid.githubrepos.utilities.delegates.fragmentViewLifecycleDelegate
 
-class ProductsTimelineFragment : BaseFragment(), MercariDelegate {
+class ProductsTimelineFragment : BaseFragment(), EpoxyDelegate {
 
     override val mLayout = R.layout.fragment_timeline_products
 
