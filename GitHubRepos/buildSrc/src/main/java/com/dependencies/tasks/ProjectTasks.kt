@@ -9,26 +9,30 @@ import org.gradle.api.tasks.options.Option
 abstract class ProjectBuildTask: DefaultTask() {
 
     private val runtime: Runtime = Runtime.getRuntime()
-    private var taskType: String = ""
+    private var option: String = ""
 
 
-    @Option(option = "url", description = "Configures the URL to be verified.")
+    @Option(option = "name", description = "Configures the name of the task to run")
     open fun setTaskType(taskType: String) {
-        this.taskType = taskType
+        this.option = taskType
     }
 
     @Input
     open fun getTaskType(): String? {
-        return taskType
+        return option
     }
 
+    /**
+     * ./gradlew runTask -Pname=spotless
+     * */
     @TaskAction
-    fun runAll(taskString: String){
-        logger.quiet("running task ")
-        taskString.checkTask()
+    fun runAll(){
+        println("running task $option")
+        option.checkTask()
     }
 
     private fun String.checkTask(){
+        logger.quiet("received option: $this")
         when(this.lowercase()){
             "spotless"  -> runSpotless()
             "sonar" -> runSonar()
