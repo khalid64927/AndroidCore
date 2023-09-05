@@ -22,9 +22,7 @@ import com.khalid.hamid.githubrepos.db.MercariDB
 import com.khalid.hamid.githubrepos.db.ProductCategoriesDao
 import com.khalid.hamid.githubrepos.db.ProductDao
 import com.khalid.hamid.githubrepos.network.GitHubService
-import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.Constants
-import com.khalid.hamid.githubrepos.utilities.Prefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,7 +47,6 @@ object AppModule {
             .build()
             .create(GitHubService::class.java)
     }
-
 
     @Singleton
     @Provides

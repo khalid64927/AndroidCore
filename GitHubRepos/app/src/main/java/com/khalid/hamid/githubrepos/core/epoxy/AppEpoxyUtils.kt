@@ -16,13 +16,13 @@
 
 package com.khalid.hamid.githubrepos.core.epoxy
 
-import android.view.View
 import com.airbnb.epoxy.EpoxyModel
 import com.khalid.hamid.githubrepos.ItemProductsBindingModel_
 import com.khalid.hamid.githubrepos.ui.timeline.dto.ProductsItem
-import com.khalid.hamid.githubrepos.core.epoxy.CoreEpoxyComponent
-import com.khalid.hamid.githubrepos.core.epoxy.EpoxyDelegate
 
+fun test() {
+    // adding dummy function as work around for spotless error
+}
 data class MercariProductComponent(val item: ProductsItem) : CoreEpoxyComponent<EpoxyDelegate>() {
     override fun render(delegate: EpoxyDelegate): List<EpoxyModel<*>> {
         return listOf(

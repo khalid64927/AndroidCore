@@ -17,9 +17,7 @@
 package com.khalid.hamid.githubrepos
 
 import androidx.multidex.BuildConfig
-import androidx.multidex.MultiDexApplication
 import com.khalid.hamid.githubrepos.network.BaseDataSource
-import com.khalid.hamid.githubrepos.utilities.AppExecutors
 import com.khalid.hamid.githubrepos.utilities.CrashReportingTree
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber

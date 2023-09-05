@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import com.khalid.hamid.githubrepos.core.R
 import com.khalid.hamid.githubrepos.utilities.ViewUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
